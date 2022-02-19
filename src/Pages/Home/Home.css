@@ -1,0 +1,78 @@
+.headline_md {
+    width: 90%;
+    padding: 20px 0px;
+    margin: 0px auto;
+}
+
+.headline_right_md {
+    padding: 20px 0px;
+    padding-right: 40px;
+}
+
+.headline_prg1 {
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.headline_img {
+    width: 100%;
+    padding: 10px;
+    border-radius: 16px;
+}
+
+
+/* card container  */
+
+.watch_card_container {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+}
+
+
+/* .watch_card_md{
+    width: 23%;
+} */
+
+.watch_card {
+    width: 100%;
+}
+
+
+/* sign up home section  */
+
+.homeSignUps {
+    height: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.leftHead,
+.rightBtn {
+    margin-left: 50px;
+}
+
+.link_btn {
+    text-decoration: none;
+    color: white;
+    background-color: rgb(24, 24, 24);
+    padding: 8px 40px;
+    /* width: 120px; */
+    border-radius: 4px;
+    padding-bottom: 12px;
+}
+
+
+/* .cHead{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+} */
+
+.card-body p {
+    margin-bottom: 5px;
+    font-size: .85rem;
+}

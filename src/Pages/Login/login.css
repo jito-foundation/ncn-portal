@@ -1,0 +1,64 @@
+.login_content {
+  width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  box-shadow: 0px 0px 6px rgb(241, 240, 240);
+}
+.login_content h1{
+    text-align: center;
+    margin: 0px;
+    margin-bottom: 15px;
+}
+.login_form input {
+  padding: 15px 10px;
+  outline: none;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 3px;
+  border: none;
+  background-color: rgb(243, 243, 243);
+  /* border: 1px solid; */
+}
+.login_form button {
+  margin-top: 15px;
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: rgb(80, 80, 175);
+  color: white;
+  padding: 15px;
+  box-shadow: 0px 3px 6px rgb(112, 112, 112);
+  border-radius: 5px;
+  transition: 1s;
+}
+.or_link {
+  margin-top: 15px;
+  text-align: center;
+}
+.link {
+  margin-left: 10px;
+}
+.gogle_btn {
+  box-shadow: 0px 3px 6px rgb(112, 112, 112);
+  border: none;
+  outline: none;
+  padding: 7px 20px;
+  border-radius: 4px;
+  background-color: rgb(247, 58, 58);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 100%;
+  margin-top: 20px;
+  /* cursor: pointer; */
+  transition: 1s;
+}
+.login_content button:hover  {
+    cursor: pointer;
+    opacity: .8;
+}
+.gogle_btn > img {
+  width: 30px;
+  margin-left: 15px;
+}
