@@ -2,21 +2,20 @@ import "./card.css";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const WatchCard = ({data}) => {
+const WatchCard = ({ data }) => {
   return (
-    <Link to={`productDetail/${data?.id}`} className='watch_card_md mt-4' >
-      <Card className='watch_card'  >
+    <Link to={`productDetail/${data?.id}`} className="watch_card_md mt-4">
+      <Card className="watch_card">
         <Card.Img
-        height='200px'
-        object-fit='contain'
+          height="200px"
+          object-fit="contain"
           variant="top"
           src={data.url}
         />
         <Card.Body>
           <div className="cHead">
-
-          <Card.Title>{data.inputValues.brand}</Card.Title>
-          <Card.Text>Price: ${data.inputValues.price}</Card.Text>
+            <Card.Title>{data.inputValues.brand}</Card.Title>
+            <Card.Text>Price: ${data.inputValues.price}</Card.Text>
           </div>
           <Card.Text>Model: {data.inputValues.model}</Card.Text>
           <Card.Text>Ref: {data.inputValues.reference}</Card.Text>
