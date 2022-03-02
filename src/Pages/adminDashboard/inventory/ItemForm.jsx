@@ -66,31 +66,65 @@ const AddItem = ({
     const provier = new ethers.providers.Web3Provider(connection);
     const signer = provier.getSigner();
 
-    // create nft item
-    const nftContract = new ethers.Contract(
-      erc721mockaddress,
-      ERC721MockArtifacts.abi,
-      signer
-    );
-    let transaction = await nftContract.mintNFT(CID);
-    let tx = await transaction.wait();
+    setProcessing(true);
+    set_loader(true);
 
-    const tokenId = await nftContract.totalSupply();
-    console.log("Token Id: ", tokenId.toNumber());
+    let tokenId;
+
+    // create nft item
+    try {
+      const nftContract = new ethers.Contract(
+        erc721mockaddress,
+        ERC721MockArtifacts.abi,
+        signer
+      );
+      let transaction = await nftContract.mintNFT(CID);
+      let tx = await transaction.wait();
+
+      tokenId = await nftContract.totalSupply();
+      console.log("Token Id: ", tokenId.toNumber());
+    } catch (e) {
+      console.error(e);
+      setProcessing(false);
+      set_loader(false);
+
+      set_notify({
+        open: true,
+        msg: "Something wrong!",
+        type: "error",
+      });
+
+      return;
+    }
 
     // Deposit
-    const nftfractionrepository_contract = new ethers.Contract(
-      nftfractionRepositoryaddress,
-      NftFractionRepository.abi,
-      signer
-    );
-    const depositTransaction = await nftfractionrepository_contract.depositNft(
-      erc721mockaddress,
-      tokenId,
-      inputValues.price
-    );
-    let depositTx = await depositTransaction.wait();
-    console.log("DEPOSIT function: ", depositTx);
+    try {
+      const nftfractionrepository_contract = new ethers.Contract(
+        nftfractionRepositoryaddress,
+        NftFractionRepository.abi,
+        signer
+      );
+      const depositTransaction =
+        await nftfractionrepository_contract.depositNft(
+          erc721mockaddress,
+          tokenId,
+          inputValues.price
+        );
+      let depositTx = await depositTransaction.wait();
+      console.log("DEPOSIT function: ", depositTx);
+    } catch (e) {
+      console.error(e);
+      setProcessing(false);
+      set_loader(false);
+
+      set_notify({
+        open: true,
+        msg: "Something wrong!",
+        type: "error",
+      });
+
+      return;
+    }
 
     // Update DB
     handleAddItem(event, tokenId.toNumber());
@@ -101,9 +135,10 @@ const AddItem = ({
       type: "success",
     });
 
-    console.log("###################3", CID, tx);
-
     history.push("/dashboard");
+
+    setProcessing(false);
+    set_loader(false);
   };
 
   return (
