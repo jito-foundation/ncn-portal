@@ -1,12 +1,12 @@
 // localhost
-export const watchdexBaseaddress = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
-export const nftfractionRepositoryaddress = "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1"
-export const erc721mockaddress = "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44"
+// export const watchdexBaseaddress = "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"
+// export const nftfractionRepositoryaddress = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+// export const erc721mockaddress = "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0"
 
-// RinkedBy
-// export const watchdexBaseaddress = "0xE3fb56F3BbF357fE23454491D8e663C2E36B217D"
-// export const nftfractionRepositoryaddress = "0xc0f422c3203c02067860cb19EA3DA1A3D2465462"
-// export const erc721mockaddress = "0x1D5d0e80f28aB57Ba6011cE3dde8E7e77446F21B"
+// Ropsten
+export const watchdexBaseaddress = "0x0CBeC64f9469b8deE66d53c051BBd915572cdFeF"
+export const nftfractionRepositoryaddress = "0xcE28c0c886815A97990fD501270306B34dE03FD8"
+export const erc721mockaddress = "0xbcA891bE52ABd5F7de3fFB8B471Af1A545079246"
 
 // Old Ropsten contract address
 // const CONTRACT_ADDRESS = "0x1EF88F4ED90c7E56305b054ddB1cafB9458D3419";
