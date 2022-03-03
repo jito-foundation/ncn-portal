@@ -12,6 +12,9 @@ import WatchDexBase from "../../Contracts/WatchDexBase.json";
 import { watchdexBaseaddress } from "../../config";
 import Web3Modal from "web3modal";
 import { useNotifyContext } from "../../context/notifyContext";
+import NftFractionRepository from "../../Contracts/NftFractionsRepository.json";
+
+import { nftfractionRepositoryaddress } from "../../config";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -87,6 +90,14 @@ const ProductDetail = () => {
         });
 
         history.push("/");
+      })
+      .catch((e) => {
+        console.error(e);
+        set_notify({
+          open: true,
+          msg: "Something wrong",
+          type: "error",
+        });
       });
   };
 
@@ -110,19 +121,22 @@ const ProductDetail = () => {
         );
 
         console.log("EthAmount: ", ethAmount);
-        let contract = new ethers.Contract(
-          watchdexBaseaddress,
-          WatchDexBase.abi,
+        // let contract = new ethers.Contract(
+        //   watchdexBaseaddress,
+        //   WatchDexBase.abi,
+        //   signer
+        // );
+        const nftfractionrepository_contract = new ethers.Contract(
+          nftfractionRepositoryaddress,
+          NftFractionRepository.abi,
           signer
         );
         let buySide = 0;
         // let eth = ethers.BigNumber.from(Number(ethAmount).toFixed(2));
         // console.log(eth);
         console.log("Token Id: ", details.tokenId);
-        const transaction = await contract.createMarketOrder(
+        const transaction = await nftfractionrepository_contract.withdrawNft(
           details.tokenId,
-          details.inputValues.price,
-          buySide,
           { value: ethAmount }
         );
         const tx = await transaction.wait();
@@ -135,6 +149,14 @@ const ProductDetail = () => {
           type: "success",
         });
         history.push("/");
+      })
+      .catch((e) => {
+        console.error(e);
+        set_notify({
+          open: true,
+          msg: "Something wrong",
+          type: "error",
+        });
       });
   };
 
