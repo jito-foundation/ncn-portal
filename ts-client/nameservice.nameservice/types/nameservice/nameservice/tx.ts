@@ -12,6 +12,15 @@ export interface MsgBuyName {
 export interface MsgBuyNameResponse {
 }
 
+export interface MsgSetName {
+  creator: string;
+  name: string;
+  value: string;
+}
+
+export interface MsgSetNameResponse {
+}
+
 function createBaseMsgBuyName(): MsgBuyName {
   return { creator: "", name: "", bid: "" };
 }
@@ -118,10 +127,117 @@ export const MsgBuyNameResponse = {
   },
 };
 
+function createBaseMsgSetName(): MsgSetName {
+  return { creator: "", name: "", value: "" };
+}
+
+export const MsgSetName = {
+  encode(message: MsgSetName, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
+    if (message.value !== "") {
+      writer.uint32(26).string(message.value);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSetName {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgSetName();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.name = reader.string();
+          break;
+        case 3:
+          message.value = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgSetName {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      name: isSet(object.name) ? String(object.name) : "",
+      value: isSet(object.value) ? String(object.value) : "",
+    };
+  },
+
+  toJSON(message: MsgSetName): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.name !== undefined && (obj.name = message.name);
+    message.value !== undefined && (obj.value = message.value);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgSetName>, I>>(object: I): MsgSetName {
+    const message = createBaseMsgSetName();
+    message.creator = object.creator ?? "";
+    message.name = object.name ?? "";
+    message.value = object.value ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgSetNameResponse(): MsgSetNameResponse {
+  return {};
+}
+
+export const MsgSetNameResponse = {
+  encode(_: MsgSetNameResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSetNameResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgSetNameResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgSetNameResponse {
+    return {};
+  },
+
+  toJSON(_: MsgSetNameResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgSetNameResponse>, I>>(_: I): MsgSetNameResponse {
+    const message = createBaseMsgSetNameResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   BuyName(request: MsgBuyName): Promise<MsgBuyNameResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  SetName(request: MsgSetName): Promise<MsgSetNameResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -129,11 +245,18 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.BuyName = this.BuyName.bind(this);
+    this.SetName = this.SetName.bind(this);
   }
   BuyName(request: MsgBuyName): Promise<MsgBuyNameResponse> {
     const data = MsgBuyName.encode(request).finish();
     const promise = this.rpc.request("nameservice.nameservice.Msg", "BuyName", data);
     return promise.then((data) => MsgBuyNameResponse.decode(new _m0.Reader(data)));
+  }
+
+  SetName(request: MsgSetName): Promise<MsgSetNameResponse> {
+    const data = MsgSetName.encode(request).finish();
+    const promise = this.rpc.request("nameservice.nameservice.Msg", "SetName", data);
+    return promise.then((data) => MsgSetNameResponse.decode(new _m0.Reader(data)));
   }
 }
 

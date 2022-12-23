@@ -74273,6 +74273,8 @@ definitions:
       the connection handshake.
   nameservice.nameservice.MsgBuyNameResponse:
     type: object
+  nameservice.nameservice.MsgSetNameResponse:
+    type: object
   nameservice.nameservice.Params:
     type: object
     description: Params defines the parameters for the module.
