@@ -1,8 +1,10 @@
 // THIS FILE IS GENERATED AUTOMATICALLY. DO NOT MODIFY.
 
+import NameserviceNameservice from './nameservice.nameservice'
 
 
 export default { 
+  NameserviceNameservice: load(NameserviceNameservice, 'nameservice.nameservice'),
   
 }
 
