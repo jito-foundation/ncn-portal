@@ -21,6 +21,14 @@ export interface MsgSetName {
 export interface MsgSetNameResponse {
 }
 
+export interface MsgDeleteName {
+  creator: string;
+  name: string;
+}
+
+export interface MsgDeleteNameResponse {
+}
+
 function createBaseMsgBuyName(): MsgBuyName {
   return { creator: "", name: "", bid: "" };
 }
@@ -233,11 +241,109 @@ export const MsgSetNameResponse = {
   },
 };
 
+function createBaseMsgDeleteName(): MsgDeleteName {
+  return { creator: "", name: "" };
+}
+
+export const MsgDeleteName = {
+  encode(message: MsgDeleteName, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteName {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDeleteName();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.name = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteName {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      name: isSet(object.name) ? String(object.name) : "",
+    };
+  },
+
+  toJSON(message: MsgDeleteName): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.name !== undefined && (obj.name = message.name);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgDeleteName>, I>>(object: I): MsgDeleteName {
+    const message = createBaseMsgDeleteName();
+    message.creator = object.creator ?? "";
+    message.name = object.name ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgDeleteNameResponse(): MsgDeleteNameResponse {
+  return {};
+}
+
+export const MsgDeleteNameResponse = {
+  encode(_: MsgDeleteNameResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteNameResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDeleteNameResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteNameResponse {
+    return {};
+  },
+
+  toJSON(_: MsgDeleteNameResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgDeleteNameResponse>, I>>(_: I): MsgDeleteNameResponse {
+    const message = createBaseMsgDeleteNameResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   BuyName(request: MsgBuyName): Promise<MsgBuyNameResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   SetName(request: MsgSetName): Promise<MsgSetNameResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DeleteName(request: MsgDeleteName): Promise<MsgDeleteNameResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -246,6 +352,7 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
     this.BuyName = this.BuyName.bind(this);
     this.SetName = this.SetName.bind(this);
+    this.DeleteName = this.DeleteName.bind(this);
   }
   BuyName(request: MsgBuyName): Promise<MsgBuyNameResponse> {
     const data = MsgBuyName.encode(request).finish();
@@ -257,6 +364,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgSetName.encode(request).finish();
     const promise = this.rpc.request("nameservice.nameservice.Msg", "SetName", data);
     return promise.then((data) => MsgSetNameResponse.decode(new _m0.Reader(data)));
+  }
+
+  DeleteName(request: MsgDeleteName): Promise<MsgDeleteNameResponse> {
+    const data = MsgDeleteName.encode(request).finish();
+    const promise = this.rpc.request("nameservice.nameservice.Msg", "DeleteName", data);
+    return promise.then((data) => MsgDeleteNameResponse.decode(new _m0.Reader(data)));
   }
 }
 

@@ -128,16 +128,16 @@ export default {
 		},
 		
 		
-		async sendMsgBuyName({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgDeleteName({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
-				const result = await client.NameserviceNameservice.tx.sendMsgBuyName({ value, fee: {amount: fee, gas: "200000"}, memo })
+				const result = await client.NameserviceNameservice.tx.sendMsgDeleteName({ value, fee: {amount: fee, gas: "200000"}, memo })
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgBuyName:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgDeleteName:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgBuyName:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgDeleteName:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -154,17 +154,30 @@ export default {
 				}
 			}
 		},
-		
-		async MsgBuyName({ rootGetters }, { value }) {
+		async sendMsgBuyName({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
-				const client=initClient(rootGetters)
-				const msg = await client.NameserviceNameservice.tx.msgBuyName({value})
-				return msg
+				const client=await initClient(rootGetters)
+				const result = await client.NameserviceNameservice.tx.sendMsgBuyName({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
 					throw new Error('TxClient:MsgBuyName:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgBuyName:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		
+		async MsgDeleteName({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.NameserviceNameservice.tx.msgDeleteName({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgDeleteName:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgBuyName:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgDeleteName:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -178,6 +191,19 @@ export default {
 					throw new Error('TxClient:MsgSetName:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgSetName:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgBuyName({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.NameserviceNameservice.tx.msgBuyName({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgBuyName:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgBuyName:Create Could not create message: ' + e.message)
 				}
 			}
 		},
