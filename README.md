@@ -1,73 +1,84 @@
-# Getting Started with Create React App
+# NCN Portal Lite
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
 
-## Available Scripts
+NCN Portal Lite is a lightweight ChatGPT web interface developed using Next.js and the [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat). It's compatible with both OpenAI and Azure OpenAI accounts.
 
-In the project directory, you can run:
+- Deploy a custom ChatGPT web interface that supports markdown, prompt storage, and multi-person chats.
+- Create a private, web-based ChatGPT for use among friends without sharing your API key.
+- Clear and expandable codebase, ideal as a starting point for your next AI Next.js project.
 
-### `yarn start`
+For a beginner-friendly version of the ChatGPT UI codebase, visit [ChatGPT Minimal](https://github.com/blrchen/chatgpt-minimal).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Prerequisites
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+You need an OpenAI or Azure OpenAI account.
 
-### `yarn test`
+## Deployment
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Refer to the [Environment Variables](#environment-variables) section for necessary environment variables.
 
-### `yarn build`
+### Deploy on Vercel
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Click the button below to deploy on Vercel:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fblrchen%2Fchatgpt-lite&project-name=chatgpt-lite&framework=nextjs&repository-name=chatgpt-lite)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Deploy with Docker
 
-### `yarn eject`
+For OpenAI account users:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+docker run -d -p 3000:3000 \
+   -e OPENAI_API_KEY="<REPLACE-ME>" \
+   blrchen/chatgpt-lite
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+For Azure OpenAI account users:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+docker run -d -p 3000:3000 \
+   -e AZURE_OPENAI_API_BASE_URL="<REPLACE-ME>" \
+   -e AZURE_OPENAI_API_KEY="<REPLACE-ME>" \
+   -e AZURE_OPENAI_DEPLOYMENT="<REPLACE-ME>" \
+   blrchen/chatgpt-lite
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Development
 
-## Learn More
+### Running Locally
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Install NodeJS 20.
+2. Clone the repository.
+3. Install dependencies with `yarn`.
+4. Copy `.env.example` to `.env.local` and update environment variables.
+5. Start the application using `yarn dev`.
+6. Visit `http://localhost:3000` in your browser.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Running Locally with Docker
 
-### Code Splitting
+1. Clone the repository and navigate to the root directory.
+2. Update the `OPENAI_API_KEY` environment variable in the `docker-compose.yml` file.
+3. Build the application using `docker-compose build .`.
+4. Start it by running `docker-compose up -d`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Environment Variables
 
-### Analyzing the Bundle Size
+Required environment variables:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+For OpenAI account:
 
-### Making a Progressive Web App
+| Name                | Description                                                                                             | Default Value            |
+| ------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------ |
+| OPENAI_API_BASE_URL | Use if you plan to use a reverse proxy for `api.openai.com`.                                            | `https://api.openai.com` |
+| OPENAI_API_KEY      | Secret key string obtained from the [OpenAI API website](https://platform.openai.com/account/api-keys). |                          |
+| OPENAI_MODEL        | Model of GPT used                                                                                       | `gpt-3.5-turbo`          |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+For Azure OpenAI account:
 
-### Advanced Configuration
+| Name                      | Description                                      |
+| ------------------------- | ------------------------------------------------ |
+| AZURE_OPENAI_API_BASE_URL | Endpoint (e.g., <https://xxx.openai.azure.com>). |
+| AZURE_OPENAI_API_KEY      | Key                                              |
+| AZURE_OPENAI_DEPLOYMENT   | Model deployment name                            |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-
-[https://stackoverflow.com/questions/70063600/cant-resolve-ipfs-car-blockstore-memory-when-importing-nft-storage]
