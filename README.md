@@ -1,8 +1,8 @@
-# ChatGPT Lite
+# NCN Portal Lite
 
 ## Features
 
-ChatGPT Lite is a lightweight ChatGPT web interface developed using Next.js and the [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat). It's compatible with both OpenAI and Azure OpenAI accounts.
+NCN Portal Lite is a lightweight ChatGPT web interface developed using Next.js and the [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat). It's compatible with both OpenAI and Azure OpenAI accounts.
 
 - Deploy a custom ChatGPT web interface that supports markdown, prompt storage, and multi-person chats.
 - Create a private, web-based ChatGPT for use among friends without sharing your API key.
