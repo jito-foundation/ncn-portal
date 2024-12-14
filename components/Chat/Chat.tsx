@@ -54,7 +54,6 @@ const Chat = (_props: ChatProps, ref: any) => {
     }
 
     const apiUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL || ''
-    console.log(apiUrl)
     socketRef.current = new WebSocket(apiUrl)
 
     socketRef.current.onopen = () => {
@@ -63,6 +62,7 @@ const Chat = (_props: ChatProps, ref: any) => {
 
     socketRef.current.onmessage = (event) => {
       const data = event.data
+      console.log(data)
       if (data === '[DONE]') {
         setIsLoading(false)
         return
@@ -74,10 +74,11 @@ const Chat = (_props: ChatProps, ref: any) => {
       })
 
       // Update conversation with the assistant's response
-      conversation.current = [
-        ...conversation.current,
-        { content: data, role: 'assistant' },
-      ]
+      // conversation.current = [
+      //   ...conversation.current,
+      //   { content: data, role: 'assistant' },
+      // ]
+      // console.log(conversation.current.length)
     }
 
     socketRef.current.onerror = (error) => {
@@ -90,6 +91,7 @@ const Chat = (_props: ChatProps, ref: any) => {
     socketRef.current.onclose = () => {
       console.log('WebSocket connection closed.')
       setIsConnected(false)
+      setIsLoading(false)
       socketRef.current = null
     }
   }, [])
@@ -111,23 +113,14 @@ const Chat = (_props: ChatProps, ref: any) => {
 
       if (socketRef.current) {
         if (socketRef.current.readyState === WebSocket.OPEN) {
-          socketRef.current.send(
-            JSON.stringify({
-              prompt: currentChatRef?.current?.persona?.prompt,
-              messages: conversation.current,
-              input,
-            })
-          );
+          socketRef.current.send(input);
         } else if (socketRef.current.readyState === WebSocket.CONNECTING) {
-          socketRef.current.addEventListener("open", () => {
-            socketRef.current?.send(
-              JSON.stringify({
-                prompt: currentChatRef?.current?.persona?.prompt,
-                messages: conversation.current,
-                input,
-              })
-            );
-          });
+          console.log('Queueing message until WebSocket is open.');
+          const onOpen = () => {
+            socketRef.current?.send(input);
+            socketRef.current?.removeEventListener('open', onOpen); // Prevent duplicate sends
+          };
+          socketRef.current?.addEventListener('open', onOpen);
         } else {
           toast.error("WebSocket is not connected.");
         }
