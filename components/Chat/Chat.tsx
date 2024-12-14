@@ -23,8 +23,6 @@ import './index.scss'
 const HTML_REGULAR =
   /<(?!img|table|\/table|thead|\/thead|tbody|\/tbody|tr|\/tr|td|\/td|th|\/th|br|\/br).*?>/gi
 
-  let globalSocket: WebSocket | null = null
-
 export interface ChatProps {}
 
 export interface ChatGPInstance {
@@ -33,25 +31,7 @@ export interface ChatGPInstance {
   focus: () => void
 }
 
-const postChatOrQuestion = async (chat: Chat, messages: any[], input: string) => {
-  const url = '/api/chat'
-
-  const data = {
-    prompt: chat?.persona?.prompt,
-    messages: [...messages!],
-    input
-  }
-
-  return await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-}
-
-const Chat = (props: ChatProps, ref: any) => {
+const Chat = (_props: ChatProps, ref: any) => {
   const { debug, currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
     useContext(ChatContext)
 
@@ -73,18 +53,12 @@ const Chat = (props: ChatProps, ref: any) => {
       return
     }
 
-    socketRef.current = new WebSocket('ws://localhost:8080/websocket') // Replace with your WebSocket URL
+    const apiUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL || ''
+    console.log(apiUrl)
+    socketRef.current = new WebSocket(apiUrl)
 
     socketRef.current.onopen = () => {
       console.log('WebSocket connection established.')
-      // socketRef.current?.send("hi"
-      //   // JSON.stringify({
-      //   //   prompt: currentChatRef?.current?.persona?.prompt,
-      //   //   messages: conversation.current,
-      //   //   input,
-      //   // })
-      // )
-      // setIsConnected(true)
     }
 
     socketRef.current.onmessage = (event) => {
@@ -158,27 +132,6 @@ const Chat = (props: ChatProps, ref: any) => {
           toast.error("WebSocket is not connected.");
         }
       }
-      // try {
-      //   initializeWebSocket()
-
-      //   console.log(socketRef.current);
-
-      //   if (socketRef.current?.readyState === WebSocket.OPEN) {
-      //     socketRef.current.send("hi"
-      //       // JSON.stringify({
-      //       //   prompt: currentChatRef?.current?.persona?.prompt,
-      //       //   messages: conversation.current,
-      //       //   input,
-      //       // })
-      //     )
-      //   } else {
-      //     toast.error('WebSocket is not connected.')
-      //   }
-      // } catch (error: any) {
-      //   console.error(error)
-      //   toast.error('Failed to send message.')
-      //   setIsLoading(false)
-      // }
     },
     [currentChatRef, initializeWebSocket]
   )
