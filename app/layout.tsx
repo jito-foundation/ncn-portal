@@ -7,7 +7,7 @@ import '@/styles/theme-config.css'
 
 export const metadata = {
   title: {
-    default: 'ChatGPT Lite',
+    default: 'NCN Portal',
     template: `%s - ChatGPT Lite`
   },
   description: 'AI assistant powered by ChatGPT',
