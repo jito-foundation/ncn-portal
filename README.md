@@ -12,6 +12,10 @@ For a beginner-friendly version of the ChatGPT UI codebase, visit [ChatGPT Minim
 
 ## Prerequisites
 
+Environment Variables
+
+- NEXT_PUBLIC_API_BASE_URL
+
 You need an OpenAI or Azure OpenAI account.
 
 ## Deployment
