@@ -2,21 +2,15 @@
 
 ## Features
 
-NCN Portal Lite is a lightweight ChatGPT web interface developed using Next.js and the [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat). It's compatible with both OpenAI and Azure OpenAI accounts.
+NCN Portal Lite is a lightweight Claude web interface developed using Next.js and the [Claude Chat API](https://platform.openai.com/docs/api-reference/chat). It's compatible with both ClaudeAI.
 
-- Deploy a custom ChatGPT web interface that supports markdown, prompt storage, and multi-person chats.
-- Create a private, web-based ChatGPT for use among friends without sharing your API key.
+- Deploy a custom Claude web interface that supports markdown, prompt storage, and multi-person chats.
+- Create a private, web-based Claude for use among friends without sharing your API key.
 - Clear and expandable codebase, ideal as a starting point for your next AI Next.js project.
-
-For a beginner-friendly version of the ChatGPT UI codebase, visit [ChatGPT Minimal](https://github.com/blrchen/chatgpt-minimal).
 
 ## Prerequisites
 
-Environment Variables
-
-- NEXT_PUBLIC_API_BASE_URL
-
-You need an OpenAI or Azure OpenAI account.
+You need an Claude account.
 
 ## Deployment
 
@@ -72,17 +66,7 @@ Required environment variables:
 
 For OpenAI account:
 
-| Name                | Description                                                                                             | Default Value            |
-| ------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------ |
-| OPENAI_API_BASE_URL | Use if you plan to use a reverse proxy for `api.openai.com`.                                            | `https://api.openai.com` |
-| OPENAI_API_KEY      | Secret key string obtained from the [OpenAI API website](https://platform.openai.com/account/api-keys). |                          |
-| OPENAI_MODEL        | Model of GPT used                                                                                       | `gpt-3.5-turbo`          |
-
-For Azure OpenAI account:
-
-| Name                      | Description                                      |
-| ------------------------- | ------------------------------------------------ |
-| AZURE_OPENAI_API_BASE_URL | Endpoint (e.g., <https://xxx.openai.azure.com>). |
-| AZURE_OPENAI_API_KEY      | Key                                              |
-| AZURE_OPENAI_DEPLOYMENT   | Model deployment name                            |
+| Name                     | Description                         | Default Value            |
+| ------------------------ | ----------------------------------- | ------------------------ |
+| NEXT_PUBLIC_API_BASE_URL | Interact with backend               | `http://localhost:3000` |
 
