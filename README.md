@@ -10,7 +10,8 @@ NCN Portal Lite is a lightweight Claude web interface developed using Next.js an
 
 ## Prerequisites
 
-You need an Claude account.
+- You need an Claude account.
+- Solna Wallet installed.
 
 ## Deployment
 
