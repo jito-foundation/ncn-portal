@@ -67,90 +67,6 @@ const Chat = (props: ChatProps, ref: any) => {
 
   const bottomOfChatRef = useRef<HTMLDivElement>(null)
 
-  const socketRef = useRef<WebSocket | null>(null);
-
-  // const initializeWebSocket = useCallback(() => {
-  //   if (socketRef.current && socketRef.current.readyState <= WebSocket.OPEN) {
-  //     console.log('Reusing existing WebSocket connection.')
-  //     return
-  //   }
-
-  //   const apiUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL || ''
-  //   socketRef.current = new WebSocket(apiUrl)
-
-  //   socketRef.current.onopen = () => {
-  //     console.log('WebSocket connection established.')
-  //   }
-
-  //   socketRef.current.onmessage = (event) => {
-  //     const data = event.data
-  //     console.log(data)
-  //     if (data === '[DONE]') {
-  //       setIsLoading(false)
-  //       return
-  //     }
-
-  //     setCurrentMessage((state) => {
-  //       const updatedMessage = state + data
-  //       return updatedMessage
-  //     })
-
-  //     // Update conversation with the assistant's response
-  //     // conversation.current = [
-  //     //   ...conversation.current,
-  //     //   { content: data, role: 'assistant' },
-  //     // ]
-  //     // console.log(conversation.current.length)
-  //   }
-
-  //   socketRef.current.onerror = (error) => {
-  //     console.error('WebSocket error:', error)
-  //     toast.error('WebSocket encountered an error.')
-  //     // setIsConnected(false)
-  //     socketRef.current = null
-  //   }
-
-  //   socketRef.current.onclose = () => {
-  //     console.log('WebSocket connection closed.')
-  //     // setIsConnected(false)
-  //     setIsLoading(false)
-  //     socketRef.current = null
-  //   }
-  // }, [])
-
-  // const sendMessage = useCallback(
-  //   async (e: any) => {
-  //     e.preventDefault()
-
-  //     const input = textAreaRef.current?.innerHTML?.replace(HTML_REGULAR, '') || ''
-  //     if (input.length < 1) {
-  //       toast.error('Please type a message to continue.')
-  //       return
-  //     }
-
-  //     conversation.current = [...conversation.current, { content: input, role: 'user' }]
-  //     setMessage('')
-  //     setIsLoading(true)
-  //     initializeWebSocket();
-
-  //     if (socketRef.current) {
-  //       if (socketRef.current.readyState === WebSocket.OPEN) {
-  //         socketRef.current.send(input);
-  //       } else if (socketRef.current.readyState === WebSocket.CONNECTING) {
-  //         console.log('Queueing message until WebSocket is open.');
-  //         const onOpen = () => {
-  //           socketRef.current?.send(input);
-  //           socketRef.current?.removeEventListener('open', onOpen); // Prevent duplicate sends
-  //         };
-  //         socketRef.current?.addEventListener('open', onOpen);
-  //       } else {
-  //         toast.error("WebSocket is not connected.");
-  //       }
-  //     }
-  //   },
-  //   [currentChatRef, initializeWebSocket]
-  // )
-
   const sendMessage = useCallback(
     async (e: any) => {
       if (!isLoading) {
@@ -170,47 +86,30 @@ const Chat = (props: ChatProps, ref: any) => {
           const response = await postChatOrQuestion(currentChatRef?.current!, message, input)
 
           if (response.ok) {
-            const data = response.body
+            const contents = await response.json();
 
-            if (!data) {
+            if (!contents) {
               throw new Error('No data')
             }
 
-            const reader = data.getReader()
-            const decoder = new TextDecoder('utf-8')
-            let done = false
             let resultContent = ''
+            console.log(contents);
 
-            while (!done) {
-              try {
-                const { value, done: readerDone } = await reader.read()
-                const char = decoder.decode(value)
-                if (char) {
-                  setCurrentMessage((state) => {
-                    if (debug) {
-                      console.log({ char })
-                    }
-                    resultContent = state + char
-                    return resultContent
-                  })
-                }
-                done = readerDone
-              } catch {
-                done = true
+            for (let index = 0; index < contents.length; index++) {
+              const content = contents[index];
+
+              if (typeof content === 'string') {
+              } else if (content.text && content.type) {
+                resultContent += content.text;
               }
             }
-            // The delay of timeout can not be 0 as it will cause the message to not be rendered in racing condition
-            setTimeout(() => {
-              if (debug) {
-                console.log({ resultContent })
-              }
-              conversation.current = [
-                ...conversation.current,
-                { content: resultContent, role: 'assistant' }
-              ]
 
-              setCurrentMessage('')
-            }, 1)
+            conversation.current = [
+              ...conversation.current,
+              { content: resultContent, role: 'assistant' }
+            ]
+
+            setCurrentMessage('')
           } else {
             const result = await response.json()
             if (response.status === 401) {

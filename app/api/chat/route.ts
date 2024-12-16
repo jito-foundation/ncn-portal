@@ -15,15 +15,11 @@ export async function POST(req: NextRequest) {
       messages: Message[]
       input: string
     }
-    const messagesWithHistory = [
-      { content: prompt, role: 'system' },
-      ...messages,
-      { content: input, role: 'user' }
-    ]
+    const messagesWithHistory = [...messages]
 
-    const { apiUrl, apiKey, model } = getApiConfig();
-    const response = await fetchApiResponse(apiUrl, apiKey, model, messagesWithHistory)
-    return NextResponse.json(response);
+    const { apiUrl, apiKey } = getApiConfig()
+    const response = await fetchApiResponse(apiUrl, apiKey, input, messagesWithHistory)
+    return NextResponse.json(response)
   } catch (error) {
     console.error(error)
     return NextResponse.json(
@@ -40,15 +36,14 @@ const getApiConfig = () => {
   
   apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   apiKey = process.env.OPENAI_API_KEY || ''
-  model = process.env.OPENAI_MODEL || 'gpt-3.5-turbo'
 
-  return { apiUrl, apiKey, model }
+  return { apiUrl, apiKey }
 }
 
 const fetchApiResponse = async (
   apiUrl: string,
   apiKey: string,
-  model: string,
+  input: string,
   messages: Message[]
 ) => {
   const res = await fetch(apiUrl, {
@@ -59,7 +54,8 @@ const fetchApiResponse = async (
     },
     method: 'POST',
     body: JSON.stringify({
-      messages: messages,
+      prompt: input,
+      chat_history: messages,
     }),
   });
 
