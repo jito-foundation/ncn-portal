@@ -1,6 +1,5 @@
 require('path')
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
   sassOptions: {
@@ -11,7 +10,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/login',
+        destination: '/',
         permanent: true
       }
     ]

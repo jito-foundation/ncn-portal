@@ -1,3 +1,5 @@
+"use client";
+
 import { Flex, Heading, Separator } from '@radix-ui/themes'
 
 const NotFound = () => {

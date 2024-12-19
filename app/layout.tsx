@@ -2,12 +2,14 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
 import { Header } from "@/components/Header";
 import ThemesProvider from "@/providers/ThemesProvider";
-import "@/styles/globals.scss";
-import "@/styles/theme-config.css";
 import { ChainContextProvider } from "@/components/context/ChainContextProvider";
 import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
 import { RpcContextProvider } from "@/components/context/RpcContextProvider";
 import { AuthProvider } from "@/components/context/AuthContext";
+
+import "./globals.scss";
+import "./theme-config.css";
+
 // import AppWalletProvider from "@/components/AppWalletProvider";
 // import { useMemo } from "react";
 // import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
