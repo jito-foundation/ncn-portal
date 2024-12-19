@@ -36,7 +36,6 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { mutate } = useSWRConfig();
   const { current: NO_ERROR } = useRef(Symbol());
   const { rpc } = useContext(RpcContext);
-  const wallets = useWallets();
   const [isSendingTransaction, setIsSendingTransaction] = useState(false);
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
@@ -44,7 +43,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
     useContext(ChainContext);
   const transactionSendingSigner = useWalletAccountTransactionSendingSigner(
     account,
-    currentChain
+    currentChain,
   );
   const { login } = useAuth();
   const router = useRouter();
@@ -78,7 +77,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
                   Buffer.from("whitelist_entry"),
                   addressEncoder.encode(whitelistAddress as Address),
                   addressEncoder.encode(
-                    transactionSendingSigner.address as Address
+                    transactionSendingSigner.address as Address,
                   ),
                 ],
               });
@@ -87,7 +86,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
               (m) =>
                 setTransactionMessageFeePayerSigner(
                   transactionSendingSigner,
-                  m
+                  m,
                 ),
               (m) =>
                 setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
@@ -98,8 +97,8 @@ export function WhitelistFeaturePanel({ account }: Props) {
                     whitelistEntry: whitelistEntryAddress,
                     whitelisted: transactionSendingSigner,
                   }),
-                  m
-                )
+                  m,
+                ),
             );
             assertIsTransactionMessageWithSingleSendingSigner(message);
             const signature =
@@ -136,37 +135,6 @@ export function WhitelistFeaturePanel({ account }: Props) {
               Check
             </Button>
           </Dialog.Trigger>
-          {lastSignature ? (
-            <Dialog.Content
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <Dialog.Title>You transferred tokens!</Dialog.Title>
-              <Flex direction="column" gap="2">
-                <Text>Signature:</Text>
-                <Blockquote>
-                  {getBase58Decoder().decode(lastSignature)}
-                </Blockquote>
-                <Text>
-                  <Link
-                    href={`https://explorer.solana.com/tx/${getBase58Decoder().decode(
-                      lastSignature
-                    )}?cluster=${solanaExplorerClusterName}`}
-                    target="_blank"
-                  >
-                    View this transaction
-                  </Link>{" "}
-                  on Explorer
-                </Text>
-              </Flex>
-              <Flex gap="3" mt="4" justify="end">
-                <Dialog.Close>
-                  <Button>Cool!</Button>
-                </Dialog.Close>
-              </Flex>
-            </Dialog.Content>
-          ) : null}
         </Dialog.Root>
         {error !== NO_ERROR ? (
           <ErrorDialog

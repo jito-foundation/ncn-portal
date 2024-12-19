@@ -28,9 +28,9 @@ import {
   type ReadonlySignerAccount,
   type TransactionSigner,
   type WritableAccount,
-} from '@solana/web3.js';
-import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from "@solana/web3.js";
+import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
+import { getAccountMetaFactory, type ResolvedAccount } from "../shared";
 
 export const SET_RATE_LIMITING_DISCRIMINATOR = 4;
 
@@ -74,17 +74,17 @@ export type SetRateLimitingInstructionDataArgs = {
 export function getSetRateLimitingInstructionDataEncoder(): Encoder<SetRateLimitingInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
-      ['discriminator', getU8Encoder()],
-      ['rateLimiting', getU64Encoder()],
+      ["discriminator", getU8Encoder()],
+      ["rateLimiting", getU64Encoder()],
     ]),
-    (value) => ({ ...value, discriminator: SET_RATE_LIMITING_DISCRIMINATOR })
+    (value) => ({ ...value, discriminator: SET_RATE_LIMITING_DISCRIMINATOR }),
   );
 }
 
 export function getSetRateLimitingInstructionDataDecoder(): Decoder<SetRateLimitingInstructionData> {
   return getStructDecoder([
-    ['discriminator', getU8Decoder()],
-    ['rateLimiting', getU64Decoder()],
+    ["discriminator", getU8Decoder()],
+    ["rateLimiting", getU64Decoder()],
   ]);
 }
 
@@ -94,7 +94,7 @@ export function getSetRateLimitingInstructionDataCodec(): Codec<
 > {
   return combineCodec(
     getSetRateLimitingInstructionDataEncoder(),
-    getSetRateLimitingInstructionDataDecoder()
+    getSetRateLimitingInstructionDataDecoder(),
   );
 }
 
@@ -106,7 +106,7 @@ export type SetRateLimitingInput<
   whitelist: Address<TAccountWhitelist>;
   whitelistEntry: Address<TAccountWhitelistEntry>;
   admin: TransactionSigner<TAccountAdmin>;
-  rateLimiting: SetRateLimitingInstructionDataArgs['rateLimiting'];
+  rateLimiting: SetRateLimitingInstructionDataArgs["rateLimiting"];
 };
 
 export function getSetRateLimitingInstruction<
@@ -120,7 +120,7 @@ export function getSetRateLimitingInstruction<
     TAccountWhitelistEntry,
     TAccountAdmin
   >,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): SetRateLimitingInstruction<
   TProgramAddress,
   TAccountWhitelist,
@@ -144,7 +144,7 @@ export function getSetRateLimitingInstruction<
   // Original args.
   const args = { ...input };
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   const instruction = {
     accounts: [
       getAccountMeta(accounts.whitelist),
@@ -153,7 +153,7 @@ export function getSetRateLimitingInstruction<
     ],
     programAddress,
     data: getSetRateLimitingInstructionDataEncoder().encode(
-      args as SetRateLimitingInstructionDataArgs
+      args as SetRateLimitingInstructionDataArgs,
     ),
   } as SetRateLimitingInstruction<
     TProgramAddress,
@@ -184,11 +184,11 @@ export function parseSetRateLimitingInstruction<
 >(
   instruction: IInstruction<TProgram> &
     IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+    IInstructionWithData<Uint8Array>,
 ): ParsedSetRateLimitingInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 3) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error("Not enough accounts");
   }
   let accountIndex = 0;
   const getNextAccount = () => {

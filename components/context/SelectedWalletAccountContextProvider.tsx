@@ -19,7 +19,7 @@ const STORAGE_KEY =
 
 let wasSetterInvoked = false;
 function getSavedWalletAccount(
-  wallets: readonly UiWallet[]
+  wallets: readonly UiWallet[],
 ): UiWalletAccount | undefined {
   if (wasSetterInvoked) {
     // After the user makes an explicit choice of wallet, stop trying to auto-select the
@@ -127,7 +127,7 @@ export function SelectedWalletAccountContextProvider({
     <SelectedWalletAccountContext.Provider
       value={useMemo(
         () => [walletAccount, setSelectedWalletAccount],
-        [walletAccount]
+        [walletAccount],
       )}
     >
       {children}

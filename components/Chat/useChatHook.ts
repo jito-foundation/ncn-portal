@@ -32,7 +32,7 @@ enum StorageKeys {
 }
 
 const uploadFiles = async (files: File[]) => {
-  let formData = new FormData();
+  const formData = new FormData();
 
   files.forEach((file) => {
     formData.append("files", file);
@@ -56,7 +56,7 @@ const useChatHook = () => {
   const [_, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
   const messagesMap = useRef<Map<string, ChatMessage[]>>(
-    new Map<string, ChatMessage[]>()
+    new Map<string, ChatMessage[]>(),
   );
 
   const chatRef = useRef<ChatGPInstance>(null);
@@ -123,7 +123,7 @@ const useChatHook = () => {
       onChangeChat(newChat);
       onClosePersonaPanel();
     },
-    [setChatList, onChangeChat, onClosePersonaPanel]
+    [setChatList, onChangeChat, onClosePersonaPanel],
   );
 
   const onToggleSidebar = useCallback(() => {
@@ -201,7 +201,7 @@ const useChatHook = () => {
       if (typeof window !== "undefined") {
         localStorage.setItem(
           `ms_${currentChatRef.current?.id}`,
-          JSON.stringify(messages)
+          JSON.stringify(messages),
         );
       }
     } else {
@@ -257,7 +257,7 @@ const useChatHook = () => {
       if (typeof window !== "undefined") {
         localStorage.setItem(
           StorageKeys.Chat_Current_ID,
-          currentChatRef.current.id
+          currentChatRef.current.id,
         );
       }
     }

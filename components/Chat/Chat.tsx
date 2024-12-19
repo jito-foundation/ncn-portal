@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   forwardRef,
@@ -7,98 +7,120 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState
-} from 'react'
-import { Flex, Heading, IconButton, ScrollArea, Tooltip } from '@radix-ui/themes'
-import ContentEditable from 'react-contenteditable'
-import toast from 'react-hot-toast'
-import { AiOutlineClear, AiOutlineLoading3Quarters, AiOutlineUnorderedList } from 'react-icons/ai'
-import { FiSend } from 'react-icons/fi'
-import ChatContext from './chatContext'
-import type { Chat, ChatMessage } from './interface'
-import Message from './Message'
+  useState,
+} from "react";
+import {
+  Flex,
+  Heading,
+  IconButton,
+  ScrollArea,
+  Tooltip,
+} from "@radix-ui/themes";
+import ContentEditable from "react-contenteditable";
+import toast from "react-hot-toast";
+import {
+  AiOutlineClear,
+  AiOutlineLoading3Quarters,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
+import { FiSend } from "react-icons/fi";
+import ChatContext from "./chatContext";
+import type { Chat, ChatMessage } from "./interface";
+import Message from "./Message";
 
-import './index.scss'
+import "./index.scss";
 
 const HTML_REGULAR =
-  /<(?!img|table|\/table|thead|\/thead|tbody|\/tbody|tr|\/tr|td|\/td|th|\/th|br|\/br).*?>/gi
+  /<(?!img|table|\/table|thead|\/thead|tbody|\/tbody|tr|\/tr|td|\/td|th|\/th|br|\/br).*?>/gi;
 
 export interface ChatProps {}
 
 export interface ChatGPInstance {
-  setConversation: (messages: ChatMessage[]) => void
-  getConversation: () => ChatMessage[]
-  focus: () => void
+  setConversation: (messages: ChatMessage[]) => void;
+  getConversation: () => ChatMessage[];
+  focus: () => void;
 }
 
-const postChatOrQuestion = async (chat: Chat, messages: any[], input: string) => {
-  const url = '/api/chat'
+const postChatOrQuestion = async (
+  chat: Chat,
+  messages: any[],
+  input: string,
+) => {
+  const url = "/api/chat";
 
   const data = {
     prompt: chat?.persona?.prompt,
     messages: [...messages!],
-    input
-  }
+    input,
+  };
 
   return await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
-  })
-}
+    body: JSON.stringify(data),
+  });
+};
 
 const Chat = (props: ChatProps, ref: any) => {
   const { debug, currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
-    useContext(ChatContext)
+    useContext(ChatContext);
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
-  const conversationRef = useRef<ChatMessage[]>()
+  const conversationRef = useRef<ChatMessage[]>();
 
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState("");
 
-  const [currentMessage, setCurrentMessage] = useState<string>('')
+  const [currentMessage, setCurrentMessage] = useState<string>("");
 
-  const textAreaRef = useRef<HTMLElement>(null)
+  const textAreaRef = useRef<HTMLElement>(null);
 
-  const conversation = useRef<ChatMessage[]>([])
+  const conversation = useRef<ChatMessage[]>([]);
 
-  const bottomOfChatRef = useRef<HTMLDivElement>(null)
+  const bottomOfChatRef = useRef<HTMLDivElement>(null);
 
   const sendMessage = useCallback(
     async (e: any) => {
       if (!isLoading) {
-        e.preventDefault()
-        const input = textAreaRef.current?.innerHTML?.replace(HTML_REGULAR, '') || ''
+        e.preventDefault();
+        const input =
+          textAreaRef.current?.innerHTML?.replace(HTML_REGULAR, "") || "";
 
         if (input.length < 1) {
-          toast.error('Please type a message to continue.')
-          return
+          toast.error("Please type a message to continue.");
+          return;
         }
 
-        const message = [...conversation.current]
-        conversation.current = [...conversation.current, { content: input, role: 'user' }]
-        setMessage('')
-        setIsLoading(true)
+        const message = [...conversation.current];
+        conversation.current = [
+          ...conversation.current,
+          { content: input, role: "user" },
+        ];
+        setMessage("");
+        setIsLoading(true);
         try {
-          const response = await postChatOrQuestion(currentChatRef?.current!, message, input)
+          const response = await postChatOrQuestion(
+            currentChatRef?.current!,
+            message,
+            input,
+          );
 
           if (response.ok) {
             const contents = await response.json();
 
             if (!contents) {
-              throw new Error('No data')
+              throw new Error("No data");
             }
 
-            let resultContent = ''
+            let resultContent = "";
             console.log(contents);
 
             for (let index = 0; index < contents.length; index++) {
               const content = contents[index];
 
-              if (typeof content === 'string') {
+              if (typeof content === "string") {
               } else if (content.text && content.type) {
                 resultContent += content.text;
               }
@@ -106,88 +128,88 @@ const Chat = (props: ChatProps, ref: any) => {
 
             conversation.current = [
               ...conversation.current,
-              { content: resultContent, role: 'assistant' }
-            ]
+              { content: resultContent, role: "assistant" },
+            ];
 
-            setCurrentMessage('')
+            setCurrentMessage("");
           } else {
-            const result = await response.json()
+            const result = await response.json();
             if (response.status === 401) {
-              conversation.current.pop()
+              conversation.current.pop();
               location.href =
                 result.redirect +
-                `?callbackUrl=${encodeURIComponent(location.pathname + location.search)}`
+                `?callbackUrl=${encodeURIComponent(location.pathname + location.search)}`;
             } else {
-              toast.error(result.error)
+              toast.error(result.error);
             }
           }
 
-          setIsLoading(false)
+          setIsLoading(false);
         } catch (error: any) {
-          console.error(error)
-          toast.error(error.message)
-          setIsLoading(false)
+          console.error(error);
+          toast.error(error.message);
+          setIsLoading(false);
         }
       }
     },
-    [currentChatRef, debug, isLoading]
-  )
+    [currentChatRef, debug, isLoading],
+  );
 
   const handleKeypress = useCallback(
     (e: any) => {
       if (e.keyCode == 13 && !e.shiftKey) {
-        sendMessage(e)
-        e.preventDefault()
+        sendMessage(e);
+        e.preventDefault();
       }
     },
-    [sendMessage]
-  )
+    [sendMessage],
+  );
 
   const clearMessages = () => {
-    conversation.current = []
-    forceUpdate?.()
-  }
+    conversation.current = [];
+    forceUpdate?.();
+  };
 
   useEffect(() => {
     if (textAreaRef.current) {
-      textAreaRef.current.style.height = '50px'
-      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight + 2}px`
+      textAreaRef.current.style.height = "50px";
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight + 2}px`;
     }
-  }, [message, textAreaRef])
+  }, [message, textAreaRef]);
 
   useEffect(() => {
     if (bottomOfChatRef.current) {
-      bottomOfChatRef.current.scrollIntoView({ behavior: 'smooth' })
+      bottomOfChatRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [conversation, currentMessage])
+  }, [conversation, currentMessage]);
 
   useEffect(() => {
-    conversationRef.current = conversation.current
+    conversationRef.current = conversation.current;
     if (currentChatRef?.current?.id) {
-      saveMessages?.(conversation.current)
+      saveMessages?.(conversation.current);
     }
-  }, [currentChatRef, conversation.current, saveMessages])
+  }, [currentChatRef, conversation.current, saveMessages]);
 
   useEffect(() => {
     if (!isLoading) {
-      textAreaRef.current?.focus()
+      textAreaRef.current?.focus();
     }
-  }, [isLoading])
+  }, [isLoading]);
 
   useImperativeHandle(ref, () => {
     return {
       setConversation(messages: ChatMessage[]) {
-        conversation.current = messages
-        forceUpdate?.()
+        conversation.current = messages;
+        forceUpdate?.();
       },
       getConversation() {
-        return conversationRef.current
+        return conversationRef.current;
       },
       focus: () => {
-        textAreaRef.current?.focus()
-      }
-    }
-  })
+        textAreaRef.current?.focus();
+      },
+    };
+  });
 
   return (
     <Flex direction="column" height="100%" className="relative" gap="3">
@@ -196,20 +218,24 @@ const Chat = (props: ChatProps, ref: any) => {
         align="center"
         py="3"
         px="4"
-        style={{ backgroundColor: 'var(--gray-a2)' }}
+        style={{ backgroundColor: "var(--gray-a2)" }}
       >
-        <Heading size="4">{currentChatRef?.current?.persona?.name || 'None'}</Heading>
+        <Heading size="4">
+          {currentChatRef?.current?.persona?.name || "None"}
+        </Heading>
       </Flex>
       <ScrollArea
         className="flex-1 px-4"
         type="auto"
         scrollbars="vertical"
-        style={{ height: '100%' }}
+        style={{ height: "100%" }}
       >
         {conversation.current.map((item, index) => (
           <Message key={index} message={item} />
         ))}
-        {currentMessage && <Message message={{ content: currentMessage, role: 'assistant' }} />}
+        {currentMessage && (
+          <Message message={{ content: currentMessage, role: "assistant" }} />
+        )}
         <div ref={bottomOfChatRef}></div>
       </ScrollArea>
       <div className="px-4 pb-3">
@@ -218,18 +244,18 @@ const Chat = (props: ChatProps, ref: any) => {
             <ContentEditable
               innerRef={textAreaRef}
               style={{
-                minHeight: '24px',
-                maxHeight: '200px',
-                overflowY: 'auto'
+                minHeight: "24px",
+                maxHeight: "200px",
+                overflowY: "auto",
               }}
               className="rt-TextAreaInput text-base"
               html={message}
               disabled={isLoading}
               onChange={(e) => {
-                setMessage(e.target.value.replace(HTML_REGULAR, ''))
+                setMessage(e.target.value.replace(HTML_REGULAR, ""));
               }}
               onKeyDown={(e) => {
-                handleKeypress(e)
+                handleKeypress(e);
               }}
             />
             <div className="rt-TextAreaChrome"></div>
@@ -241,12 +267,12 @@ const Chat = (props: ChatProps, ref: any) => {
                 height="6"
                 align="center"
                 justify="center"
-                style={{ color: 'var(--accent-11)' }}
+                style={{ color: "var(--accent-11)" }}
               >
                 <AiOutlineLoading3Quarters className="animate-spin size-4" />
               </Flex>
             )}
-            <Tooltip content={'Send Message'}>
+            <Tooltip content={"Send Message"}>
               <IconButton
                 variant="soft"
                 disabled={isLoading}
@@ -258,7 +284,7 @@ const Chat = (props: ChatProps, ref: any) => {
                 <FiSend className="size-4" />
               </IconButton>
             </Tooltip>
-            <Tooltip content={'Clear History'}>
+            <Tooltip content={"Clear History"}>
               <IconButton
                 variant="soft"
                 color="gray"
@@ -270,7 +296,7 @@ const Chat = (props: ChatProps, ref: any) => {
                 <AiOutlineClear className="size-4" />
               </IconButton>
             </Tooltip>
-            <Tooltip content={'Toggle Sidebar'}>
+            <Tooltip content={"Toggle Sidebar"}>
               <IconButton
                 variant="soft"
                 color="gray"
@@ -286,7 +312,7 @@ const Chat = (props: ChatProps, ref: any) => {
         </Flex>
       </div>
     </Flex>
-  )
-}
+  );
+};
 
-export default forwardRef<ChatGPInstance, ChatProps>(Chat)
+export default forwardRef<ChatGPInstance, ChatProps>(Chat);

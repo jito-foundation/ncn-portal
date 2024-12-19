@@ -1,26 +1,35 @@
-'use client'
+"use client";
 
-import { useCallback, useState } from 'react'
-import { HamburgerMenuIcon } from '@radix-ui/react-icons'
-import { Avatar, Flex, Heading, IconButton, Select, Tooltip } from '@radix-ui/themes'
-import cs from 'classnames'
-import NextLink from 'next/link'
-import { FaAdjust, FaGithub, FaMoon, FaRegSun } from 'react-icons/fa'
-import { Link } from '../Link'
-import { useTheme } from '../Themes'
+import { useCallback, useState } from "react";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import {
+  Avatar,
+  Flex,
+  Heading,
+  IconButton,
+  Select,
+  Tooltip,
+} from "@radix-ui/themes";
+import cs from "classnames";
+import NextLink from "next/link";
+import { FaAdjust, FaGithub, FaMoon, FaRegSun } from "react-icons/fa";
+import { Link } from "../Link";
+import { useTheme } from "../Themes";
 
 export const Header = () => {
-  const { theme, setTheme } = useTheme()
-  const [, setShow] = useState(false)
+  const { theme, setTheme } = useTheme();
+  const [, setShow] = useState(false);
 
   const toggleNavBar = useCallback(() => {
-    setShow((state) => !state)
-  }, [])
+    setShow((state) => !state);
+  }, []);
 
   return (
     <header
-      className={cs('block shadow-sm sticky top-0 dark:shadow-gray-500 py-3 px-4 z-20')}
-      style={{ backgroundColor: 'var(--color-background)' }}
+      className={cs(
+        "block shadow-sm sticky top-0 dark:shadow-gray-500 py-3 px-4 z-20",
+      )}
+      style={{ backgroundColor: "var(--color-background)" }}
     >
       <Flex align="center" gap="3">
         <NextLink href="/">
@@ -67,5 +76,5 @@ export const Header = () => {
         </Tooltip>
       </Flex>
     </header>
-  )
-}
+  );
+};

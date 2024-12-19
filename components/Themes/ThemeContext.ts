@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { createContext } from 'react'
-import { UseThemeProps } from './interface'
+import { createContext } from "react";
+import { UseThemeProps } from "./interface";
 
-export const ThemeContext = createContext<UseThemeProps | undefined>(undefined)
+export const ThemeContext = createContext<UseThemeProps | undefined>(undefined);

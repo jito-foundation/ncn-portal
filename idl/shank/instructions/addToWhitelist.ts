@@ -28,9 +28,9 @@ import {
   type TransactionSigner,
   type WritableAccount,
   type WritableSignerAccount,
-} from '@solana/web3.js';
-import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from "@solana/web3.js";
+import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
+import { getAccountMetaFactory, type ResolvedAccount } from "../shared";
 
 export const ADD_TO_WHITELIST_DISCRIMINATOR = 1;
 
@@ -46,7 +46,7 @@ export type AddToWhitelistInstruction<
   TAccountAdmin extends string | IAccountMeta<string> = string,
   TAccountSystemProgram extends
     | string
-    | IAccountMeta<string> = '11111111111111111111111111111111',
+    | IAccountMeta<string> = "11111111111111111111111111111111",
   TRemainingAccounts extends readonly IAccountMeta<string>[] = [],
 > = IInstruction<TProgram> &
   IInstructionWithData<Uint8Array> &
@@ -84,17 +84,17 @@ export type AddToWhitelistInstructionDataArgs = {
 export function getAddToWhitelistInstructionDataEncoder(): Encoder<AddToWhitelistInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
-      ['discriminator', getU8Encoder()],
-      ['rateLimiting', getU64Encoder()],
+      ["discriminator", getU8Encoder()],
+      ["rateLimiting", getU64Encoder()],
     ]),
-    (value) => ({ ...value, discriminator: ADD_TO_WHITELIST_DISCRIMINATOR })
+    (value) => ({ ...value, discriminator: ADD_TO_WHITELIST_DISCRIMINATOR }),
   );
 }
 
 export function getAddToWhitelistInstructionDataDecoder(): Decoder<AddToWhitelistInstructionData> {
   return getStructDecoder([
-    ['discriminator', getU8Decoder()],
-    ['rateLimiting', getU64Decoder()],
+    ["discriminator", getU8Decoder()],
+    ["rateLimiting", getU64Decoder()],
   ]);
 }
 
@@ -104,7 +104,7 @@ export function getAddToWhitelistInstructionDataCodec(): Codec<
 > {
   return combineCodec(
     getAddToWhitelistInstructionDataEncoder(),
-    getAddToWhitelistInstructionDataDecoder()
+    getAddToWhitelistInstructionDataDecoder(),
   );
 }
 
@@ -120,7 +120,7 @@ export type AddToWhitelistInput<
   whitelisted: Address<TAccountWhitelisted>;
   admin: TransactionSigner<TAccountAdmin>;
   systemProgram?: Address<TAccountSystemProgram>;
-  rateLimiting: AddToWhitelistInstructionDataArgs['rateLimiting'];
+  rateLimiting: AddToWhitelistInstructionDataArgs["rateLimiting"];
 };
 
 export function getAddToWhitelistInstruction<
@@ -138,7 +138,7 @@ export function getAddToWhitelistInstruction<
     TAccountAdmin,
     TAccountSystemProgram
   >,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): AddToWhitelistInstruction<
   TProgramAddress,
   TAccountWhitelist,
@@ -169,10 +169,10 @@ export function getAddToWhitelistInstruction<
   // Resolve default values.
   if (!accounts.systemProgram.value) {
     accounts.systemProgram.value =
-      '11111111111111111111111111111111' as Address<'11111111111111111111111111111111'>;
+      "11111111111111111111111111111111" as Address<"11111111111111111111111111111111">;
   }
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   const instruction = {
     accounts: [
       getAccountMeta(accounts.whitelist),
@@ -183,7 +183,7 @@ export function getAddToWhitelistInstruction<
     ],
     programAddress,
     data: getAddToWhitelistInstructionDataEncoder().encode(
-      args as AddToWhitelistInstructionDataArgs
+      args as AddToWhitelistInstructionDataArgs,
     ),
   } as AddToWhitelistInstruction<
     TProgramAddress,
@@ -218,11 +218,11 @@ export function parseAddToWhitelistInstruction<
 >(
   instruction: IInstruction<TProgram> &
     IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+    IInstructionWithData<Uint8Array>,
 ): ParsedAddToWhitelistInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 5) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error("Not enough accounts");
   }
   let accountIndex = 0;
   const getNextAccount = () => {

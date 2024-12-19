@@ -1,4 +1,5 @@
 "use client";
+
 import { Suspense, useContext } from "react";
 import { Flex } from "@radix-ui/themes";
 import { Chat, ChatContext, ChatSideBar, useChatHook } from "@/components";
@@ -6,7 +7,6 @@ import PersonaModal from "./PersonaModal";
 import PersonaPanel from "./PersonaPanel";
 import { ConnectWalletMenu } from "@/components/ConnectWalletMenu";
 import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
-import { ChainContext } from "@/components/context/ChainContext";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 const ChatProvider = () => {
@@ -29,15 +29,12 @@ const ChatProvider = () => {
 const ChatPage = () => {
   useRequireAuth();
 
-  const { chain } = useContext(ChainContext);
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
 
   return (
     <Suspense>
       {selectedWalletAccount ? (
         <ChatProvider />
-        // <SolanaSignAndSendTransactionFeaturePanel account={selectedWalletAccount} />
-        // <WhitelistFeaturePanel account={selectedWalletAccount} />
       ) : (
         <main className="flex items-center justify-center min-h-screen">
           <div className="border hover:border-slate-900 rounded">

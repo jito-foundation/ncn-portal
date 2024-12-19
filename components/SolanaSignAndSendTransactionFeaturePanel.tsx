@@ -44,7 +44,7 @@ type Props = Readonly<{
 function solStringToLamports(solQuantityString: string) {
   if (Number.isNaN(parseFloat(solQuantityString))) {
     throw new Error(
-      "Could not parse token quantity: " + String(solQuantityString)
+      "Could not parse token quantity: " + String(solQuantityString),
     );
   }
   const numDecimals = BigInt(solQuantityString.split(".")[1]?.length ?? 0);
@@ -82,7 +82,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
     useContext(ChainContext);
   const transactionSendingSigner = useWalletAccountTransactionSendingSigner(
     account,
-    currentChain
+    currentChain,
   );
   const lamportsInputId = useId();
   const recipientSelectId = useId();
@@ -103,7 +103,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
             const amount = solStringToLamports(solQuantityString);
             if (!recipientAccount) {
               throw new Error(
-                "The address of the recipient could not be found"
+                "The address of the recipient could not be found",
               );
             }
             const { value: latestBlockhash } = await rpc
@@ -114,7 +114,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
               (m) =>
                 setTransactionMessageFeePayerSigner(
                   transactionSendingSigner,
-                  m
+                  m,
                 ),
               (m) =>
                 setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
@@ -125,8 +125,8 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
                     destination: address(recipientAccount.address),
                     source: transactionSendingSigner,
                   }),
-                  m
-                )
+                  m,
+                ),
             );
             assertIsTransactionMessageWithSingleSendingSigner(message);
             const signature =
@@ -202,7 +202,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
                           </WalletMenuItemContent>
                         </Select.Item>
                       );
-                    })
+                    }),
                 )}
               </Select.Content>
             </Select.Root>
@@ -241,7 +241,7 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
                 <Text>
                   <Link
                     href={`https://explorer.solana.com/tx/${getBase58Decoder().decode(
-                      lastSignature
+                      lastSignature,
                     )}?cluster=${solanaExplorerClusterName}`}
                     target="_blank"
                   >

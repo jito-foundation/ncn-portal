@@ -29,7 +29,7 @@ import {
   type FetchAccountsConfig,
   type MaybeAccount,
   type MaybeEncodedAccount,
-} from '@solana/web3.js';
+} from "@solana/web3.js";
 
 export type Whitelist = { discriminator: bigint; admin: Address };
 
@@ -37,15 +37,15 @@ export type WhitelistArgs = { discriminator: number | bigint; admin: Address };
 
 export function getWhitelistEncoder(): Encoder<WhitelistArgs> {
   return getStructEncoder([
-    ['discriminator', getU64Encoder()],
-    ['admin', getAddressEncoder()],
+    ["discriminator", getU64Encoder()],
+    ["admin", getAddressEncoder()],
   ]);
 }
 
 export function getWhitelistDecoder(): Decoder<Whitelist> {
   return getStructDecoder([
-    ['discriminator', getU64Decoder()],
-    ['admin', getAddressDecoder()],
+    ["discriminator", getU64Decoder()],
+    ["admin", getAddressDecoder()],
   ]);
 }
 
@@ -54,24 +54,24 @@ export function getWhitelistCodec(): Codec<WhitelistArgs, Whitelist> {
 }
 
 export function decodeWhitelist<TAddress extends string = string>(
-  encodedAccount: EncodedAccount<TAddress>
+  encodedAccount: EncodedAccount<TAddress>,
 ): Account<Whitelist, TAddress>;
 export function decodeWhitelist<TAddress extends string = string>(
-  encodedAccount: MaybeEncodedAccount<TAddress>
+  encodedAccount: MaybeEncodedAccount<TAddress>,
 ): MaybeAccount<Whitelist, TAddress>;
 export function decodeWhitelist<TAddress extends string = string>(
-  encodedAccount: EncodedAccount<TAddress> | MaybeEncodedAccount<TAddress>
+  encodedAccount: EncodedAccount<TAddress> | MaybeEncodedAccount<TAddress>,
 ): Account<Whitelist, TAddress> | MaybeAccount<Whitelist, TAddress> {
   return decodeAccount(
     encodedAccount as MaybeEncodedAccount<TAddress>,
-    getWhitelistDecoder()
+    getWhitelistDecoder(),
   );
 }
 
 export async function fetchWhitelist<TAddress extends string = string>(
   rpc: Parameters<typeof fetchEncodedAccount>[0],
   address: Address<TAddress>,
-  config?: FetchAccountConfig
+  config?: FetchAccountConfig,
 ): Promise<Account<Whitelist, TAddress>> {
   const maybeAccount = await fetchMaybeWhitelist(rpc, address, config);
   assertAccountExists(maybeAccount);
@@ -81,7 +81,7 @@ export async function fetchWhitelist<TAddress extends string = string>(
 export async function fetchMaybeWhitelist<TAddress extends string = string>(
   rpc: Parameters<typeof fetchEncodedAccount>[0],
   address: Address<TAddress>,
-  config?: FetchAccountConfig
+  config?: FetchAccountConfig,
 ): Promise<MaybeAccount<Whitelist, TAddress>> {
   const maybeAccount = await fetchEncodedAccount(rpc, address, config);
   return decodeWhitelist(maybeAccount);
@@ -90,7 +90,7 @@ export async function fetchMaybeWhitelist<TAddress extends string = string>(
 export async function fetchAllWhitelist(
   rpc: Parameters<typeof fetchEncodedAccounts>[0],
   addresses: Array<Address>,
-  config?: FetchAccountsConfig
+  config?: FetchAccountsConfig,
 ): Promise<Account<Whitelist>[]> {
   const maybeAccounts = await fetchAllMaybeWhitelist(rpc, addresses, config);
   assertAccountsExist(maybeAccounts);
@@ -100,7 +100,7 @@ export async function fetchAllWhitelist(
 export async function fetchAllMaybeWhitelist(
   rpc: Parameters<typeof fetchEncodedAccounts>[0],
   addresses: Array<Address>,
-  config?: FetchAccountsConfig
+  config?: FetchAccountsConfig,
 ): Promise<MaybeAccount<Whitelist>[]> {
   const maybeAccounts = await fetchEncodedAccounts(rpc, addresses, config);
   return maybeAccounts.map((maybeAccount) => decodeWhitelist(maybeAccount));

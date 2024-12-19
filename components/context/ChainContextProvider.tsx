@@ -27,7 +27,7 @@ export function ChainContextProvider({
             displayName: "Mainnet Beta",
             solanaExplorerClusterName: "mainnet-beta",
             solanaRpcSubscriptionsUrl: mainnet(
-              "wss://api.mainnet-beta.solana.com"
+              "wss://api.mainnet-beta.solana.com",
             ),
             solanaRpcUrl: mainnet("https://api.mainnet-beta.solana.com"),
           };
@@ -64,7 +64,7 @@ export function ChainContextProvider({
             setChain(chain);
           },
         }),
-        [contextValue]
+        [contextValue],
       )}
     >
       {children}

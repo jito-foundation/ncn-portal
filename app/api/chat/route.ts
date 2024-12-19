@@ -1,58 +1,70 @@
-import { createParser, ParsedEvent, ReconnectInterval } from 'eventsource-parser'
-import { NextRequest, NextResponse } from 'next/server'
+import {
+  createParser,
+  ParsedEvent,
+  ReconnectInterval,
+} from "eventsource-parser";
+import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = 'edge'
+export const runtime = "edge";
 
 export interface Message {
-  role: string
-  content: string
+  role: string;
+  content: string;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const { prompt, messages, input } = (await req.json()) as {
-      prompt: string
-      messages: Message[]
-      input: string
-    }
-    const messagesWithHistory = [...messages]
+      prompt: string;
+      messages: Message[];
+      input: string;
+    };
+    const messagesWithHistory = [...messages];
 
-    const { apiUrl, apiKey } = getApiConfig()
-    const response = await fetchApiResponse(apiUrl, apiKey, input, messagesWithHistory)
-    return NextResponse.json(response)
+    const { apiUrl, apiKey } = getApiConfig();
+    const response = await fetchApiResponse(
+      apiUrl,
+      apiKey,
+      input,
+      messagesWithHistory,
+    );
+    return NextResponse.json(response);
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    )
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    );
   }
 }
 
 const getApiConfig = () => {
-  let apiUrl: string
-  let apiKey: string
-  let model: string
-  
-  apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-  apiKey = process.env.OPENAI_API_KEY || ''
+  let apiUrl: string;
+  let apiKey: string;
+  let model: string;
 
-  return { apiUrl, apiKey }
-}
+  apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+  apiKey = process.env.OPENAI_API_KEY || "";
+
+  return { apiUrl, apiKey };
+};
 
 const fetchApiResponse = async (
   apiUrl: string,
   apiKey: string,
   input: string,
-  messages: Message[]
+  messages: Message[],
 ) => {
   const res = await fetch(apiUrl, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,
-      'api-key': `${apiKey}`,
+      "api-key": `${apiKey}`,
     },
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({
       prompt: input,
       chat_history: messages,
@@ -63,9 +75,7 @@ const fetchApiResponse = async (
     const statusText = res.statusText;
     const responseBody = await res.text();
     console.error(`API response error: ${responseBody}`);
-    throw new Error(
-      `API error: ${res.status} ${statusText}: ${responseBody}`
-    );
+    throw new Error(`API error: ${res.status} ${statusText}: ${responseBody}`);
   }
 
   const json = await res.json();

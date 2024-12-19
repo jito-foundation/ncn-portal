@@ -11,8 +11,8 @@ import {
   type Address,
   type SOLANA_ERROR__INSTRUCTION_ERROR__CUSTOM,
   type SolanaError,
-} from '@solana/web3.js';
-import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
+} from "@solana/web3.js";
+import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
 
 /** NcnPortalWhitelistAdminInvalid: NcnPortalWhitelistAdminInvalid */
 export const NCN_PORTAL_ERROR__NCN_PORTAL_WHITELIST_ADMIN_INVALID = 0x0; // 0
@@ -36,7 +36,7 @@ export type NcnPortalError =
   | typeof NCN_PORTAL_ERROR__NCN_PORTAL_WHITELISTED_INVALID;
 
 let ncnPortalErrorMessages: Record<NcnPortalError, string> | undefined;
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   ncnPortalErrorMessages = {
     [NCN_PORTAL_ERROR__ARITHMETIC_OVERFLOW]: `ArithmeticOverflow`,
     [NCN_PORTAL_ERROR__ARITHMETIC_UNDERFLOW]: `ArithmeticUnderflow`,
@@ -48,11 +48,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export function getNcnPortalErrorMessage(code: NcnPortalError): string {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== "production") {
     return (ncnPortalErrorMessages as Record<NcnPortalError, string>)[code];
   }
 
-  return 'Error message not available in production bundles.';
+  return "Error message not available in production bundles.";
 }
 
 export function isNcnPortalError<TProgramErrorCode extends NcnPortalError>(
@@ -60,13 +60,13 @@ export function isNcnPortalError<TProgramErrorCode extends NcnPortalError>(
   transactionMessage: {
     instructions: Record<number, { programAddress: Address }>;
   },
-  code?: TProgramErrorCode
+  code?: TProgramErrorCode,
 ): error is SolanaError<typeof SOLANA_ERROR__INSTRUCTION_ERROR__CUSTOM> &
   Readonly<{ context: Readonly<{ code: TProgramErrorCode }> }> {
   return isProgramError<TProgramErrorCode>(
     error,
     transactionMessage,
     NCN_PORTAL_PROGRAM_ADDRESS,
-    code
+    code,
   );
 }

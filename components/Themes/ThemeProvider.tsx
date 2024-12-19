@@ -84,7 +84,7 @@ const Theme = ({
       enableColorScheme,
       enableSystem,
       value,
-    ]
+    ],
   );
 
   const setTheme = useCallback<React.Dispatch<string>>(
@@ -100,7 +100,7 @@ const Theme = ({
         // Unsupported
       }
     },
-    [storageKey]
+    [storageKey],
   );
 
   const handleMediaQuery = useCallback(
@@ -112,7 +112,7 @@ const Theme = ({
         applyTheme("system");
       }
     },
-    [theme, enableSystem, forcedTheme, applyTheme]
+    [theme, enableSystem, forcedTheme, applyTheme],
   );
 
   // Always listen to System preference
@@ -168,7 +168,7 @@ const Theme = ({
           | "dark"
           | undefined,
       }) as UseThemeProps,
-    [theme, setTheme, forcedTheme, resolvedTheme, enableSystem, themes]
+    [theme, setTheme, forcedTheme, resolvedTheme, enableSystem, themes],
   );
 
   return (
