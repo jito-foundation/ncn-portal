@@ -13,16 +13,6 @@ NCN Portal Lite is a lightweight Claude web interface developed using Next.js an
 - You need an Claude account.
 - Solna Wallet installed.
 
-## Deployment
-
-Refer to the [Environment Variables](#environment-variables) section for necessary environment variables.
-
-### Deploy on Vercel
-
-Click the button below to deploy on Vercel:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fblrchen%2Fchatgpt-lite&project-name=chatgpt-lite&framework=nextjs&repository-name=chatgpt-lite)
-
 ### Deploy with Docker
 
 For OpenAI account users:
