@@ -1,11 +1,10 @@
-import { Blockquote, Button, Dialog, Flex, Link, Text } from "@radix-ui/themes";
+import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { useWalletAccountTransactionSendingSigner } from "@solana/react";
 import {
   address,
   appendTransactionMessageInstruction,
   assertIsTransactionMessageWithSingleSendingSigner,
   createTransactionMessage,
-  getBase58Decoder,
   pipe,
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
@@ -14,7 +13,7 @@ import {
   getAddressEncoder,
   Address,
 } from "@solana/web3.js";
-import { type UiWalletAccount, useWallets } from "@wallet-standard/react";
+import { type UiWalletAccount } from "@wallet-standard/react";
 import { useContext, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 
@@ -37,10 +36,11 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { current: NO_ERROR } = useRef(Symbol());
   const { rpc } = useContext(RpcContext);
   const [isSendingTransaction, setIsSendingTransaction] = useState(false);
+
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
-  const { chain: currentChain, solanaExplorerClusterName } =
-    useContext(ChainContext);
+  const { chain: currentChain } = useContext(ChainContext);
   const transactionSendingSigner = useWalletAccountTransactionSendingSigner(
     account,
     currentChain,
@@ -65,6 +65,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
             const { value: latestBlockhash } = await rpc
               .getLatestBlockhash({ commitment: "confirmed" })
               .send();
+            /* eslint-disable   @typescript-eslint/no-unused-vars */
             const [whitelistAddress, whitelistBump] =
               await getProgramDerivedAddress({
                 programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),

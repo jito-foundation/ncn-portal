@@ -147,13 +147,14 @@ const Theme = ({
     return applyTheme(forcedTheme ?? theme!);
   }, [applyTheme, forcedTheme, theme]);
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   useEffect(() => {
     if (typeof window !== "undefined") {
       const theme = localStorage.getItem(storageKey);
     }
     setThemeState(theme || defaultTheme);
     setResolvedTheme(theme!);
-  }, [defaultTheme, storageKey]);
+  }, [defaultTheme, storageKey, theme]);
 
   const providerValue = useMemo(
     () =>

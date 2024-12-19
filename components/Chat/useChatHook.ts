@@ -37,6 +37,8 @@ const uploadFiles = async (files: File[]) => {
   files.forEach((file) => {
     formData.append("files", file);
   });
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const { data } = await axios<any>({
     method: "POST",
     url: "/api/document/upload",
@@ -53,7 +55,8 @@ const useChatHook = () => {
 
   const debug = searchParams.get("debug") === "true";
 
-  const [_, forceUpdate] = useReducer((x: number) => x + 1, 0);
+  /* eslint-disable  @typescript-eslint/no-unused-vars */
+  const [force, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
   const messagesMap = useRef<Map<string, ChatMessage[]>>(
     new Map<string, ChatMessage[]>(),
@@ -98,6 +101,7 @@ const useChatHook = () => {
     setIsOpenPersonaModal(false);
   };
 
+  /* eslint-disable  @typescript-eslint/no-non-null-asserted-optional-chain */
   const onChangeChat = useCallback((chat: Chat) => {
     const oldMessages = chatRef.current?.getConversation() || [];
     const newMessages = messagesMap.current.get(chat.id) || [];
@@ -250,7 +254,7 @@ const useChatHook = () => {
         localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
       }
     };
-  }, []);
+  }, [onChangeChat, onCreateChat]);
 
   useEffect(() => {
     if (currentChatRef.current?.id) {

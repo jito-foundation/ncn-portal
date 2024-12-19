@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import {
   Box,
@@ -20,7 +20,7 @@ import { ChatContext, Persona } from "@/components";
 
 export interface PersonaPanelProps {}
 
-const PersonaPanel = (_props: PersonaPanelProps) => {
+const PersonaPanel = () => {
   const {
     personaPanelType,
     DefaultPersonas,
@@ -36,26 +36,27 @@ const PersonaPanel = (_props: PersonaPanelProps) => {
   const [promptList, setPromptList] = useState<Persona[]>([]);
   const [searchText, setSearchText] = useState("");
 
-  const handleSearch = useCallback(
-    debounce((type: string, list: Persona[], searchText: string) => {
-      setPromptList(
-        list.filter((item) => {
-          if (type === "chat") {
-            return (
-              !item.key &&
-              (item.prompt?.includes(searchText) ||
-                item.name?.includes(searchText))
-            );
-          } else {
-            return (
-              item.key &&
-              (item.prompt?.includes(searchText) ||
-                item.name?.includes(searchText))
-            );
-          }
-        }),
-      );
-    }, 350),
+  const handleSearch = useMemo(
+    () =>
+      debounce((type: string, list: Persona[], searchText: string) => {
+        setPromptList(
+          list.filter((item) => {
+            if (type === "chat") {
+              return (
+                !item.key &&
+                (item.prompt?.includes(searchText) ||
+                  item.name?.includes(searchText))
+              );
+            } else {
+              return (
+                item.key &&
+                (item.prompt?.includes(searchText) ||
+                  item.name?.includes(searchText))
+              );
+            }
+          }),
+        );
+      }, 350),
     [],
   );
 

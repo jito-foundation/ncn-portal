@@ -59,6 +59,8 @@ export function SolanaSignAndSendTransactionFeaturePanel({ account }: Props) {
   const { rpc } = useContext(RpcContext);
   const wallets = useWallets();
   const [isSendingTransaction, setIsSendingTransaction] = useState(false);
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
   const [solQuantityString, setSolQuantityString] = useState<string>("");

@@ -13,6 +13,7 @@ const PersonaModal = () => {
 
   const { register, handleSubmit, setValue } = useForm();
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const formSubmit = handleSubmit((values: any) => {
     onCreatePersona?.(values as Persona);
   });

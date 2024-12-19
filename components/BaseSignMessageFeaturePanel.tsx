@@ -23,6 +23,8 @@ type Props = Readonly<{
 export function BaseSignMessageFeaturePanel({ signMessage }: Props) {
   const { current: NO_ERROR } = useRef(Symbol());
   const [isSigningMessage, setIsSigningMessage] = useState(false);
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<
     ReadonlyUint8Array | undefined

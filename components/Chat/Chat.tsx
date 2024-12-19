@@ -41,6 +41,7 @@ export interface ChatGPInstance {
   focus: () => void;
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const postChatOrQuestion = async (
   chat: Chat,
   messages: any[],
@@ -64,7 +65,7 @@ const postChatOrQuestion = async (
 };
 
 const Chat = (props: ChatProps, ref: any) => {
-  const { debug, currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
+  const { currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
     useContext(ChatContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -101,6 +102,7 @@ const Chat = (props: ChatProps, ref: any) => {
         setMessage("");
         setIsLoading(true);
         try {
+          /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
           const response = await postChatOrQuestion(
             currentChatRef?.current!,
             message,
@@ -152,7 +154,7 @@ const Chat = (props: ChatProps, ref: any) => {
         }
       }
     },
-    [currentChatRef, debug, isLoading],
+    [currentChatRef, isLoading],
   );
 
   const handleKeypress = useCallback(
@@ -188,7 +190,7 @@ const Chat = (props: ChatProps, ref: any) => {
     if (currentChatRef?.current?.id) {
       saveMessages?.(conversation.current);
     }
-  }, [currentChatRef, conversation.current, saveMessages]);
+  }, [currentChatRef, saveMessages]);
 
   useEffect(() => {
     if (!isLoading) {

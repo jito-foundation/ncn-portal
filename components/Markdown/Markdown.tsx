@@ -29,6 +29,7 @@ export interface MarkdownProps {
   children: string;
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const SyntaxHighlighter = Prism as any as React.FC<SyntaxHighlighterProps>;
 
 const HighlightCode = (
