@@ -11,9 +11,13 @@ export function ChainContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [chain, setChain] = useState(
-    () => localStorage.getItem(STORAGE_KEY) ?? "solana:devnet"
-  );
+  let storageKey: string | null = "solana:devnet";
+
+  if (typeof window !== "undefined") {
+    storageKey = localStorage.getItem(STORAGE_KEY);
+  }
+  const [chain, setChain] = useState(() => storageKey);
+
   const contextValue = useMemo<ChainContext>(() => {
     switch (chain) {
       case "solana:mainnet":
@@ -40,7 +44,9 @@ export function ChainContextProvider({
       case "solana:devnet":
       default:
         if (chain !== "solana:devnet") {
-          localStorage.removeItem(STORAGE_KEY);
+          if (typeof window !== "undefined") {
+            localStorage.removeItem(STORAGE_KEY);
+          }
           console.error(`Unrecognized chain \`${chain}\``);
         }
         return DEFAULT_CHAIN_CONFIG;
@@ -52,7 +58,9 @@ export function ChainContextProvider({
         () => ({
           ...contextValue,
           setChain(chain) {
-            localStorage.setItem(STORAGE_KEY, chain);
+            if (typeof window !== "undefined") {
+              localStorage.setItem(STORAGE_KEY, chain);
+            }
             setChain(chain);
           },
         }),

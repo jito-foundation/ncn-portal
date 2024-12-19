@@ -5,7 +5,7 @@ import { IconButton, Tooltip } from '@radix-ui/themes'
 import cs from 'classnames'
 import { RxClipboardCopy } from 'react-icons/rx'
 import ReactMarkdown, { ExtraProps } from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { Prism, SyntaxHighlighterProps } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import rehypeKatex from 'rehype-katex'
 import rehypeRaw from 'rehype-raw'
@@ -22,6 +22,8 @@ export interface MarkdownProps {
   className?: string
   children: string
 }
+
+const SyntaxHighlighter = (Prism as any) as React.FC<SyntaxHighlighterProps>;
 
 const HighlightCode = (
   props: ClassAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & ExtraProps

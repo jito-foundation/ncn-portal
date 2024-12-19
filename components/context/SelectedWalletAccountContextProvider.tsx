@@ -26,7 +26,12 @@ function getSavedWalletAccount(
     // saved wallet, if and when it appears.
     return;
   }
-  const savedWalletNameAndAddress = localStorage.getItem(STORAGE_KEY);
+
+  let savedWalletNameAndAddress = null;
+  if (typeof window !== "undefined") {
+    savedWalletNameAndAddress = localStorage.getItem(STORAGE_KEY);
+  }
+
   if (
     !savedWalletNameAndAddress ||
     typeof savedWalletNameAndAddress !== "string"
@@ -75,9 +80,13 @@ export function SelectedWalletAccountContextProvider({
         ? getUiWalletAccountStorageKey(nextWalletAccount)
         : undefined;
       if (accountKey) {
-        localStorage.setItem(STORAGE_KEY, accountKey);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(STORAGE_KEY, accountKey);
+        }
       } else {
-        localStorage.removeItem(STORAGE_KEY);
+        if (typeof window !== "undefined") {
+          localStorage.removeItem(STORAGE_KEY);
+        }
       }
       return nextWalletAccount;
     });

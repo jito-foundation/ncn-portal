@@ -5,6 +5,9 @@ import { SelectedWalletAccountContext } from "@/components/context/SelectedWalle
 import { ChainContext } from "@/components/context/ChainContext";
 import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
 
+// import "@/styles/globals.scss";
+// import "@/styles/theme-config.css";
+
 const HomePage = () => {
   const { chain } = useContext(ChainContext);
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
