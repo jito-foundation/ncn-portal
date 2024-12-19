@@ -17,10 +17,10 @@ export function RpcContextProvider({ children }: Props) {
         () => ({
           rpc: createSolanaRpc(solanaRpcUrl),
           rpcSubscriptions: createSolanaRpcSubscriptions(
-            solanaRpcSubscriptionsUrl
+            solanaRpcSubscriptionsUrl,
           ),
         }),
-        [solanaRpcSubscriptionsUrl, solanaRpcUrl]
+        [solanaRpcSubscriptionsUrl, solanaRpcUrl],
       )}
     >
       {children}

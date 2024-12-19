@@ -6,5 +6,5 @@
  * @see https://github.com/kinobi-so/kinobi
  */
 
-export * from './whitelist';
-export * from './whitelistEntry';
+export * from "./whitelist";
+export * from "./whitelistEntry";

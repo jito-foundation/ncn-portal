@@ -1,4 +1,5 @@
 "use client";
+
 import { Suspense, useContext } from "react";
 import { ConnectWalletMenu } from "@/components/ConnectWalletMenu";
 import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";

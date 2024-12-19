@@ -6,8 +6,8 @@
  * @see https://github.com/codama-idl/codama
  */
 
-export * from './addToWhitelist';
-export * from './checkWhitelisted';
-export * from './initializeWhitelist';
-export * from './removeFromWhitelist';
-export * from './setRateLimiting';
+export * from "./addToWhitelist";
+export * from "./checkWhitelisted";
+export * from "./initializeWhitelist";
+export * from "./removeFromWhitelist";
+export * from "./setRateLimiting";

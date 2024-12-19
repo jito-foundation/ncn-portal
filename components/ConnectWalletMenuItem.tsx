@@ -37,7 +37,7 @@ export function ConnectWalletMenuItem({
       for (const nextAccount of nextAccounts) {
         if (
           !existingAccounts.some((existingAccount) =>
-            uiWalletAccountsAreSame(nextAccount, existingAccount)
+            uiWalletAccountsAreSame(nextAccount, existingAccount),
           )
         ) {
           onAccountSelect(nextAccount);

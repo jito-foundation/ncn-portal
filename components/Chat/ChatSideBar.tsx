@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import React, { useContext } from 'react'
-import { Box, Flex, IconButton, ScrollArea, Text } from '@radix-ui/themes'
-import cs from 'classnames'
-import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { BiMessageDetail } from 'react-icons/bi'
-import { FiPlus } from 'react-icons/fi'
-import { RiRobot2Line } from 'react-icons/ri'
-import ChatContext from './chatContext'
+import React, { useContext } from "react";
+import { Box, Flex, IconButton, ScrollArea, Text } from "@radix-ui/themes";
+import cs from "classnames";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiMessageDetail } from "react-icons/bi";
+import { FiPlus } from "react-icons/fi";
+import { RiRobot2Line } from "react-icons/ri";
+import ChatContext from "./chatContext";
 
-import './index.scss'
+import "./index.scss";
 
 export const ChatSideBar = () => {
   const {
@@ -20,12 +20,19 @@ export const ChatSideBar = () => {
     onDeleteChat,
     onChangeChat,
     onCreateChat,
-    onOpenPersonaPanel
-  } = useContext(ChatContext)
+    onOpenPersonaPanel,
+  } = useContext(ChatContext);
 
   return (
-    <Flex direction="column" className={cs('chat-side-bar', { show: toggleSidebar })}>
-      <Flex className="p-2 h-full overflow-hidden w-64" direction="column" gap="3">
+    <Flex
+      direction="column"
+      className={cs("chat-side-bar", { show: toggleSidebar })}
+    >
+      <Flex
+        className="p-2 h-full overflow-hidden w-64"
+        direction="column"
+        gap="3"
+      >
         <Box
           width="auto"
           onClick={() => onCreateChat?.(DefaultPersonas[0])}
@@ -34,18 +41,25 @@ export const ChatSideBar = () => {
           <FiPlus className="size-4" />
           <Text>New Chat</Text>
         </Box>
-        <ScrollArea className="flex-1 " style={{ width: '100%' }} type="auto">
+        <ScrollArea className="flex-1 " style={{ width: "100%" }} type="auto">
           <Flex direction="column" gap="3">
             {chatList.map((chat) => (
               <Box
                 key={chat.id}
                 width="auto"
-                className={cs('bg-token-surface active:scale-95 truncate cursor-pointer', {
-                  active: currentChatRef?.current?.id === chat.id
-                })}
+                className={cs(
+                  "bg-token-surface active:scale-95 truncate cursor-pointer",
+                  {
+                    active: currentChatRef?.current?.id === chat.id,
+                  },
+                )}
                 onClick={() => onChangeChat?.(chat)}
               >
-                <Flex gap="2" align="center" className="overflow-hidden whitespace-nowrap">
+                <Flex
+                  gap="2"
+                  align="center"
+                  className="overflow-hidden whitespace-nowrap"
+                >
                   <BiMessageDetail className="size-4" />
                   <Text as="p" className="truncate">
                     {chat.persona?.name}
@@ -58,8 +72,8 @@ export const ChatSideBar = () => {
                   color="gray"
                   radius="full"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    onDeleteChat?.(chat)
+                    e.stopPropagation();
+                    onDeleteChat?.(chat);
                   }}
                 >
                   <AiOutlineCloseCircle className="size-4" />
@@ -70,7 +84,7 @@ export const ChatSideBar = () => {
         </ScrollArea>
         <Box
           width="auto"
-          onClick={() => onOpenPersonaPanel?.('chat')}
+          onClick={() => onOpenPersonaPanel?.("chat")}
           className="bg-token-surface-primary active:scale-95 cursor-pointer"
         >
           <RiRobot2Line className="size-4" />
@@ -78,7 +92,7 @@ export const ChatSideBar = () => {
         </Box>
       </Flex>
     </Flex>
-  )
-}
+  );
+};
 
-export default ChatSideBar
+export default ChatSideBar;

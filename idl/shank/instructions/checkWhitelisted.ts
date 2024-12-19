@@ -25,9 +25,9 @@ import {
   type ReadonlyAccount,
   type ReadonlySignerAccount,
   type TransactionSigner,
-} from '@solana/web3.js';
-import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from "@solana/web3.js";
+import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
+import { getAccountMetaFactory, type ResolvedAccount } from "../shared";
 
 export const CHECK_WHITELISTED_DISCRIMINATOR = 2;
 
@@ -65,13 +65,13 @@ export type CheckWhitelistedInstructionDataArgs = {};
 
 export function getCheckWhitelistedInstructionDataEncoder(): Encoder<CheckWhitelistedInstructionDataArgs> {
   return transformEncoder(
-    getStructEncoder([['discriminator', getU8Encoder()]]),
-    (value) => ({ ...value, discriminator: CHECK_WHITELISTED_DISCRIMINATOR })
+    getStructEncoder([["discriminator", getU8Encoder()]]),
+    (value) => ({ ...value, discriminator: CHECK_WHITELISTED_DISCRIMINATOR }),
   );
 }
 
 export function getCheckWhitelistedInstructionDataDecoder(): Decoder<CheckWhitelistedInstructionData> {
-  return getStructDecoder([['discriminator', getU8Decoder()]]);
+  return getStructDecoder([["discriminator", getU8Decoder()]]);
 }
 
 export function getCheckWhitelistedInstructionDataCodec(): Codec<
@@ -80,7 +80,7 @@ export function getCheckWhitelistedInstructionDataCodec(): Codec<
 > {
   return combineCodec(
     getCheckWhitelistedInstructionDataEncoder(),
-    getCheckWhitelistedInstructionDataDecoder()
+    getCheckWhitelistedInstructionDataDecoder(),
   );
 }
 
@@ -105,7 +105,7 @@ export function getCheckWhitelistedInstruction<
     TAccountWhitelistEntry,
     TAccountWhitelisted
   >,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): CheckWhitelistedInstruction<
   TProgramAddress,
   TAccountWhitelist,
@@ -126,7 +126,7 @@ export function getCheckWhitelistedInstruction<
     ResolvedAccount
   >;
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   const instruction = {
     accounts: [
       getAccountMeta(accounts.whitelist),
@@ -164,11 +164,11 @@ export function parseCheckWhitelistedInstruction<
 >(
   instruction: IInstruction<TProgram> &
     IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+    IInstructionWithData<Uint8Array>,
 ): ParsedCheckWhitelistedInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 3) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error("Not enough accounts");
   }
   let accountIndex = 0;
   const getNextAccount = () => {

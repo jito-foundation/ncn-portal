@@ -18,6 +18,6 @@ export const RpcContext = createContext<{
 }>({
   rpc: createSolanaRpc(devnet("https://api.devnet.solana.com")),
   rpcSubscriptions: createSolanaRpcSubscriptions(
-    devnet("wss://api.devnet.solana.com")
+    devnet("wss://api.devnet.solana.com"),
   ),
 });

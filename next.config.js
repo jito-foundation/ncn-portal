@@ -1,21 +1,21 @@
 const nextConfig = {
-  output: 'standalone',
+  output: "standalone",
   sassOptions: {},
   reactStrictMode: false,
   async redirects() {
     return [
       {
-        source: '/',
-        destination: '/login',
-        permanent: true
-      }
-    ]
+        source: "/",
+        destination: "/login",
+        permanent: true,
+      },
+    ];
   },
   logging: {
     fetches: {
-      fullUrl: true
-    }
-  }
-}
+      fullUrl: true,
+    },
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

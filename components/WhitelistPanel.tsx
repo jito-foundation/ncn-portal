@@ -1,11 +1,10 @@
-import { Blockquote, Button, Dialog, Flex, Link, Text } from "@radix-ui/themes";
+import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { useWalletAccountTransactionSendingSigner } from "@solana/react";
 import {
   address,
   appendTransactionMessageInstruction,
   assertIsTransactionMessageWithSingleSendingSigner,
   createTransactionMessage,
-  getBase58Decoder,
   pipe,
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
@@ -14,7 +13,7 @@ import {
   getAddressEncoder,
   Address,
 } from "@solana/web3.js";
-import { type UiWalletAccount, useWallets } from "@wallet-standard/react";
+import { type UiWalletAccount } from "@wallet-standard/react";
 import { useContext, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 
@@ -36,15 +35,15 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { mutate } = useSWRConfig();
   const { current: NO_ERROR } = useRef(Symbol());
   const { rpc } = useContext(RpcContext);
-  const wallets = useWallets();
   const [isSendingTransaction, setIsSendingTransaction] = useState(false);
+
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
-  const { chain: currentChain, solanaExplorerClusterName } =
-    useContext(ChainContext);
+  const { chain: currentChain } = useContext(ChainContext);
   const transactionSendingSigner = useWalletAccountTransactionSendingSigner(
     account,
-    currentChain
+    currentChain,
   );
   const { login } = useAuth();
   const router = useRouter();
@@ -66,6 +65,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
             const { value: latestBlockhash } = await rpc
               .getLatestBlockhash({ commitment: "confirmed" })
               .send();
+            /* eslint-disable   @typescript-eslint/no-unused-vars */
             const [whitelistAddress, whitelistBump] =
               await getProgramDerivedAddress({
                 programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
@@ -78,7 +78,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
                   Buffer.from("whitelist_entry"),
                   addressEncoder.encode(whitelistAddress as Address),
                   addressEncoder.encode(
-                    transactionSendingSigner.address as Address
+                    transactionSendingSigner.address as Address,
                   ),
                 ],
               });
@@ -87,7 +87,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
               (m) =>
                 setTransactionMessageFeePayerSigner(
                   transactionSendingSigner,
-                  m
+                  m,
                 ),
               (m) =>
                 setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
@@ -98,8 +98,8 @@ export function WhitelistFeaturePanel({ account }: Props) {
                     whitelistEntry: whitelistEntryAddress,
                     whitelisted: transactionSendingSigner,
                   }),
-                  m
-                )
+                  m,
+                ),
             );
             assertIsTransactionMessageWithSingleSendingSigner(message);
             const signature =
@@ -136,37 +136,6 @@ export function WhitelistFeaturePanel({ account }: Props) {
               Check
             </Button>
           </Dialog.Trigger>
-          {lastSignature ? (
-            <Dialog.Content
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <Dialog.Title>You transferred tokens!</Dialog.Title>
-              <Flex direction="column" gap="2">
-                <Text>Signature:</Text>
-                <Blockquote>
-                  {getBase58Decoder().decode(lastSignature)}
-                </Blockquote>
-                <Text>
-                  <Link
-                    href={`https://explorer.solana.com/tx/${getBase58Decoder().decode(
-                      lastSignature
-                    )}?cluster=${solanaExplorerClusterName}`}
-                    target="_blank"
-                  >
-                    View this transaction
-                  </Link>{" "}
-                  on Explorer
-                </Text>
-              </Flex>
-              <Flex gap="3" mt="4" justify="end">
-                <Dialog.Close>
-                  <Button>Cool!</Button>
-                </Dialog.Close>
-              </Flex>
-            </Dialog.Content>
-          ) : null}
         </Dialog.Root>
         {error !== NO_ERROR ? (
           <ErrorDialog

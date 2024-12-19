@@ -11,17 +11,17 @@ import {
   getU8Encoder,
   type Address,
   type ReadonlyUint8Array,
-} from '@solana/web3.js';
+} from "@solana/web3.js";
 import {
   type ParsedAddToWhitelistInstruction,
   type ParsedCheckWhitelistedInstruction,
   type ParsedInitializeWhitelistInstruction,
   type ParsedRemoveFromWhitelistInstruction,
   type ParsedSetRateLimitingInstruction,
-} from '../instructions';
+} from "../instructions";
 
 export const NCN_PORTAL_PROGRAM_ADDRESS =
-  'DwyMNTQ5aSduQhx3Pjra9kXeySxjD5YUkC1bDXmvEPFZ' as Address<'DwyMNTQ5aSduQhx3Pjra9kXeySxjD5YUkC1bDXmvEPFZ'>;
+  "DwyMNTQ5aSduQhx3Pjra9kXeySxjD5YUkC1bDXmvEPFZ" as Address<"DwyMNTQ5aSduQhx3Pjra9kXeySxjD5YUkC1bDXmvEPFZ">;
 
 export enum NcnPortalAccount {
   Whitelist,
@@ -37,9 +37,9 @@ export enum NcnPortalInstruction {
 }
 
 export function identifyNcnPortalInstruction(
-  instruction: { data: ReadonlyUint8Array } | ReadonlyUint8Array
+  instruction: { data: ReadonlyUint8Array } | ReadonlyUint8Array,
 ): NcnPortalInstruction {
-  const data = 'data' in instruction ? instruction.data : instruction;
+  const data = "data" in instruction ? instruction.data : instruction;
   if (containsBytes(data, getU8Encoder().encode(0), 0)) {
     return NcnPortalInstruction.InitializeWhitelist;
   }
@@ -56,12 +56,12 @@ export function identifyNcnPortalInstruction(
     return NcnPortalInstruction.SetRateLimiting;
   }
   throw new Error(
-    'The provided instruction could not be identified as a ncnPortal instruction.'
+    "The provided instruction could not be identified as a ncnPortal instruction.",
   );
 }
 
 export type ParsedNcnPortalInstruction<
-  TProgram extends string = 'DwyMNTQ5aSduQhx3Pjra9kXeySxjD5YUkC1bDXmvEPFZ',
+  TProgram extends string = "DwyMNTQ5aSduQhx3Pjra9kXeySxjD5YUkC1bDXmvEPFZ",
 > =
   | ({
       instructionType: NcnPortalInstruction.InitializeWhitelist;

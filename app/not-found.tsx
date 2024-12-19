@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex, Heading, Separator } from '@radix-ui/themes'
+import { Flex, Heading, Separator } from "@radix-ui/themes";
 
 const NotFound = () => {
   return (
@@ -9,11 +9,14 @@ const NotFound = () => {
         <Heading as="h2" size="6" weight="medium">
           404
         </Heading>
-        <Separator orientation="vertical" style={{ height: 'var(--space-6)' }} />
+        <Separator
+          orientation="vertical"
+          style={{ height: "var(--space-6)" }}
+        />
         This page could not be found.
       </Flex>
     </Flex>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

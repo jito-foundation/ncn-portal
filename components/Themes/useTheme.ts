@@ -1,7 +1,8 @@
-import { useContext } from 'react'
-import { UseThemeProps } from './interface'
-import { ThemeContext } from './ThemeContext'
+import { useContext } from "react";
+import { UseThemeProps } from "./interface";
+import { ThemeContext } from "./ThemeContext";
 
-const defaultContext: UseThemeProps = { setTheme: (_) => {}, themes: [] }
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const defaultContext: UseThemeProps = { setTheme: (_) => {}, themes: [] };
 
-export const useTheme = () => useContext(ThemeContext) ?? defaultContext
+export const useTheme = () => useContext(ThemeContext) ?? defaultContext;

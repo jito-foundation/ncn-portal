@@ -23,7 +23,7 @@ export function ConnectWalletMenu({ children }: Props) {
   const { current: NO_ERROR } = useRef(Symbol());
   const wallets = useWallets();
   const [selectedWalletAccount, setSelectedWalletAccount] = useContext(
-    SelectedWalletAccountContext
+    SelectedWalletAccountContext,
   );
   const [error, setError] = useState(NO_ERROR);
   const [forceClose, setForceClose] = useState(false);
@@ -66,6 +66,7 @@ export function ConnectWalletMenu({ children }: Props) {
       unconnectableWallets.push(wallet);
     }
   }
+
   return (
     <>
       <DropdownMenu.Root

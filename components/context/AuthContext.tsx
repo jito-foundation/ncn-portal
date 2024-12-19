@@ -2,14 +2,14 @@
 import { createContext, useContext, useState } from "react";
 
 export type AuthContext = Readonly<{
-    isAuthenticated: boolean;
-    login?(): void;
-    logout?(): void;
-  }>;
+  isAuthenticated: boolean;
+  login?(): void;
+  logout?(): void;
+}>;
 
-  export const DEFAULT_AUTH_CONFIG = Object.freeze({
-    isAuthenticated: false,
-  });
+export const DEFAULT_AUTH_CONFIG = Object.freeze({
+  isAuthenticated: false,
+});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
