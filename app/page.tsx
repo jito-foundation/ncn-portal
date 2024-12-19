@@ -2,14 +2,9 @@
 import { Suspense, useContext } from "react";
 import { ConnectWalletMenu } from "@/components/ConnectWalletMenu";
 import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
-import { ChainContext } from "@/components/context/ChainContext";
 import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
 
-// import "@/styles/globals.scss";
-// import "@/styles/theme-config.css";
-
 const HomePage = () => {
-  const { chain } = useContext(ChainContext);
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
 
   return (
