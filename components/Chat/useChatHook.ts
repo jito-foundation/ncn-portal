@@ -212,11 +212,12 @@ const useChatHook = () => {
   };
 
   useEffect(() => {
+    let item: string | null = "[]";
     if (typeof window !== "undefined") {
-      const chatList = (JSON.parse(
-        localStorage.getItem(StorageKeys.Chat_List) || "[]"
-      ) || []) as Chat[];
+      item = localStorage.getItem(StorageKeys.Chat_List);
     }
+
+    const chatList = (JSON.parse(item!) || []) as Chat[];
 
     let currentChatId: string | null = null;
     if (typeof window !== "undefined") {
