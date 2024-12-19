@@ -38,7 +38,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { rpc } = useContext(RpcContext);
   const wallets = useWallets();
   const [isSendingTransaction, setIsSendingTransaction] = useState(false);
-  const [error, setError] = useState(NO_ERROR);
+  const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
   const { chain: currentChain, solanaExplorerClusterName } =
     useContext(ChainContext);
@@ -108,7 +108,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
               address: transactionSendingSigner.address,
               chain: currentChain,
             });
-            login();
+            login!();
             router.push("/chat");
             setLastSignature(signature);
           } catch (e) {

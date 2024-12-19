@@ -23,7 +23,7 @@ type Props = Readonly<{
 export function BaseSignMessageFeaturePanel({ signMessage }: Props) {
   const { current: NO_ERROR } = useRef(Symbol());
   const [isSigningMessage, setIsSigningMessage] = useState(false);
-  const [error, setError] = useState(NO_ERROR);
+  const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<
     ReadonlyUint8Array | undefined
   >();
@@ -43,7 +43,7 @@ export function BaseSignMessageFeaturePanel({ signMessage }: Props) {
           try {
             const signature = await signMessage(new TextEncoder().encode(text));
             setLastSignature(signature);
-          } catch (e) {
+          } catch (e: any) {
             setLastSignature(undefined);
             setError(e);
           } finally {

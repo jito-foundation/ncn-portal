@@ -7,7 +7,7 @@ import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
 import { useAuth } from "@/components/context/AuthContext";
 import { useRouter } from "next/router";
 
-const LoginPage = () => {
+const HomePage = () => {
   const { chain } = useContext(ChainContext);
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
   // const { connection } = useConnection();
@@ -43,4 +43,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default HomePage;
