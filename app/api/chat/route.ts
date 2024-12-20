@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 }
 
 const getApiConfig = () => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://139.59.249.7:8080/prompt";
   const apiKey = process.env.OPENAI_API_KEY || "";
 
   return { apiUrl, apiKey };
