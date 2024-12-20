@@ -216,9 +216,9 @@ const useChatHook = () => {
   };
 
   useEffect(() => {
-    let item: string | null = "[]";
+    let item: string = "[]";
     if (typeof window !== "undefined") {
-      item = localStorage.getItem(StorageKeys.Chat_List);
+      item = localStorage.getItem(StorageKeys.Chat_List) || "[]";
     }
 
     const chatList = (JSON.parse(item!) || []) as Chat[];
@@ -277,7 +277,7 @@ const useChatHook = () => {
     let item: string | null = "[]";
 
     if (typeof window !== "undefined") {
-      item = localStorage.getItem("Personas");
+      item = localStorage.getItem("Personas") || "[]";
     }
     const loadedPersonas = JSON.parse(item!) as Persona[];
     const updatedPersonas = loadedPersonas.map((persona) => {
