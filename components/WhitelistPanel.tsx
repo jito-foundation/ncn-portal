@@ -53,7 +53,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
       asChild
       gap="2"
       direction={{ initial: "column", sm: "row" }}
-      style={{ width: "100%" }}
+      className="flex items-center justify-center min-h-screen"
     >
       <form
         onSubmit={async (e) => {
@@ -133,7 +133,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
               loading={isSendingTransaction}
               type="submit"
             >
-              Check
+              Ask the Chatbot Now
             </Button>
           </Dialog.Trigger>
         </Dialog.Root>
@@ -141,7 +141,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
           <ErrorDialog
             error={error}
             onClose={() => setError(NO_ERROR)}
-            title="Transfer failed"
+            title="SignIn failed"
           />
         ) : null}
       </form>

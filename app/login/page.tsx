@@ -1,9 +1,10 @@
 "use client";
 
 import { Suspense, useContext } from "react";
-import { ConnectWalletMenu } from "@/components/ConnectWalletMenu";
 import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
 import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
+import Image from "next/image";
+import jitoRestakingV1 from "../../public/jitoRestakingV1_crop.webp";
 
 const HomePage = () => {
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
@@ -13,11 +14,24 @@ const HomePage = () => {
       {selectedWalletAccount ? (
         <WhitelistFeaturePanel account={selectedWalletAccount} />
       ) : (
-        <main className="flex items-center justify-center min-h-screen">
-          <div className="border hover:border-slate-900 rounded">
-            <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
+        <div className="w-screen flex justify-center">
+          <div className="w-6/12 flex justify-center items-center">
+            <div>
+              <h1 className="text-5xl my-5">NCN Portal</h1>
+              <p className="text-xl">
+                The NCN Portal is a developer resource that provides the
+                essential concepts and references for building NCN on Jito
+                Restaking.
+              </p>
+            </div>
+            <Image
+              src={jitoRestakingV1}
+              alt="Jito Restaking"
+              width={400}
+              height={400}
+            />
           </div>
-        </main>
+        </div>
       )}
     </Suspense>
   );
