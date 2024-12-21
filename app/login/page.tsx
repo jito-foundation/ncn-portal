@@ -14,7 +14,7 @@ const HomePage = () => {
       {selectedWalletAccount ? (
         <WhitelistFeaturePanel account={selectedWalletAccount} />
       ) : (
-        <div className="w-screen flex justify-center">
+        <div className="w-screen flex justify-center h-screen">
           <div className="w-6/12 flex justify-center items-center">
             <div>
               <h1 className="text-5xl my-5">NCN Portal</h1>
