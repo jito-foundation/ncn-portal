@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 }
 
 const getApiConfig = () => {
-  const apiUrl = "https://seal-app-m2hhp.ondigitalocean.app/prompt";
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://seal-app-m2hhp.ondigitalocean.app/prompt";
 
   return { apiUrl };
 };
