@@ -10,12 +10,6 @@ import { AuthProvider } from "@/components/context/AuthContext";
 import "./globals.scss";
 import "./theme-config.css";
 
-// import AppWalletProvider from "@/components/AppWalletProvider";
-// import { useMemo } from "react";
-// import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-// import { clusterApiUrl } from "@solana/web3.js";
-// import { ConnectionProvider } from "@solana/wallet-adapter-react";
-
 export const metadata = {
   title: {
     default: "NCN Portal",
@@ -37,7 +31,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* <AppWalletProvider> */}
         <ThemesProvider>
           <ChainContextProvider>
             <SelectedWalletAccountContextProvider>
@@ -51,7 +44,6 @@ export default function RootLayout({
             </SelectedWalletAccountContextProvider>
           </ChainContextProvider>
         </ThemesProvider>
-        {/* </AppWalletProvider> */}
         <Analytics />
       </body>
     </html>

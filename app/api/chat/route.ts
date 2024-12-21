@@ -16,13 +16,8 @@ export async function POST(req: NextRequest) {
     };
     const messagesWithHistory = [...messages];
 
-    const { apiUrl, apiKey } = getApiConfig();
-    const response = await fetchApiResponse(
-      apiUrl,
-      apiKey,
-      input,
-      messagesWithHistory,
-    );
+    const { apiUrl } = getApiConfig();
+    const response = await fetchApiResponse(apiUrl, input, messagesWithHistory);
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);
@@ -31,29 +26,25 @@ export async function POST(req: NextRequest) {
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
 
 const getApiConfig = () => {
-  const apiUrl = "https://seal-app-m2hhp.ondigitalocean.app/prompt";
-  const apiKey = process.env.OPENAI_API_KEY || "";
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://seal-app-m2hhp.ondigitalocean.app/prompt";
 
-  return { apiUrl, apiKey };
+  return { apiUrl };
 };
 
 const fetchApiResponse = async (
   apiUrl: string,
-  apiKey: string,
   input: string,
-  messages: Message[],
+  messages: Message[]
 ) => {
   const res = await fetch(apiUrl, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-      "api-key": `${apiKey}`,
     },
     method: "POST",
     body: JSON.stringify({

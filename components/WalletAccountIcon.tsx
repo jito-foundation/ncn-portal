@@ -25,6 +25,6 @@ export function WalletAccountIcon({ account, ...imgProps }: Props) {
     }
   }
   return icon ? (
-    <Image {...imgProps} src={icon} alt="" width={100} height={100} />
+    <Image {...imgProps} src={icon} alt="" width={10} height={10} />
   ) : null;
 }
