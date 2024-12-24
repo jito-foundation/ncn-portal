@@ -45,7 +45,7 @@ export interface ChatGPInstance {
 const postChatOrQuestion = async (
   chat: Chat,
   messages: any[],
-  input: string
+  input: string,
 ) => {
   const url = "/api/chat";
 
@@ -106,7 +106,7 @@ const Chat = (props: ChatProps, ref: any) => {
           const response = await postChatOrQuestion(
             currentChatRef?.current!,
             message,
-            input
+            input,
           );
 
           if (response.ok) {
@@ -165,7 +165,7 @@ const Chat = (props: ChatProps, ref: any) => {
         }
       }
     },
-    [currentChatRef, isLoading]
+    [currentChatRef, isLoading],
   );
 
   const handleKeypress = useCallback(
@@ -175,7 +175,7 @@ const Chat = (props: ChatProps, ref: any) => {
         e.preventDefault();
       }
     },
-    [sendMessage]
+    [sendMessage],
   );
 
   const clearMessages = () => {

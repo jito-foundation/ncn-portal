@@ -39,7 +39,7 @@ export const Header = () => {
   return (
     <header
       className={cs(
-        "block shadow-sm sticky top-0 dark:shadow-gray-500 py-3 px-4 z-20"
+        "block shadow-sm sticky top-0 dark:shadow-gray-500 py-3 px-4 z-20",
       )}
       style={{ backgroundColor: "var(--color-background)" }}
     >

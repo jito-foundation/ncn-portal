@@ -1,4 +1,8 @@
-import { createParser, ParsedEvent, ReconnectInterval } from 'eventsource-parser'
+import {
+  createParser,
+  ParsedEvent,
+  ReconnectInterval,
+} from "eventsource-parser";
 import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
@@ -14,8 +18,8 @@ export interface NcnPortalMessage {
 }
 
 export interface Message {
-  role: string
-  content: string
+  role: string;
+  content: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -24,10 +28,7 @@ export async function POST(req: NextRequest) {
       messages: Message[];
       input: string;
     };
-    const messagesWithHistory = [
-      ...messages,
-      { content: input, role: 'user' }
-    ];
+    const messagesWithHistory = [...messages, { content: input, role: "user" }];
 
     const { apiUrl } = getApiConfig();
     const stream = await getClaudeStream(apiUrl, messagesWithHistory);
@@ -41,13 +42,15 @@ export async function POST(req: NextRequest) {
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 const getApiConfig = () => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://seal-app-m2hhp.ondigitalocean.app/sse/prompt";
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    "https://seal-app-m2hhp.ondigitalocean.app/sse/prompt";
 
   return { apiUrl };
 };
@@ -57,10 +60,10 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
   const decoder = new TextDecoder();
 
   const ncnPortalMessages: Array<NcnPortalMessage> = [];
-  messages.forEach(message => {
+  messages.forEach((message) => {
     const ncnPortalMessage: NcnPortalMessage = {
       role: message.role,
-      content: [{ type: "text", text: message.content }]
+      content: [{ type: "text", text: message.content }],
     };
     ncnPortalMessages.push(ncnPortalMessage);
   });
@@ -78,7 +81,7 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
     const responseBody = await res.text();
     console.error(`Claude API response error: ${responseBody}`);
     throw new Error(
-      `The Claude API has encountered an error with a status code of ${res.status} ${statusText}: ${responseBody}`
+      `The Claude API has encountered an error with a status code of ${res.status} ${statusText}: ${responseBody}`,
     );
   }
 
