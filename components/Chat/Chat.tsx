@@ -50,7 +50,7 @@ const postChatOrQuestion = async (
   const url = "/api/chat";
 
   const data = {
-    prompt: chat?.persona?.prompt,
+    // prompt: chat?.persona?.prompt,
     messages: [...messages!],
     input,
   };
@@ -110,30 +110,41 @@ const Chat = (props: ChatProps, ref: any) => {
           );
 
           if (response.ok) {
-            const contents = await response.json();
+            const data = response.body;
 
-            if (!contents) {
+            if (!data) {
               throw new Error("No data");
             }
 
+            const reader = data.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let done = false;
             let resultContent = "";
-            console.log(contents);
 
-            for (let index = 0; index < contents.length; index++) {
-              const content = contents[index];
-
-              if (typeof content === "string") {
-              } else if (content.text && content.type) {
-                resultContent += content.text;
+            while (!done) {
+              try {
+                const { value, done: readerDone } = await reader.read();
+                const char = decoder.decode(value);
+                if (char) {
+                  setCurrentMessage((state) => {
+                    resultContent = state + char;
+                    return resultContent;
+                  });
+                }
+                done = readerDone;
+              } catch {
+                done = true;
               }
             }
+            // The delay of timeout can not be 0 as it will cause the message to not be rendered in racing condition
+            setTimeout(() => {
+              conversation.current = [
+                ...conversation.current,
+                { content: resultContent, role: "assistant" },
+              ];
 
-            conversation.current = [
-              ...conversation.current,
-              { content: resultContent, role: "assistant" },
-            ];
-
-            setCurrentMessage("");
+              setCurrentMessage("");
+            }, 1);
           } else {
             const result = await response.json();
             if (response.status === 401) {
