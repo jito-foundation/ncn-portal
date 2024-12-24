@@ -53,7 +53,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
       asChild
       gap="2"
       direction={{ initial: "column", sm: "row" }}
-      className="flex items-center justify-center min-h-screen"
+      className=""
     >
       <form
         onSubmit={async (e) => {
@@ -132,6 +132,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
               color={error ? undefined : "red"}
               loading={isSendingTransaction}
               type="submit"
+              className="cursor-pointer"
             >
               Ask the Chatbot Now
             </Button>
