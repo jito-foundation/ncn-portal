@@ -25,7 +25,6 @@ export async function POST(req: NextRequest) {
       input: string;
     };
     const messagesWithHistory = [
-      // { content: prompt, role: 'system' },
       ...messages,
       { content: input, role: 'user' }
     ];
@@ -57,7 +56,7 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
-  let ncnPortalMessages: Array<NcnPortalMessage> = [];
+  const ncnPortalMessages: Array<NcnPortalMessage> = [];
   messages.forEach(message => {
     const ncnPortalMessage: NcnPortalMessage = {
       role: message.role,
@@ -79,7 +78,7 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
     const responseBody = await res.text();
     console.error(`Claude API response error: ${responseBody}`);
     throw new Error(
-      `The OpenAI API has encountered an error with a status code of ${res.status} ${statusText}: ${responseBody}`
+      `The Claude API has encountered an error with a status code of ${res.status} ${statusText}: ${responseBody}`
     );
   }
 
@@ -95,8 +94,6 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
           }
 
           try {
-            // const json = JSON.parse(data);
-            // const text = json.choices[0]?.delta?.content;
             const text = data;
             if (text !== undefined) {
               const queue = encoder.encode(text);
@@ -113,8 +110,8 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
 
       const parser = createParser(onParse);
 
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       for await (const chunk of res.body as any) {
-        // An extra newline is required to make AzureOpenAI work.
         const str = decoder.decode(chunk).replace("[DONE]\n", "[DONE]\n\n");
         parser.feed(str);
       }

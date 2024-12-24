@@ -45,7 +45,7 @@ export interface ChatGPInstance {
 const postChatOrQuestion = async (
   chat: Chat,
   messages: any[],
-  input: string,
+  input: string
 ) => {
   const url = "/api/chat";
 
@@ -85,85 +85,88 @@ const Chat = (props: ChatProps, ref: any) => {
   const sendMessage = useCallback(
     async (e: any) => {
       if (!isLoading) {
-        e.preventDefault()
-        const input = textAreaRef.current?.innerHTML?.replace(HTML_REGULAR, '') || ''
+        e.preventDefault();
+        const input =
+          textAreaRef.current?.innerHTML?.replace(HTML_REGULAR, "") || "";
 
         if (input.length < 1) {
-          toast.error('Please type a message to continue.')
-          return
+          toast.error("Please type a message to continue.");
+          return;
         }
 
-        const message = [...conversation.current]
-        conversation.current = [...conversation.current, { content: input, role: 'user' }]
-        setMessage('')
-        setIsLoading(true)
+        const message = [...conversation.current];
+        conversation.current = [
+          ...conversation.current,
+          { content: input, role: "user" },
+        ];
+        setMessage("");
+        setIsLoading(true);
         try {
-          const response = await postChatOrQuestion(currentChatRef?.current!, message, input)
+          /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+          const response = await postChatOrQuestion(
+            currentChatRef?.current!,
+            message,
+            input
+          );
 
           if (response.ok) {
-            const data = response.body
+            const data = response.body;
 
             if (!data) {
-              throw new Error('No data')
+              throw new Error("No data");
             }
 
-            const reader = data.getReader()
-            const decoder = new TextDecoder('utf-8')
-            let done = false
-            let resultContent = ''
+            const reader = data.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let done = false;
+            let resultContent = "";
 
             while (!done) {
               try {
-                const { value, done: readerDone } = await reader.read()
-                const char = decoder.decode(value)
+                const { value, done: readerDone } = await reader.read();
+                const char = decoder.decode(value);
                 if (char) {
                   setCurrentMessage((state) => {
-                    // if (debug) {
-                    //   console.log({ char })
-                    // }
-                    resultContent = state + char
-                    return resultContent
-                  })
+                    resultContent = state + char;
+                    return resultContent;
+                  });
                 }
-                done = readerDone
+                done = readerDone;
               } catch {
-                done = true
+                done = true;
               }
             }
             // The delay of timeout can not be 0 as it will cause the message to not be rendered in racing condition
             setTimeout(() => {
-              // if (debug) {
-              //   console.log({ resultContent })
-              // }
               conversation.current = [
                 ...conversation.current,
-                { content: resultContent, role: 'assistant' }
-              ]
+                { content: resultContent, role: "assistant" },
+              ];
 
-              setCurrentMessage('')
-            }, 1)
+              setCurrentMessage("");
+            }, 1);
           } else {
-            const result = await response.json()
+            const result = await response.json();
             if (response.status === 401) {
-              conversation.current.pop()
+              conversation.current.pop();
               location.href =
                 result.redirect +
-                `?callbackUrl=${encodeURIComponent(location.pathname + location.search)}`
+                `?callbackUrl=${encodeURIComponent(location.pathname + location.search)}`;
             } else {
-              toast.error(result.error)
+              toast.error(result.error);
             }
           }
 
-          setIsLoading(false)
+          setIsLoading(false);
         } catch (error: any) {
-          console.error(error)
-          toast.error(error.message)
-          setIsLoading(false)
+          console.error(error);
+          toast.error(error.message);
+          setIsLoading(false);
         }
       }
     },
     [currentChatRef, isLoading]
-  )
+  );
 
   const handleKeypress = useCallback(
     (e: any) => {
@@ -172,7 +175,7 @@ const Chat = (props: ChatProps, ref: any) => {
         e.preventDefault();
       }
     },
-    [sendMessage],
+    [sendMessage]
   );
 
   const clearMessages = () => {
