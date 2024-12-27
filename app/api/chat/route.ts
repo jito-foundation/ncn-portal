@@ -68,7 +68,7 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
     ncnPortalMessages.push(ncnPortalMessage);
   });
 
-  let url = `${apiUrl}/sse/prompt`;
+  const url = `${apiUrl}/sse/prompt`;
   const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",

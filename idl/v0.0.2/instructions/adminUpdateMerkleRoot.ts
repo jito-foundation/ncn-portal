@@ -30,9 +30,9 @@ import {
   type ReadonlyUint8Array,
   type TransactionSigner,
   type WritableAccount,
-} from '@solana/web3.js';
-import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from "@solana/web3.js";
+import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
+import { getAccountMetaFactory, type ResolvedAccount } from "../shared";
 
 export const ADMIN_UPDATE_MERKLE_ROOT_DISCRIMINATOR = 1;
 
@@ -72,20 +72,20 @@ export type AdminUpdateMerkleRootInstructionDataArgs = {
 export function getAdminUpdateMerkleRootInstructionDataEncoder(): Encoder<AdminUpdateMerkleRootInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
-      ['discriminator', getU8Encoder()],
-      ['root', fixEncoderSize(getBytesEncoder(), 32)],
+      ["discriminator", getU8Encoder()],
+      ["root", fixEncoderSize(getBytesEncoder(), 32)],
     ]),
     (value) => ({
       ...value,
       discriminator: ADMIN_UPDATE_MERKLE_ROOT_DISCRIMINATOR,
-    })
+    }),
   );
 }
 
 export function getAdminUpdateMerkleRootInstructionDataDecoder(): Decoder<AdminUpdateMerkleRootInstructionData> {
   return getStructDecoder([
-    ['discriminator', getU8Decoder()],
-    ['root', fixDecoderSize(getBytesDecoder(), 32)],
+    ["discriminator", getU8Decoder()],
+    ["root", fixDecoderSize(getBytesDecoder(), 32)],
   ]);
 }
 
@@ -95,7 +95,7 @@ export function getAdminUpdateMerkleRootInstructionDataCodec(): Codec<
 > {
   return combineCodec(
     getAdminUpdateMerkleRootInstructionDataEncoder(),
-    getAdminUpdateMerkleRootInstructionDataDecoder()
+    getAdminUpdateMerkleRootInstructionDataDecoder(),
   );
 }
 
@@ -105,7 +105,7 @@ export type AdminUpdateMerkleRootInput<
 > = {
   whitelist: Address<TAccountWhitelist>;
   admin: TransactionSigner<TAccountAdmin>;
-  root: AdminUpdateMerkleRootInstructionDataArgs['root'];
+  root: AdminUpdateMerkleRootInstructionDataArgs["root"];
 };
 
 export function getAdminUpdateMerkleRootInstruction<
@@ -114,7 +114,7 @@ export function getAdminUpdateMerkleRootInstruction<
   TProgramAddress extends Address = typeof NCN_PORTAL_PROGRAM_ADDRESS,
 >(
   input: AdminUpdateMerkleRootInput<TAccountWhitelist, TAccountAdmin>,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): AdminUpdateMerkleRootInstruction<
   TProgramAddress,
   TAccountWhitelist,
@@ -136,7 +136,7 @@ export function getAdminUpdateMerkleRootInstruction<
   // Original args.
   const args = { ...input };
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   const instruction = {
     accounts: [
       getAccountMeta(accounts.whitelist),
@@ -144,7 +144,7 @@ export function getAdminUpdateMerkleRootInstruction<
     ],
     programAddress,
     data: getAdminUpdateMerkleRootInstructionDataEncoder().encode(
-      args as AdminUpdateMerkleRootInstructionDataArgs
+      args as AdminUpdateMerkleRootInstructionDataArgs,
     ),
   } as AdminUpdateMerkleRootInstruction<
     TProgramAddress,
@@ -173,11 +173,11 @@ export function parseAdminUpdateMerkleRootInstruction<
 >(
   instruction: IInstruction<TProgram> &
     IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+    IInstructionWithData<Uint8Array>,
 ): ParsedAdminUpdateMerkleRootInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 2) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error("Not enough accounts");
   }
   let accountIndex = 0;
   const getNextAccount = () => {
@@ -192,7 +192,7 @@ export function parseAdminUpdateMerkleRootInstruction<
       admin: getNextAccount(),
     },
     data: getAdminUpdateMerkleRootInstructionDataDecoder().decode(
-      instruction.data
+      instruction.data,
     ),
   };
 }

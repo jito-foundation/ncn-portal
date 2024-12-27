@@ -10,8 +10,6 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
   signAndSendTransactionMessageWithSigners,
   getProgramDerivedAddress,
-  getAddressEncoder,
-  Address,
 } from "@solana/web3.js";
 import { type UiWalletAccount } from "@wallet-standard/react";
 import { useContext, useRef, useState } from "react";
@@ -43,7 +41,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { chain: currentChain } = useContext(ChainContext);
   const transactionSendingSigner = useWalletAccountTransactionSendingSigner(
     account,
-    currentChain
+    currentChain,
   );
   const { login } = useAuth();
   const router = useRouter();
@@ -72,7 +70,6 @@ export function WhitelistFeaturePanel({ account }: Props) {
       const res = await getProof();
       const json = await res.json();
 
-      const addressEncoder = getAddressEncoder();
       const { value: latestBlockhash } = await rpc
         .getLatestBlockhash({ commitment: "confirmed" })
         .send();
@@ -80,33 +77,19 @@ export function WhitelistFeaturePanel({ account }: Props) {
         programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
         seeds: [Buffer.from("whitelist")],
       });
-      const [whitelistEntryAddress, whitelistEntryBump] =
-        await getProgramDerivedAddress({
-          programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
-          seeds: [
-            Buffer.from("whitelist_entry"),
-            addressEncoder.encode(whitelistAddress as Address),
-            addressEncoder.encode(transactionSendingSigner.address as Address),
-          ],
-        });
       const message = pipe(
         createTransactionMessage({ version: 0 }),
         (m) => setTransactionMessageFeePayerSigner(transactionSendingSigner, m),
         (m) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
         (m) =>
           appendTransactionMessageInstruction(
-            // getCheckWhitelistedInstruction({
-            //   whitelist: whitelistAddress,
-            //   whitelistEntry: whitelistEntryAddress,
-            //   whitelisted: transactionSendingSigner,
-            // }),
             getCheckWhitelistedInstruction({
               whitelist: whitelistAddress,
               whitelisted: transactionSendingSigner,
               proof: json.data,
             }),
-            m
-          )
+            m,
+          ),
       );
       assertIsTransactionMessageWithSingleSendingSigner(message);
       const signature = await signAndSendTransactionMessageWithSigners(message);

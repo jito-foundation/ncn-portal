@@ -26,9 +26,9 @@ import {
   type ReadonlySignerAccount,
   type TransactionSigner,
   type WritableAccount,
-} from '@solana/web3.js';
-import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from "@solana/web3.js";
+import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
+import { getAccountMetaFactory, type ResolvedAccount } from "../shared";
 
 export const REMOVE_FROM_WHITELIST_DISCRIMINATOR = 4;
 
@@ -44,7 +44,7 @@ export type RemoveFromWhitelistInstruction<
   TAccountAdminInfo extends string | IAccountMeta<string> = string,
   TAccountSystemProgram extends
     | string
-    | IAccountMeta<string> = '11111111111111111111111111111111',
+    | IAccountMeta<string> = "11111111111111111111111111111111",
   TRemainingAccounts extends readonly IAccountMeta<string>[] = [],
 > = IInstruction<TProgram> &
   IInstructionWithData<Uint8Array> &
@@ -76,16 +76,16 @@ export type RemoveFromWhitelistInstructionDataArgs = {};
 
 export function getRemoveFromWhitelistInstructionDataEncoder(): Encoder<RemoveFromWhitelistInstructionDataArgs> {
   return transformEncoder(
-    getStructEncoder([['discriminator', getU8Encoder()]]),
+    getStructEncoder([["discriminator", getU8Encoder()]]),
     (value) => ({
       ...value,
       discriminator: REMOVE_FROM_WHITELIST_DISCRIMINATOR,
-    })
+    }),
   );
 }
 
 export function getRemoveFromWhitelistInstructionDataDecoder(): Decoder<RemoveFromWhitelistInstructionData> {
-  return getStructDecoder([['discriminator', getU8Decoder()]]);
+  return getStructDecoder([["discriminator", getU8Decoder()]]);
 }
 
 export function getRemoveFromWhitelistInstructionDataCodec(): Codec<
@@ -94,7 +94,7 @@ export function getRemoveFromWhitelistInstructionDataCodec(): Codec<
 > {
   return combineCodec(
     getRemoveFromWhitelistInstructionDataEncoder(),
-    getRemoveFromWhitelistInstructionDataDecoder()
+    getRemoveFromWhitelistInstructionDataDecoder(),
   );
 }
 
@@ -127,7 +127,7 @@ export function getRemoveFromWhitelistInstruction<
     TAccountAdminInfo,
     TAccountSystemProgram
   >,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): RemoveFromWhitelistInstruction<
   TProgramAddress,
   TAccountWhitelist,
@@ -158,10 +158,10 @@ export function getRemoveFromWhitelistInstruction<
   // Resolve default values.
   if (!accounts.systemProgram.value) {
     accounts.systemProgram.value =
-      '11111111111111111111111111111111' as Address<'11111111111111111111111111111111'>;
+      "11111111111111111111111111111111" as Address<"11111111111111111111111111111111">;
   }
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   const instruction = {
     accounts: [
       getAccountMeta(accounts.whitelist),
@@ -205,11 +205,11 @@ export function parseRemoveFromWhitelistInstruction<
 >(
   instruction: IInstruction<TProgram> &
     IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+    IInstructionWithData<Uint8Array>,
 ): ParsedRemoveFromWhitelistInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 5) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error("Not enough accounts");
   }
   let accountIndex = 0;
   const getNextAccount = () => {
@@ -227,7 +227,7 @@ export function parseRemoveFromWhitelistInstruction<
       systemProgram: getNextAccount(),
     },
     data: getRemoveFromWhitelistInstructionDataDecoder().decode(
-      instruction.data
+      instruction.data,
     ),
   };
 }
