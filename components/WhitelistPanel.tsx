@@ -10,8 +10,6 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
   signAndSendTransactionMessageWithSigners,
   getProgramDerivedAddress,
-  getAddressEncoder,
-  Address,
 } from "@solana/web3.js";
 import { type UiWalletAccount } from "@wallet-standard/react";
 import { useContext, useRef, useState } from "react";
@@ -48,6 +46,68 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { login } = useAuth();
   const router = useRouter();
 
+  const getProof = async () => {
+    const url = "/api/login";
+
+    const data = {
+      address: account.address,
+    };
+
+    return await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  };
+
+  const handleLogin = async (e: any) => {
+    e.preventDefault();
+    setError(NO_ERROR);
+    setIsSendingTransaction(true);
+    try {
+      const res = await getProof();
+      const json = await res.json();
+
+      const { value: latestBlockhash } = await rpc
+        .getLatestBlockhash({ commitment: "confirmed" })
+        .send();
+      const [whitelistAddress] = await getProgramDerivedAddress({
+        programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
+        seeds: [Buffer.from("whitelist")],
+      });
+      const message = pipe(
+        createTransactionMessage({ version: 0 }),
+        (m) => setTransactionMessageFeePayerSigner(transactionSendingSigner, m),
+        (m) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
+        (m) =>
+          appendTransactionMessageInstruction(
+            getCheckWhitelistedInstruction({
+              whitelist: whitelistAddress,
+              whitelisted: transactionSendingSigner,
+              proof: json.data,
+            }),
+            m,
+          ),
+      );
+      assertIsTransactionMessageWithSingleSendingSigner(message);
+      const signature = await signAndSendTransactionMessageWithSigners(message);
+      void mutate({
+        address: transactionSendingSigner.address,
+        chain: currentChain,
+      });
+      login!();
+      router.push("/chat");
+      setLastSignature(signature);
+    } catch (e) {
+      setLastSignature(undefined);
+      setError(e);
+    } finally {
+      setIsSendingTransaction(false);
+    }
+  };
+
   return (
     <Flex
       asChild
@@ -55,70 +115,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
       direction={{ initial: "column", sm: "row" }}
       className=""
     >
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setError(NO_ERROR);
-          setIsSendingTransaction(true);
-          try {
-            const addressEncoder = getAddressEncoder();
-            const { value: latestBlockhash } = await rpc
-              .getLatestBlockhash({ commitment: "confirmed" })
-              .send();
-            /* eslint-disable   @typescript-eslint/no-unused-vars */
-            const [whitelistAddress, whitelistBump] =
-              await getProgramDerivedAddress({
-                programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
-                seeds: [Buffer.from("whitelist")],
-              });
-            const [whitelistEntryAddress, whitelistEntryBump] =
-              await getProgramDerivedAddress({
-                programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
-                seeds: [
-                  Buffer.from("whitelist_entry"),
-                  addressEncoder.encode(whitelistAddress as Address),
-                  addressEncoder.encode(
-                    transactionSendingSigner.address as Address,
-                  ),
-                ],
-              });
-            const message = pipe(
-              createTransactionMessage({ version: 0 }),
-              (m) =>
-                setTransactionMessageFeePayerSigner(
-                  transactionSendingSigner,
-                  m,
-                ),
-              (m) =>
-                setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
-              (m) =>
-                appendTransactionMessageInstruction(
-                  getCheckWhitelistedInstruction({
-                    whitelist: whitelistAddress,
-                    whitelistEntry: whitelistEntryAddress,
-                    whitelisted: transactionSendingSigner,
-                  }),
-                  m,
-                ),
-            );
-            assertIsTransactionMessageWithSingleSendingSigner(message);
-            const signature =
-              await signAndSendTransactionMessageWithSigners(message);
-            void mutate({
-              address: transactionSendingSigner.address,
-              chain: currentChain,
-            });
-            login!();
-            router.push("/chat");
-            setLastSignature(signature);
-          } catch (e) {
-            setLastSignature(undefined);
-            setError(e);
-          } finally {
-            setIsSendingTransaction(false);
-          }
-        }}
-      >
+      <form onSubmit={handleLogin}>
         <Dialog.Root
           open={!!lastSignature}
           onOpenChange={(open) => {
