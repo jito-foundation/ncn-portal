@@ -4,6 +4,7 @@ import {
   ReconnectInterval,
 } from "eventsource-parser";
 import { NextRequest, NextResponse } from "next/server";
+import { getApiConfig } from "../apiConfig";
 
 export const runtime = "edge";
 
@@ -46,14 +47,6 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-const getApiConfig = () => {
-  const apiUrl =
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
-    "https://seal-app-m2hhp.ondigitalocean.app/api/v1";
-
-  return { apiUrl };
-};
 
 const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
   const encoder = new TextEncoder();
