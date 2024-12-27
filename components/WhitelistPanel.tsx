@@ -56,7 +56,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
     };
 
     return await fetch(url, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -103,7 +103,6 @@ export function WhitelistFeaturePanel({ account }: Props) {
             getCheckWhitelistedInstruction({
               whitelist: whitelistAddress,
               whitelisted: transactionSendingSigner,
-              whitelistEntry: whitelistEntryAddress,
               proof: json.data,
             }),
             m
