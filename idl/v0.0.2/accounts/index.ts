@@ -6,5 +6,5 @@
  * @see https://github.com/codama-idl/codama
  */
 
-export * from "./whitelist";
-export * from "./whitelistEntry";
+export * from './whitelist';
+export * from './whitelistEntry';

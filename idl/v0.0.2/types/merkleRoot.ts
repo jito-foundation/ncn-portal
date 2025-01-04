@@ -18,18 +18,18 @@ import {
   type Decoder,
   type Encoder,
   type ReadonlyUint8Array,
-} from "@solana/web3.js";
+} from '@solana/web3.js';
 
 export type MerkleRoot = { root: ReadonlyUint8Array };
 
 export type MerkleRootArgs = MerkleRoot;
 
 export function getMerkleRootEncoder(): Encoder<MerkleRootArgs> {
-  return getStructEncoder([["root", fixEncoderSize(getBytesEncoder(), 32)]]);
+  return getStructEncoder([['root', fixEncoderSize(getBytesEncoder(), 32)]]);
 }
 
 export function getMerkleRootDecoder(): Decoder<MerkleRoot> {
-  return getStructDecoder([["root", fixDecoderSize(getBytesDecoder(), 32)]]);
+  return getStructDecoder([['root', fixDecoderSize(getBytesDecoder(), 32)]]);
 }
 
 export function getMerkleRootCodec(): Codec<MerkleRootArgs, MerkleRoot> {

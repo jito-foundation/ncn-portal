@@ -32,9 +32,9 @@ import {
   type ReadonlySignerAccount,
   type ReadonlyUint8Array,
   type TransactionSigner,
-} from "@solana/web3.js";
-import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
-import { getAccountMetaFactory, type ResolvedAccount } from "../shared";
+} from '@solana/web3.js';
+import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
+import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
 
 export const CHECK_WHITELISTED_DISCRIMINATOR = 3;
 
@@ -74,17 +74,17 @@ export type CheckWhitelistedInstructionDataArgs = {
 export function getCheckWhitelistedInstructionDataEncoder(): Encoder<CheckWhitelistedInstructionDataArgs> {
   return transformEncoder(
     getStructEncoder([
-      ["discriminator", getU8Encoder()],
-      ["proof", getArrayEncoder(fixEncoderSize(getBytesEncoder(), 32))],
+      ['discriminator', getU8Encoder()],
+      ['proof', getArrayEncoder(fixEncoderSize(getBytesEncoder(), 32))],
     ]),
-    (value) => ({ ...value, discriminator: CHECK_WHITELISTED_DISCRIMINATOR }),
+    (value) => ({ ...value, discriminator: CHECK_WHITELISTED_DISCRIMINATOR })
   );
 }
 
 export function getCheckWhitelistedInstructionDataDecoder(): Decoder<CheckWhitelistedInstructionData> {
   return getStructDecoder([
-    ["discriminator", getU8Decoder()],
-    ["proof", getArrayDecoder(fixDecoderSize(getBytesDecoder(), 32))],
+    ['discriminator', getU8Decoder()],
+    ['proof', getArrayDecoder(fixDecoderSize(getBytesDecoder(), 32))],
   ]);
 }
 
@@ -94,7 +94,7 @@ export function getCheckWhitelistedInstructionDataCodec(): Codec<
 > {
   return combineCodec(
     getCheckWhitelistedInstructionDataEncoder(),
-    getCheckWhitelistedInstructionDataDecoder(),
+    getCheckWhitelistedInstructionDataDecoder()
   );
 }
 
@@ -104,7 +104,7 @@ export type CheckWhitelistedInput<
 > = {
   whitelist: Address<TAccountWhitelist>;
   whitelisted: TransactionSigner<TAccountWhitelisted>;
-  proof: CheckWhitelistedInstructionDataArgs["proof"];
+  proof: CheckWhitelistedInstructionDataArgs['proof'];
 };
 
 export function getCheckWhitelistedInstruction<
@@ -113,7 +113,7 @@ export function getCheckWhitelistedInstruction<
   TProgramAddress extends Address = typeof NCN_PORTAL_PROGRAM_ADDRESS,
 >(
   input: CheckWhitelistedInput<TAccountWhitelist, TAccountWhitelisted>,
-  config?: { programAddress?: TProgramAddress },
+  config?: { programAddress?: TProgramAddress }
 ): CheckWhitelistedInstruction<
   TProgramAddress,
   TAccountWhitelist,
@@ -135,7 +135,7 @@ export function getCheckWhitelistedInstruction<
   // Original args.
   const args = { ...input };
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
+  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
   const instruction = {
     accounts: [
       getAccountMeta(accounts.whitelist),
@@ -143,7 +143,7 @@ export function getCheckWhitelistedInstruction<
     ],
     programAddress,
     data: getCheckWhitelistedInstructionDataEncoder().encode(
-      args as CheckWhitelistedInstructionDataArgs,
+      args as CheckWhitelistedInstructionDataArgs
     ),
   } as CheckWhitelistedInstruction<
     TProgramAddress,
@@ -172,11 +172,11 @@ export function parseCheckWhitelistedInstruction<
 >(
   instruction: IInstruction<TProgram> &
     IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>,
+    IInstructionWithData<Uint8Array>
 ): ParsedCheckWhitelistedInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 2) {
     // TODO: Coded error.
-    throw new Error("Not enough accounts");
+    throw new Error('Not enough accounts');
   }
   let accountIndex = 0;
   const getNextAccount = () => {
