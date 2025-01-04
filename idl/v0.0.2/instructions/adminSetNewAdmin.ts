@@ -26,9 +26,9 @@ import {
   type TransactionSigner,
   type WritableAccount,
   type WritableSignerAccount,
-} from '@solana/web3.js';
-import { NCN_PORTAL_PROGRAM_ADDRESS } from '../programs';
-import { getAccountMetaFactory, type ResolvedAccount } from '../shared';
+} from "@solana/web3.js";
+import { NCN_PORTAL_PROGRAM_ADDRESS } from "../programs";
+import { getAccountMetaFactory, type ResolvedAccount } from "../shared";
 
 export const ADMIN_SET_NEW_ADMIN_DISCRIMINATOR = 2;
 
@@ -66,13 +66,13 @@ export type AdminSetNewAdminInstructionDataArgs = {};
 
 export function getAdminSetNewAdminInstructionDataEncoder(): Encoder<AdminSetNewAdminInstructionDataArgs> {
   return transformEncoder(
-    getStructEncoder([['discriminator', getU8Encoder()]]),
-    (value) => ({ ...value, discriminator: ADMIN_SET_NEW_ADMIN_DISCRIMINATOR })
+    getStructEncoder([["discriminator", getU8Encoder()]]),
+    (value) => ({ ...value, discriminator: ADMIN_SET_NEW_ADMIN_DISCRIMINATOR }),
   );
 }
 
 export function getAdminSetNewAdminInstructionDataDecoder(): Decoder<AdminSetNewAdminInstructionData> {
-  return getStructDecoder([['discriminator', getU8Decoder()]]);
+  return getStructDecoder([["discriminator", getU8Decoder()]]);
 }
 
 export function getAdminSetNewAdminInstructionDataCodec(): Codec<
@@ -81,7 +81,7 @@ export function getAdminSetNewAdminInstructionDataCodec(): Codec<
 > {
   return combineCodec(
     getAdminSetNewAdminInstructionDataEncoder(),
-    getAdminSetNewAdminInstructionDataDecoder()
+    getAdminSetNewAdminInstructionDataDecoder(),
   );
 }
 
@@ -106,7 +106,7 @@ export function getAdminSetNewAdminInstruction<
     TAccountAdminInfo,
     TAccountNewAdminInfo
   >,
-  config?: { programAddress?: TProgramAddress }
+  config?: { programAddress?: TProgramAddress },
 ): AdminSetNewAdminInstruction<
   TProgramAddress,
   TAccountWhitelistInfo,
@@ -127,7 +127,7 @@ export function getAdminSetNewAdminInstruction<
     ResolvedAccount
   >;
 
-  const getAccountMeta = getAccountMetaFactory(programAddress, 'programId');
+  const getAccountMeta = getAccountMetaFactory(programAddress, "programId");
   const instruction = {
     accounts: [
       getAccountMeta(accounts.whitelistInfo),
@@ -165,11 +165,11 @@ export function parseAdminSetNewAdminInstruction<
 >(
   instruction: IInstruction<TProgram> &
     IInstructionWithAccounts<TAccountMetas> &
-    IInstructionWithData<Uint8Array>
+    IInstructionWithData<Uint8Array>,
 ): ParsedAdminSetNewAdminInstruction<TProgram, TAccountMetas> {
   if (instruction.accounts.length < 3) {
     // TODO: Coded error.
-    throw new Error('Not enough accounts');
+    throw new Error("Not enough accounts");
   }
   let accountIndex = 0;
   const getNextAccount = () => {
