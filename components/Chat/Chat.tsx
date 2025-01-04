@@ -201,6 +201,7 @@ const Chat = (props: ChatProps, ref: any) => {
     if (currentChatRef?.current?.id) {
       saveMessages?.(conversation.current);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChatRef, conversation.current, saveMessages]);
 
   useEffect(() => {
