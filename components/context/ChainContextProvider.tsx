@@ -1,5 +1,5 @@
 "use client";
-import { mainnet, testnet } from "@solana/web3.js";
+import { devnet, mainnet, testnet } from "@solana/web3.js";
 import { useMemo, useState } from "react";
 
 import { ChainContext, DEFAULT_CHAIN_CONFIG } from "./ChainContext";
@@ -42,6 +42,13 @@ export function ChainContextProvider({
           solanaRpcUrl: testnet("https://api.testnet.solana.com"),
         };
       case "solana:devnet":
+        return {
+          chain: "solana:devnet",
+          displayName: "Devnet",
+          solanaExplorerClusterName: "devnet",
+          solanaRpcSubscriptionsUrl: devnet("wss://api.testnet.solana.com"),
+          solanaRpcUrl: devnet("https://api.testnet.solana.com"),
+        };
       default:
         if (chain !== "solana:devnet") {
           if (typeof window !== "undefined") {
