@@ -117,7 +117,7 @@ const useChatHook = () => {
       const id = uuid();
       const newChat: Chat = {
         id,
-        persona: persona,
+        // persona: persona,
       };
 
       setChatList((state) => {
@@ -250,9 +250,9 @@ const useChatHook = () => {
     return () => {
       document.body.removeAttribute("style");
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
-      }
+      // if (typeof window !== "undefined") {
+      localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
+      // }
     };
   }, [onChangeChat, onCreateChat]);
 
