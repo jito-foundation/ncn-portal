@@ -201,7 +201,7 @@ const Chat = (props: ChatProps, ref: any) => {
     if (currentChatRef?.current?.id) {
       saveMessages?.(conversation.current);
     }
-  }, [currentChatRef, saveMessages]);
+  }, [currentChatRef, conversation.current, saveMessages]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -234,7 +234,8 @@ const Chat = (props: ChatProps, ref: any) => {
         style={{ backgroundColor: "var(--gray-a2)" }}
       >
         <Heading size="4">
-          {currentChatRef?.current?.persona?.name || "None"}
+          {/* {currentChatRef?.current?.persona?.name || "None"} */}
+          Chat
         </Heading>
       </Flex>
       <ScrollArea
