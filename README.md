@@ -13,6 +13,13 @@ NCN Portal is a Claude web interface developed using Next.js and the [Claude Cha
 - You need an Claude account.
 - Solna Wallet installed.
 
+### Environment Variables
+
+```txt
+NEXT_PUBLIC_API_BASE_URL=
+NEXT_PUBLIC_SOLANA_RPC_URL=
+```
+
 ### Deploy with Docker
 
 For OpenAI account users:
