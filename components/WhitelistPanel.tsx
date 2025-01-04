@@ -102,7 +102,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
       setLastSignature(signature);
     } catch (e) {
       setLastSignature(undefined);
-      setError(e);
+      setError("You are not whitelisted");
     } finally {
       setIsSendingTransaction(false);
     }

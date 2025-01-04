@@ -34,7 +34,6 @@ const getProof = async (apiUrl: string, address: string) => {
   if (res.status !== 200) {
     const statusText = res.statusText;
     const responseBody = await res.text();
-    console.error(`NCN Portal response error: ${responseBody}`);
     throw new Error(
       `NCN Portal has encountered an error with a status code of ${res.status} ${statusText}: ${responseBody}`,
     );
