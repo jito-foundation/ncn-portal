@@ -63,7 +63,7 @@ export const ChatSideBar = () => {
                     {/* {chat.messages !== undefined || chat.messages !== null
                       ? chat.messages[0].content
                       : null} */}
-                      Chat
+                    Chat
                   </Text>
                 </Flex>
                 <IconButton
