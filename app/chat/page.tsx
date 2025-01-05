@@ -2,7 +2,7 @@
 
 import { Suspense, useContext, useEffect } from "react";
 import { Flex } from "@radix-ui/themes";
-import { Chat, ChatContext, ChatSideBar, useChatHook } from "@/components";
+import { Chat, ChatContext, useChatHook } from "@/components";
 import PersonaModal from "./PersonaModal";
 import PersonaPanel from "./PersonaPanel";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
@@ -15,8 +15,8 @@ const ChatProvider = () => {
   return (
     <ChatContext.Provider value={provider}>
       <Flex style={{ height: "calc(100% - 56px)" }} className="relative">
-        <ChatSideBar />
-        <div className="flex-1 relative">
+        {/* <ChatSideBar /> */}
+        <div className="flex-1 relative justify-center flex">
           <Chat ref={provider.chatRef} />
           <PersonaPanel />
         </div>

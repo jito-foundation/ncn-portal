@@ -117,7 +117,7 @@ const useChatHook = () => {
       const id = uuid();
       const newChat: Chat = {
         id,
-        // persona: persona,
+        persona: persona,
       };
 
       setChatList((state) => {
@@ -209,19 +209,19 @@ const useChatHook = () => {
         );
       }
     } else {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(`ms_${currentChatRef.current?.id}`);
-      }
+      // if (typeof window !== "undefined") {
+      // localStorage.removeItem(`ms_${currentChatRef.current?.id}`);
+      // }
     }
   };
 
   useEffect(() => {
-    let item: string = "[]";
+    let items: string = "[]";
     if (typeof window !== "undefined") {
-      item = localStorage.getItem(StorageKeys.Chat_List) || "[]";
+      items = localStorage.getItem(StorageKeys.Chat_List) || "[]";
     }
 
-    const chatList = (JSON.parse(item!) || []) as Chat[];
+    const chatList = JSON.parse(items) as Chat[];
 
     let currentChatId: string | null = null;
     if (typeof window !== "undefined") {
@@ -238,7 +238,7 @@ const useChatHook = () => {
           item = localStorage.getItem(`ms_${chat?.id}`);
         }
         const messages = JSON.parse(item!) as ChatMessage[];
-
+        chat.messages = messages;
         messagesMap.current.set(chat.id!, messages);
       });
 
@@ -249,12 +249,13 @@ const useChatHook = () => {
 
     return () => {
       document.body.removeAttribute("style");
-
-      // if (typeof window !== "undefined") {
-      localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
-      // }
+      if (chatList.length > 0) {
+        // if (typeof window !== "undefined") {
+        localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
+        // }
+      }
     };
-  }, [onChangeChat, onCreateChat]);
+  }, []);
 
   useEffect(() => {
     if (currentChatRef.current?.id) {
