@@ -120,8 +120,6 @@ const useChatHook = () => {
         persona: persona,
       };
 
-      console.log("chat list: ", chatList);
-
       setChatList((state) => {
         return [...state, newChat];
       });
@@ -140,7 +138,6 @@ const useChatHook = () => {
     const index = chatList.findIndex((item) => item.id === chat.id);
     chatList.splice(index, 1);
     setChatList([...chatList]);
-    console.log("chat list: ", chatList);
 
     if (typeof window !== "undefined") {
       localStorage.removeItem(`ms_${chat.id}`);
@@ -212,7 +209,6 @@ const useChatHook = () => {
         );
       }
     } else {
-      // console.log("Removing!!");
       // if (typeof window !== "undefined") {
       // localStorage.removeItem(`ms_${currentChatRef.current?.id}`);
       // }
@@ -227,8 +223,6 @@ const useChatHook = () => {
 
     const chatList = JSON.parse(items) as Chat[];
 
-    console.log("chat list 1: ", chatList);
-
     let currentChatId: string | null = null;
     if (typeof window !== "undefined") {
       currentChatId = localStorage.getItem(StorageKeys.Chat_Current_ID);
@@ -237,7 +231,6 @@ const useChatHook = () => {
     if (chatList.length > 0) {
       const currentChat = chatList.find((chat) => chat.id === currentChatId);
       setChatList(chatList);
-      console.log("chat list: ", chatList);
 
       chatList.forEach((chat) => {
         let item: string | null = "[]";
@@ -256,7 +249,6 @@ const useChatHook = () => {
 
     return () => {
       document.body.removeAttribute("style");
-      // console.log("chat list: ", chatList);
       if (chatList.length > 0) {
         // if (typeof window !== "undefined") {
         localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
@@ -277,7 +269,6 @@ const useChatHook = () => {
   }, [currentChatRef.current?.id]);
 
   useEffect(() => {
-    console.log("chat list 2: ", chatList);
     if (typeof window !== "undefined") {
       localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
     }
