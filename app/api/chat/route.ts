@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const { messages, input, address } = (await req.json()) as {
       messages: Message[];
       input: string;
-      address: string
+      address: string;
     };
     const messagesWithHistory = [...messages, { content: input, role: "user" }];
 
@@ -49,7 +49,11 @@ export async function POST(req: NextRequest) {
   }
 }
 
-const getClaudeStream = async (apiUrl: string, messages: Message[], address: string) => {
+const getClaudeStream = async (
+  apiUrl: string,
+  messages: Message[],
+  address: string,
+) => {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 

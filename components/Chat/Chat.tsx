@@ -24,7 +24,6 @@ import {
   AiOutlineUnorderedList,
 } from "react-icons/ai";
 import { FiSend } from "react-icons/fi";
-import { UiWalletAccount } from "@wallet-standard/react";
 
 import ChatContext from "./chatContext";
 import type { Chat, ChatMessage } from "./interface";
@@ -49,7 +48,7 @@ const postChatOrQuestion = async (
   chat: Chat,
   messages: any[],
   input: string,
-  address: string
+  address: string,
 ) => {
   const url = "/api/chat";
 
@@ -57,7 +56,7 @@ const postChatOrQuestion = async (
     // prompt: chat?.persona?.prompt,
     messages: [...messages!],
     input,
-    address
+    address,
   };
 
   return await fetch(url, {
@@ -113,7 +112,7 @@ const Chat = (props: ChatProps, ref: any) => {
             currentChatRef?.current!,
             message,
             input,
-            selectedWalletAccount?.address!
+            selectedWalletAccount?.address!,
           );
 
           if (response.ok) {

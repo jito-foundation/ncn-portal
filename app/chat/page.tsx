@@ -2,7 +2,6 @@
 
 import { Suspense, useContext, useEffect } from "react";
 import { Flex } from "@radix-ui/themes";
-import { UiWalletAccount } from "@wallet-standard/react";
 
 import { Chat, ChatContext, useChatHook } from "@/components";
 import PersonaModal from "./PersonaModal";
@@ -11,10 +10,8 @@ import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
 import { useRouter } from "next/navigation";
 
-
 const ChatProvider = () => {
   const provider = useChatHook();
-  const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
 
   return (
     <ChatContext.Provider value={provider}>
