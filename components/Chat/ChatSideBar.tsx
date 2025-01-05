@@ -60,9 +60,10 @@ export const ChatSideBar = () => {
                 >
                   <BiMessageDetail className="size-4" />
                   <Text as="p" className="truncate">
-                    {chat.messages !== undefined
+                    {/* {chat.messages !== undefined || chat.messages !== null
                       ? chat.messages[0].content
-                      : null}
+                      : null} */}
+                      Chat
                   </Text>
                 </Flex>
                 <IconButton

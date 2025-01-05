@@ -59,7 +59,7 @@ const useChatHook = () => {
   const [force, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
   const messagesMap = useRef<Map<string, ChatMessage[]>>(
-    new Map<string, ChatMessage[]>(),
+    new Map<string, ChatMessage[]>()
   );
 
   const chatRef = useRef<ChatGPInstance>(null);
@@ -117,8 +117,10 @@ const useChatHook = () => {
       const id = uuid();
       const newChat: Chat = {
         id,
-        // persona: persona,
+        persona: persona,
       };
+
+      console.log("chat list: ", chatList);
 
       setChatList((state) => {
         return [...state, newChat];
@@ -127,7 +129,7 @@ const useChatHook = () => {
       onChangeChat(newChat);
       onClosePersonaPanel();
     },
-    [setChatList, onChangeChat, onClosePersonaPanel],
+    [setChatList, onChangeChat, onClosePersonaPanel]
   );
 
   const onToggleSidebar = useCallback(() => {
@@ -138,6 +140,7 @@ const useChatHook = () => {
     const index = chatList.findIndex((item) => item.id === chat.id);
     chatList.splice(index, 1);
     setChatList([...chatList]);
+    console.log("chat list: ", chatList);
 
     if (typeof window !== "undefined") {
       localStorage.removeItem(`ms_${chat.id}`);
@@ -205,23 +208,26 @@ const useChatHook = () => {
       if (typeof window !== "undefined") {
         localStorage.setItem(
           `ms_${currentChatRef.current?.id}`,
-          JSON.stringify(messages),
+          JSON.stringify(messages)
         );
       }
     } else {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(`ms_${currentChatRef.current?.id}`);
-      }
+      // console.log("Removing!!");
+      // if (typeof window !== "undefined") {
+      // localStorage.removeItem(`ms_${currentChatRef.current?.id}`);
+      // }
     }
   };
 
   useEffect(() => {
-    let item: string = "[]";
+    let items: string = "[]";
     if (typeof window !== "undefined") {
-      item = localStorage.getItem(StorageKeys.Chat_List) || "[]";
+      items = localStorage.getItem(StorageKeys.Chat_List) || "[]";
     }
 
-    const chatList = (JSON.parse(item!) || []) as Chat[];
+    const chatList = JSON.parse(items) as Chat[];
+
+    console.log("chat list 1: ", chatList);
 
     let currentChatId: string | null = null;
     if (typeof window !== "undefined") {
@@ -231,6 +237,7 @@ const useChatHook = () => {
     if (chatList.length > 0) {
       const currentChat = chatList.find((chat) => chat.id === currentChatId);
       setChatList(chatList);
+      console.log("chat list: ", chatList);
 
       chatList.forEach((chat) => {
         let item: string | null = "[]";
@@ -238,7 +245,7 @@ const useChatHook = () => {
           item = localStorage.getItem(`ms_${chat?.id}`);
         }
         const messages = JSON.parse(item!) as ChatMessage[];
-
+        chat.messages = messages;
         messagesMap.current.set(chat.id!, messages);
       });
 
@@ -249,25 +256,28 @@ const useChatHook = () => {
 
     return () => {
       document.body.removeAttribute("style");
-
-      // if (typeof window !== "undefined") {
-      localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
-      // }
+      // console.log("chat list: ", chatList);
+      if (chatList.length > 0) {
+        // if (typeof window !== "undefined") {
+          localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
+        // }
+      }
     };
-  }, [onChangeChat, onCreateChat]);
+  }, []);
 
   useEffect(() => {
     if (currentChatRef.current?.id) {
       if (typeof window !== "undefined") {
         localStorage.setItem(
           StorageKeys.Chat_Current_ID,
-          currentChatRef.current.id,
+          currentChatRef.current.id
         );
       }
     }
   }, [currentChatRef.current?.id]);
 
   useEffect(() => {
+    console.log("chat list 2: ", chatList);
     if (typeof window !== "undefined") {
       localStorage.setItem(StorageKeys.Chat_List, JSON.stringify(chatList));
     }

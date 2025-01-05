@@ -15,8 +15,8 @@ const ChatProvider = () => {
   return (
     <ChatContext.Provider value={provider}>
       <Flex style={{ height: "calc(100% - 56px)" }} className="relative">
-        <ChatSideBar />
-        <div className="flex-1 relative">
+        {/* <ChatSideBar /> */}
+        <div className="flex-1 relative justify-center flex">
           <Chat ref={provider.chatRef} />
           <PersonaPanel />
         </div>
