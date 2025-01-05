@@ -24,11 +24,14 @@ import {
   AiOutlineUnorderedList,
 } from "react-icons/ai";
 import { FiSend } from "react-icons/fi";
+import { UiWalletAccount } from "@wallet-standard/react";
+
 import ChatContext from "./chatContext";
 import type { Chat, ChatMessage } from "./interface";
 import Message from "./Message";
 
 import "./index.scss";
+import { SelectedWalletAccountContext } from "../context/SelectedWalletAccountContext";
 
 const HTML_REGULAR =
   /<(?!img|table|\/table|thead|\/thead|tbody|\/tbody|tr|\/tr|td|\/td|th|\/th|br|\/br).*?>/gi;
@@ -46,6 +49,7 @@ const postChatOrQuestion = async (
   chat: Chat,
   messages: any[],
   input: string,
+  address: string
 ) => {
   const url = "/api/chat";
 
@@ -53,6 +57,7 @@ const postChatOrQuestion = async (
     // prompt: chat?.persona?.prompt,
     messages: [...messages!],
     input,
+    address
   };
 
   return await fetch(url, {
@@ -65,6 +70,7 @@ const postChatOrQuestion = async (
 };
 
 const Chat = (props: ChatProps, ref: any) => {
+  const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
   const { currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
     useContext(ChatContext);
 
@@ -107,6 +113,7 @@ const Chat = (props: ChatProps, ref: any) => {
             currentChatRef?.current!,
             message,
             input,
+            selectedWalletAccount?.address!
           );
 
           if (response.ok) {

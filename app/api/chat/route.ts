@@ -25,14 +25,15 @@ export interface Message {
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, input } = (await req.json()) as {
+    const { messages, input, address } = (await req.json()) as {
       messages: Message[];
       input: string;
+      address: string
     };
     const messagesWithHistory = [...messages, { content: input, role: "user" }];
 
     const { apiUrl } = getApiConfig();
-    const stream = await getClaudeStream(apiUrl, messagesWithHistory);
+    const stream = await getClaudeStream(apiUrl, messagesWithHistory, address);
     return new NextResponse(stream, {
       headers: { "Content-Type": "text/event-stream" },
     });
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
+const getClaudeStream = async (apiUrl: string, messages: Message[], address: string) => {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
@@ -61,7 +62,7 @@ const getClaudeStream = async (apiUrl: string, messages: Message[]) => {
     ncnPortalMessages.push(ncnPortalMessage);
   });
 
-  const url = `${apiUrl}/sse/prompt`;
+  const url = `${apiUrl}/sse/prompt/${address}`;
   const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
