@@ -2,6 +2,7 @@
 
 import { Suspense, useContext, useEffect } from "react";
 import { Flex } from "@radix-ui/themes";
+
 import { Chat, ChatContext, useChatHook } from "@/components";
 import PersonaModal from "./PersonaModal";
 import PersonaPanel from "./PersonaPanel";
