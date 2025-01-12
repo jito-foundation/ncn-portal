@@ -1,4 +1,5 @@
 "use client";
+
 import { devnet, mainnet, testnet } from "@solana/web3.js";
 import { useMemo, useState } from "react";
 
@@ -11,12 +12,12 @@ export function ChainContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  let storageKey: string | null = "solana:devnet";
+  let storageKey: string | null = process.env.NEXT_PUBLIC_SOLANA_CHAIN || "solana:devnet";
 
   if (typeof window !== "undefined") {
-    storageKey = localStorage.getItem(STORAGE_KEY);
+    storageKey = localStorage.getItem(STORAGE_KEY) || storageKey;
   }
-  const [chain, setChain] = useState(() => storageKey);
+  const [chain, setChain] = useState(storageKey);
 
   const contextValue = useMemo<ChainContext>(() => {
     switch (chain) {
@@ -46,8 +47,16 @@ export function ChainContextProvider({
           chain: "solana:devnet",
           displayName: "Devnet",
           solanaExplorerClusterName: "devnet",
-          solanaRpcSubscriptionsUrl: devnet("wss://api.testnet.solana.com"),
-          solanaRpcUrl: devnet("https://api.testnet.solana.com"),
+          solanaRpcSubscriptionsUrl: devnet("wss://api.devnet.solana.com"),
+          solanaRpcUrl: devnet("https://api.devnet.solana.com"),
+        };
+      case "solana:localhost":
+        return {
+          chain: "solana:localhost",
+          displayName: "Localhost",
+          solanaExplorerClusterName: "localhost",
+          solanaRpcSubscriptionsUrl: devnet("ws://localhost:8900/"),
+          solanaRpcUrl: devnet("http://localhost:8899"),
         };
       default:
         if (chain !== "solana:devnet") {

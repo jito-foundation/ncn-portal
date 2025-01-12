@@ -41,7 +41,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { chain: currentChain } = useContext(ChainContext);
   const transactionSendingSigner = useWalletAccountTransactionSendingSigner(
     account,
-    currentChain,
+    currentChain
   );
   const { login } = useAuth();
   const router = useRouter();
@@ -88,8 +88,8 @@ export function WhitelistFeaturePanel({ account }: Props) {
               whitelisted: transactionSendingSigner,
               proof: json.data,
             }),
-            m,
-          ),
+            m
+          )
       );
       assertIsTransactionMessageWithSingleSendingSigner(message);
       const signature = await signAndSendTransactionMessageWithSigners(message);
@@ -102,7 +102,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
       setLastSignature(signature);
     } catch (e) {
       setLastSignature(undefined);
-      setError("You are not whitelisted");
+      setError({ message: "You are not whitelisted" });
     } finally {
       setIsSendingTransaction(false);
     }
