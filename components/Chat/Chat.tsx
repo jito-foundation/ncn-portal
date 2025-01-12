@@ -72,19 +72,12 @@ const Chat = (props: ChatProps, ref: any) => {
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
   const { currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
     useContext(ChatContext);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const conversationRef = useRef<ChatMessage[]>();
-
   const [message, setMessage] = useState("");
-
   const [currentMessage, setCurrentMessage] = useState<string>("");
-
   const textAreaRef = useRef<HTMLElement>(null);
-
   const conversation = useRef<ChatMessage[]>([]);
-
   const bottomOfChatRef = useRef<HTMLDivElement>(null);
 
   const sendMessage = useCallback(

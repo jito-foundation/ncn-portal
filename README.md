@@ -16,8 +16,8 @@ NCN Portal is a Claude web interface developed using Next.js and the [Claude Cha
 ### Environment Variables
 
 ```txt
-NEXT_PUBLIC_API_BASE_URL=
-NEXT_PUBLIC_SOLANA_RPC_URL=
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+NEXT_PUBLIC_SOLANA_CHAIN=solana:devnet
 ```
 
 ### Deploy with Docker
