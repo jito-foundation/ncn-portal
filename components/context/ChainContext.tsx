@@ -10,14 +10,13 @@ export type ChainContext = Readonly<{
   solanaExplorerClusterName:
     | "devnet"
     | "mainnet-beta"
-    | "testnet"
-    | "localhost";
+    | "testnet";
   solanaRpcSubscriptionsUrl: ClusterUrl;
   solanaRpcUrl: ClusterUrl;
 }>;
 
 export const DEFAULT_CHAIN_CONFIG = Object.freeze({
-  chain: "solana:testnet",
+  chain: "solana:devnet",
   displayName: "Devnet",
   solanaExplorerClusterName: "devnet",
   solanaRpcSubscriptionsUrl: devnet("wss://api.devnet.solana.com"),

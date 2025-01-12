@@ -51,14 +51,6 @@ export function ChainContextProvider({
           solanaRpcSubscriptionsUrl: devnet("wss://api.devnet.solana.com"),
           solanaRpcUrl: devnet("https://api.devnet.solana.com"),
         };
-      case "solana:localhost":
-        return {
-          chain: "solana:localhost",
-          displayName: "Localhost",
-          solanaExplorerClusterName: "localhost",
-          solanaRpcSubscriptionsUrl: devnet("ws://localhost:8900/"),
-          solanaRpcUrl: devnet("http://localhost:8899"),
-        };
       default:
         if (chain !== "solana:devnet") {
           if (typeof window !== "undefined") {
