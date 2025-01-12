@@ -12,7 +12,8 @@ export function ChainContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  let storageKey: string | null = process.env.NEXT_PUBLIC_SOLANA_CHAIN || "solana:devnet";
+  let storageKey: string | null =
+    process.env.NEXT_PUBLIC_SOLANA_CHAIN || "solana:devnet";
 
   if (typeof window !== "undefined") {
     storageKey = localStorage.getItem(STORAGE_KEY) || storageKey;

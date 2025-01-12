@@ -7,7 +7,11 @@ export type ChainContext = Readonly<{
   chain: `solana:${string}`;
   displayName: string;
   setChain?(chain: `solana:${string}`): void;
-  solanaExplorerClusterName: "devnet" | "mainnet-beta" | "testnet" | "localhost";
+  solanaExplorerClusterName:
+    | "devnet"
+    | "mainnet-beta"
+    | "testnet"
+    | "localhost";
   solanaRpcSubscriptionsUrl: ClusterUrl;
   solanaRpcUrl: ClusterUrl;
 }>;

@@ -27,7 +27,9 @@ export function ErrorDialog({ error, onClose, title }: Props) {
           {title ?? "We encountered the following error"}
         </AlertDialog.Title>
         <AlertDialog.Description>
-          <Blockquote>{getErrorMessage(error, "You are not whitelisted")}</Blockquote>
+          <Blockquote>
+            {getErrorMessage(error, "You are not whitelisted")}
+          </Blockquote>
         </AlertDialog.Description>
         <Flex mt="4" justify="end">
           <AlertDialog.Action>
