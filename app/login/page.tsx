@@ -30,7 +30,7 @@ const HomePage = () => {
 
   return (
     <Suspense>
-      {selectedWalletAccount ? (
+      {/* {selectedWalletAccount ? (
         <div className="w-screen flex justify-center h-screen">
           <div className="w-8/12 flex justify-center items-center">
             <div className="">
@@ -76,7 +76,8 @@ const HomePage = () => {
             />
           </div>
         </div>
-      )}
+      )} */}
+      <h1>Hello</h1>
     </Suspense>
   );
 };

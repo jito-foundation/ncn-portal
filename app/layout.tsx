@@ -1,5 +1,6 @@
 import 'nextra-theme-docs/style.css'
 import "./globals.scss";
+// import "./nextra-overrides.scss";
 
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
@@ -13,7 +14,7 @@ import { getPageMap } from 'nextra/page-map'
 
 import "./theme-config.css";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
-import { Banner } from "nextra/components";
+import { Banner, Head } from "nextra/components";
 
 export const metadata = {
   title: {
@@ -31,7 +32,7 @@ export const metadata = {
 const banner = <Banner storageKey="some-key">Nextra 4.0 is released 🎉</Banner>
 const navbar = (
   <Navbar
-    logo={<b>Nextra</b>}
+    logo={<b>NCN Portal</b>}
   // ... Your additional navbar options
   />
 )
@@ -51,6 +52,7 @@ export default async function RootLayout({
               <RpcContextProvider>
                 <AuthProvider>
                   {/* <Header /> */}
+                  <Head></Head>
                   <Layout
                     banner={banner}
                     navbar={navbar}

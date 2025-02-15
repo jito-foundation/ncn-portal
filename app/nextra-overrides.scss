@@ -1,0 +1,34 @@
+:root {
+    --nextra-content-width: 100%;
+    /* Override default */
+    --nextra-sidebar-width: 280px;
+    /* Adjust sidebar width */
+}
+
+/* Force content to use more space */
+.nextra-content {
+    max-width: 1200px !important;
+    /* Adjust this value as needed */
+    width: 100% !important;
+    margin: 0 auto;
+    /* Center the content */
+}
+
+/* Adjust the main container to be wider */
+.nextra-container {
+    display: flex;
+    justify-content: center;
+    max-width: 1440px !important;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Ensure Sidebar doesn't shrink too much */
+.nextra-sidebar-container {
+    min-width: 280px !important;
+}
+
+/* Ensure Markdown Content Stretches */
+.nextra-content {
+    flex-grow: 1;
+}
