@@ -1,3 +1,6 @@
+import 'nextra-theme-docs/style.css'
+import "./globals.scss";
+
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
 import { Header } from "@/components/Header";
@@ -6,9 +9,11 @@ import { ChainContextProvider } from "@/components/context/ChainContextProvider"
 import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
 import { RpcContextProvider } from "@/components/context/RpcContextProvider";
 import { AuthProvider } from "@/components/context/AuthContext";
+import { getPageMap } from 'nextra/page-map'
 
-import "./globals.scss";
 import "./theme-config.css";
+import { Footer, Layout, Navbar } from "nextra-theme-docs";
+import { Banner } from "nextra/components";
 
 export const metadata = {
   title: {
@@ -23,7 +28,16 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
+const banner = <Banner storageKey="some-key">Nextra 4.0 is released 🎉</Banner>
+const navbar = (
+  <Navbar
+    logo={<b>Nextra</b>}
+  // ... Your additional navbar options
+  />
+)
+const footer = <Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -36,9 +50,19 @@ export default function RootLayout({
             <SelectedWalletAccountContextProvider>
               <RpcContextProvider>
                 <AuthProvider>
-                  <Header />
-                  {children}
-                  <Toaster />
+                  {/* <Header /> */}
+                  <Layout
+                    banner={banner}
+                    navbar={navbar}
+                    pageMap={await getPageMap()}
+                    docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
+                    footer={footer}
+                  // ... Your additional layout options
+                  >
+                    {children}
+                  </Layout>
+
+                  {/* <Toaster /> */}
                 </AuthProvider>
               </RpcContextProvider>
             </SelectedWalletAccountContextProvider>
