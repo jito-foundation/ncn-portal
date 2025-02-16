@@ -24,6 +24,7 @@ import {
 } from "@/idl";
 import { useAuth } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type Props = Readonly<{
   account: UiWalletAccount;
@@ -46,10 +47,11 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { login } = useAuth();
   const router = useRouter();
 
-  const getProof = async () => {
+  const request = async (requestType: string) => {
     const url = "/api/login";
 
     const data = {
+      requestType,
       address: account.address,
     };
 
@@ -67,7 +69,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
     setError(NO_ERROR);
     setIsSendingTransaction(true);
     try {
-      const res = await getProof();
+      const res = await request("login");
       const json = await res.json();
 
       const { value: latestBlockhash } = await rpc
@@ -108,6 +110,22 @@ export function WhitelistFeaturePanel({ account }: Props) {
     }
   };
 
+  const handleUnlockChatbot = async (e: any) => {
+    e.preventDefault();
+    setError(NO_ERROR);
+
+    try {
+      const res = await request("unlockChatbot");
+      await res.json();
+
+      toast.success("Your request has been sent! Please wait for approval.")
+    } catch (e) {
+      toast.error("Failed to send request. Please try again later.")
+    } finally {
+      setIsSendingTransaction(false);
+    }
+  };
+
   return (
     <Flex
       asChild
@@ -115,7 +133,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
       direction={{ initial: "column", sm: "row" }}
       className=""
     >
-      <form onSubmit={handleLogin}>
+      <div>
         <Dialog.Root
           open={!!lastSignature}
           onOpenChange={(open) => {
@@ -128,10 +146,21 @@ export function WhitelistFeaturePanel({ account }: Props) {
             <Button
               color={error ? undefined : "red"}
               loading={isSendingTransaction}
-              type="submit"
+              type="button"
               className="cursor-pointer"
+              onClick={handleLogin}
             >
               Ask the Chatbot Now
+            </Button>
+          </Dialog.Trigger>
+          <Dialog.Trigger>
+            <Button
+              color={error ? undefined : "red"}
+              type="button"
+              className="cursor-pointer"
+              onClick={handleUnlockChatbot}
+            >
+              Unlock Chatbot
             </Button>
           </Dialog.Trigger>
         </Dialog.Root>
@@ -142,7 +171,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
             title="SignIn failed"
           />
         ) : null}
-      </form>
+      </div>
     </Flex>
   );
 }
