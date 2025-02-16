@@ -13,6 +13,7 @@ import { getPageMap } from "nextra/page-map";
 import "./theme-config.css";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Banner, Head } from "nextra/components";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export const metadata = {
   title: {
@@ -30,7 +31,10 @@ export const metadata = {
 const banner = (
   <Banner storageKey="some-key">Jito Restaking is released 🎉</Banner>
 );
-const navbar = <Navbar logo={<b>NCN Portal</b>} />;
+const navbar = <Navbar
+  logo={<b>NCN Portal</b>}
+  projectLink="https://github.com/jito-foundation/restaking"
+/>;
 const footer = <Footer>MIT {new Date().getFullYear()} © Jito.</Footer>;
 
 export default async function RootLayout({
