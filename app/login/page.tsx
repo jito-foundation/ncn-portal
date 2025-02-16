@@ -5,7 +5,6 @@ import { SelectedWalletAccountContext } from "@/components/context/SelectedWalle
 import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
 import Image from "next/image";
 import jitoRestakingV1 from "../../public/jitoRestakingV1_crop.webp";
-import { ConnectWalletMenu } from "@/components/ConnectWalletMenu";
 import { Header } from "@/components/Header";
 
 const HomePage = () => {

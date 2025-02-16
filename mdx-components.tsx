@@ -1,8 +1,10 @@
-import { useMDXComponents as getDocsMDXComponents } from 'nextra-theme-docs'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-const docsComponents = getDocsMDXComponents()
+import { useMDXComponents as getDocsMDXComponents } from "nextra-theme-docs";
 
-export const useMDXComponents = components => ({
+const docsComponents = getDocsMDXComponents();
+
+export const useMDXComponents = (components: any) => ({
   ...docsComponents,
-  ...components
-})
+  ...components,
+});

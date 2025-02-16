@@ -1,6 +1,5 @@
-import 'nextra-theme-docs/style.css'
+import "nextra-theme-docs/style.css";
 import "./globals.scss";
-// import "./nextra-overrides.scss";
 
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
@@ -9,7 +8,7 @@ import { ChainContextProvider } from "@/components/context/ChainContextProvider"
 import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
 import { RpcContextProvider } from "@/components/context/RpcContextProvider";
 import { AuthProvider } from "@/components/context/AuthContext";
-import { getPageMap } from 'nextra/page-map'
+import { getPageMap } from "nextra/page-map";
 
 import "./theme-config.css";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
@@ -28,14 +27,11 @@ export const metadata = {
   },
 };
 
-const banner = <Banner storageKey="some-key">Jito Restaking is released 🎉</Banner>
-const navbar = (
-  <Navbar
-    logo={<b>NCN Portal</b>}
-  // ... Your additional navbar options
-  />
-)
-const footer = <Footer>MIT {new Date().getFullYear()} © Jito.</Footer>
+const banner = (
+  <Banner storageKey="some-key">Jito Restaking is released 🎉</Banner>
+);
+const navbar = <Navbar logo={<b>NCN Portal</b>} />;
+const footer = <Footer>MIT {new Date().getFullYear()} © Jito.</Footer>;
 
 export default async function RootLayout({
   children,
@@ -57,12 +53,10 @@ export default async function RootLayout({
                     pageMap={await getPageMap()}
                     docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
                     footer={footer}
-                  // ... Your additional layout options
                   >
                     {children}
                   </Layout>
-
-                  {/* <Toaster /> */}
+                  <Toaster />
                 </AuthProvider>
               </RpcContextProvider>
             </SelectedWalletAccountContextProvider>

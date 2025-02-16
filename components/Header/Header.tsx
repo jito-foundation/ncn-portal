@@ -1,26 +1,13 @@
 "use client";
 
-import { useCallback, useContext, useState } from "react";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import {
-  Badge,
-  DropdownMenu,
-  Flex,
-  Heading,
-  IconButton,
-  Select,
-  Tooltip,
-} from "@radix-ui/themes";
+import { useContext } from "react";
+import { Badge, DropdownMenu, Flex, Heading } from "@radix-ui/themes";
 import cs from "classnames";
 import NextLink from "next/link";
-import { FaAdjust, FaMoon, FaRegSun } from "react-icons/fa";
-import { useTheme } from "../Themes";
 import { ChainContext } from "../context/ChainContext";
 import { ConnectWalletMenu } from "../ConnectWalletMenu";
 
 export const Header = () => {
-  const { theme, setTheme } = useTheme();
-  const [, setShow] = useState(false);
   const {
     displayName: currentChainName,
     chain,
@@ -31,10 +18,6 @@ export const Header = () => {
       {currentChainName}
     </Badge>
   );
-
-  const toggleNavBar = useCallback(() => {
-    setShow((state) => !state);
-  }, []);
 
   return (
     <header
