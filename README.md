@@ -68,4 +68,3 @@ For OpenAI account:
 | Name                     | Description           | Default Value           |
 | ------------------------ | --------------------- | ----------------------- |
 | NEXT_PUBLIC_API_BASE_URL | Interact with backend | `http://localhost:3000` |
-
