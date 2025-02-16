@@ -12,10 +12,11 @@ const meta: MetaRecord = {
     title: "Documentation",
   },
   login: {
-    title: "Ask me anything about Jito Restaking",
+    title: "AI Assistant",
     theme: {
       navbar: false,
     },
+    type: "page",
   },
 };
 
