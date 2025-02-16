@@ -4,8 +4,10 @@ const config: Config = {
   darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx,scss}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/nextra-theme-docs/**/*.js",
+    "./node_modules/nextra/**/*.js",
   ],
   theme: {
     extend: {
@@ -16,7 +18,7 @@ const config: Config = {
       },
     },
   },
-  daisyui: {},
   plugins: [require("postcss-import"), require("@tailwindcss/typography")],
+  important: true,
 };
 export default config;

@@ -1,6 +1,4 @@
-@use "tailwindcss/base";
-@use "tailwindcss/components";
-@use "tailwindcss/utilities";
+@use "tailwindcss";
 @import "@radix-ui/themes/styles.css";
 
 :root {
@@ -9,6 +7,10 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+
+// .next-content {
+//   @apply max-w-screen-xl mx-auto px-6;
+// }
 
 @media (prefers-color-scheme: dark) {
   :root {

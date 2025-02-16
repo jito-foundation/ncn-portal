@@ -1,14 +1,18 @@
+import "nextra-theme-docs/style.css";
+import "./globals.scss";
+
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
-import { Header } from "@/components/Header";
 import ThemesProvider from "@/providers/ThemesProvider";
 import { ChainContextProvider } from "@/components/context/ChainContextProvider";
 import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
 import { RpcContextProvider } from "@/components/context/RpcContextProvider";
 import { AuthProvider } from "@/components/context/AuthContext";
+import { getPageMap } from "nextra/page-map";
 
-import "./globals.scss";
 import "./theme-config.css";
+import { Footer, Layout, Navbar } from "nextra-theme-docs";
+import { Banner, Head } from "nextra/components";
 
 export const metadata = {
   title: {
@@ -23,7 +27,13 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
+const banner = (
+  <Banner storageKey="some-key">Jito Restaking is released 🎉</Banner>
+);
+const navbar = <Navbar logo={<b>NCN Portal</b>} />;
+const footer = <Footer>MIT {new Date().getFullYear()} © Jito.</Footer>;
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -36,8 +46,16 @@ export default function RootLayout({
             <SelectedWalletAccountContextProvider>
               <RpcContextProvider>
                 <AuthProvider>
-                  <Header />
-                  {children}
+                  <Head></Head>
+                  <Layout
+                    banner={banner}
+                    navbar={navbar}
+                    pageMap={await getPageMap()}
+                    docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
+                    footer={footer}
+                  >
+                    {children}
+                  </Layout>
                   <Toaster />
                 </AuthProvider>
               </RpcContextProvider>

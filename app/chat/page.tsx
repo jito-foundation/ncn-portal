@@ -9,6 +9,7 @@ import PersonaPanel from "./PersonaPanel";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
 import { useRouter } from "next/navigation";
+import { Header } from "@/components/Header";
 
 const ChatProvider = () => {
   const provider = useChatHook();
@@ -39,7 +40,12 @@ const ChatPage = () => {
     }
   }, [selectedWalletAccount, router]);
 
-  return <Suspense>{selectedWalletAccount ? <ChatProvider /> : null}</Suspense>;
+  return (
+    <Suspense>
+      <Header />
+      {selectedWalletAccount ? <ChatProvider /> : null}
+    </Suspense>
+  );
 };
 
 export default ChatPage;

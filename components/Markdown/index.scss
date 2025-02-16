@@ -1,6 +1,9 @@
 .prose {
   img {
-    @apply max-w-3xl max-lg:max-w-full;
+    max-width: theme("maxWidth.3xl"); /* Use Tailwind theme tokens */
+    @media (max-width: theme("screens.lg")) {
+      max-width: 100%;
+    }
   }
 
   :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
@@ -9,7 +12,7 @@
   }
 
   :where(pre code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-    @apply whitespace-pre-wrap #{!important};
+    white-space: pre-wrap !important;
   }
 
   :where(code[class~="highlight"]) {

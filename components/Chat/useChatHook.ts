@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable  react-hooks/exhaustive-deps */
+
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";

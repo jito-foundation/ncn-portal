@@ -1,26 +1,13 @@
 "use client";
 
-import { useCallback, useContext, useState } from "react";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import {
-  Badge,
-  DropdownMenu,
-  Flex,
-  Heading,
-  IconButton,
-  Select,
-  Tooltip,
-} from "@radix-ui/themes";
+import { useContext } from "react";
+import { Badge, DropdownMenu, Flex, Heading } from "@radix-ui/themes";
 import cs from "classnames";
 import NextLink from "next/link";
-import { FaAdjust, FaMoon, FaRegSun } from "react-icons/fa";
-import { useTheme } from "../Themes";
 import { ChainContext } from "../context/ChainContext";
 import { ConnectWalletMenu } from "../ConnectWalletMenu";
 
 export const Header = () => {
-  const { theme, setTheme } = useTheme();
-  const [, setShow] = useState(false);
   const {
     displayName: currentChainName,
     chain,
@@ -31,10 +18,6 @@ export const Header = () => {
       {currentChainName}
     </Badge>
   );
-
-  const toggleNavBar = useCallback(() => {
-    setShow((state) => !state);
-  }, []);
 
   return (
     <header
@@ -70,32 +53,7 @@ export const Header = () => {
         )}
         <Flex align="center" gap="3" className="ml-auto">
           <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
-          <Select.Root value={theme} onValueChange={setTheme}>
-            <Select.Trigger radius="full" />
-            <Select.Content>
-              <Select.Item value="light">
-                <FaRegSun />
-              </Select.Item>
-              <Select.Item value="dark">
-                <FaMoon />
-              </Select.Item>
-              <Select.Item value="system">
-                <FaAdjust />
-              </Select.Item>
-            </Select.Content>
-          </Select.Root>
         </Flex>
-        <Tooltip content="Navigation">
-          <IconButton
-            size="3"
-            variant="ghost"
-            color="gray"
-            className="md:hidden"
-            onClick={toggleNavBar}
-          >
-            <HamburgerMenuIcon width="16" height="16" />
-          </IconButton>
-        </Tooltip>
       </Flex>
     </header>
   );
