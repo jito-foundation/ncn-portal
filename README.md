@@ -21,26 +21,6 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
 NEXT_PUBLIC_SOLANA_CHAIN=solana:devnet
 ```
 
-### Deploy with Docker
-
-For OpenAI account users:
-
-```
-docker run -d -p 3000:3000 \
-   -e OPENAI_API_KEY="<REPLACE-ME>" \
-   blrchen/chatgpt-lite
-```
-
-For Azure OpenAI account users:
-
-```
-docker run -d -p 3000:3000 \
-   -e AZURE_OPENAI_API_BASE_URL="<REPLACE-ME>" \
-   -e AZURE_OPENAI_API_KEY="<REPLACE-ME>" \
-   -e AZURE_OPENAI_DEPLOYMENT="<REPLACE-ME>" \
-   blrchen/chatgpt-lite
-```
-
 ## Development
 
 ### Running Locally
@@ -52,19 +32,16 @@ docker run -d -p 3000:3000 \
 5. Start the application using `yarn dev`.
 6. Visit `http://localhost:3000` in your browser.
 
-### Running Locally with Docker
-
-1. Clone the repository and navigate to the root directory.
-2. Update the `OPENAI_API_KEY` environment variable in the `docker-compose.yml` file.
-3. Build the application using `docker-compose build .`.
-4. Start it by running `docker-compose up -d`.
-
 ## Environment Variables
+
+Copy `.env.example`.
+
+```bash
+cp .env.example .env
+```
 
 Required environment variables:
 
-For OpenAI account:
-
 | Name                     | Description           | Default Value           |
 | ------------------------ | --------------------- | ----------------------- |
-| NEXT_PUBLIC_API_BASE_URL | Interact with backend | `http://localhost:3000` |
+| NEXT_PUBLIC_API_BASE_URL | Interact with backend | `http://localhost:8080` |
