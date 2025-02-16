@@ -46,10 +46,11 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { login } = useAuth();
   const router = useRouter();
 
-  const getProof = async () => {
+  const request = async (requestType: string) => {
     const url = "/api/login";
 
     const data = {
+      requestType,
       address: account.address,
     };
 
@@ -67,7 +68,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
     setError(NO_ERROR);
     setIsSendingTransaction(true);
     try {
-      const res = await getProof();
+      const res = await request("login");
       const json = await res.json();
 
       const { value: latestBlockhash } = await rpc
@@ -108,6 +109,54 @@ export function WhitelistFeaturePanel({ account }: Props) {
     }
   };
 
+  const handleUnlockChatbot = async (e: any) => {
+    e.preventDefault();
+    setError(NO_ERROR);
+    // setIsSendingTransaction(true);
+
+    try {
+      const res = await request("unlockChatbot");
+      const json = await res.json();
+
+      // const { value: latestBlockhash } = await rpc
+      //   .getLatestBlockhash({ commitment: "confirmed" })
+      //   .send();
+      // const [whitelistAddress] = await getProgramDerivedAddress({
+      //   programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
+      //   seeds: [Buffer.from("whitelist")],
+      // });
+      // const message = pipe(
+      //   createTransactionMessage({ version: 0 }),
+      //   (m) => setTransactionMessageFeePayerSigner(transactionSendingSigner, m),
+      //   (m) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
+      //   (m) =>
+      //     appendTransactionMessageInstruction(
+      //       getCheckWhitelistedInstruction({
+      //         whitelist: whitelistAddress,
+      //         whitelisted: transactionSendingSigner,
+      //         proof: json.data,
+      //       }),
+      //       m,
+      //     ),
+      // );
+      // assertIsTransactionMessageWithSingleSendingSigner(message);
+      // const signature = await signAndSendTransactionMessageWithSigners(message);
+      // void mutate({
+      //   address: transactionSendingSigner.address,
+      //   chain: currentChain,
+      // });
+      console.log(json);
+      // login!();
+      // router.push("/chat");
+      // setLastSignature(signature);
+    } catch (e) {
+      // setLastSignature(undefined);
+      setError({ message: "Failed to send" });
+    } finally {
+      setIsSendingTransaction(false);
+    }
+  };
+
   return (
     <Flex
       asChild
@@ -115,7 +164,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
       direction={{ initial: "column", sm: "row" }}
       className=""
     >
-      <form onSubmit={handleLogin}>
+      <div>
         <Dialog.Root
           open={!!lastSignature}
           onOpenChange={(open) => {
@@ -128,10 +177,22 @@ export function WhitelistFeaturePanel({ account }: Props) {
             <Button
               color={error ? undefined : "red"}
               loading={isSendingTransaction}
-              type="submit"
+              type="button"
               className="cursor-pointer"
+              onClick={handleLogin}
             >
               Ask the Chatbot Now
+            </Button>
+          </Dialog.Trigger>
+          <Dialog.Trigger>
+            <Button
+              color={error ? undefined : "red"}
+              loading={isSendingTransaction}
+              type="button"
+              className="cursor-pointer"
+              onClick={handleUnlockChatbot}
+            >
+              Unlock Chatbot
             </Button>
           </Dialog.Trigger>
         </Dialog.Root>
@@ -142,7 +203,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
             title="SignIn failed"
           />
         ) : null}
-      </form>
+      </div>
     </Flex>
   );
 }
