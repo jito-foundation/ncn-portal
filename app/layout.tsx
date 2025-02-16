@@ -4,7 +4,6 @@ import "./globals.scss";
 
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
-import { Header } from "@/components/Header";
 import ThemesProvider from "@/providers/ThemesProvider";
 import { ChainContextProvider } from "@/components/context/ChainContextProvider";
 import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
@@ -29,14 +28,14 @@ export const metadata = {
   },
 };
 
-const banner = <Banner storageKey="some-key">Nextra 4.0 is released 🎉</Banner>
+const banner = <Banner storageKey="some-key">Jito Restaking is released 🎉</Banner>
 const navbar = (
   <Navbar
     logo={<b>NCN Portal</b>}
   // ... Your additional navbar options
   />
 )
-const footer = <Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>
+const footer = <Footer>MIT {new Date().getFullYear()} © Jito.</Footer>
 
 export default async function RootLayout({
   children,
@@ -51,7 +50,6 @@ export default async function RootLayout({
             <SelectedWalletAccountContextProvider>
               <RpcContextProvider>
                 <AuthProvider>
-                  {/* <Header /> */}
                   <Head></Head>
                   <Layout
                     banner={banner}

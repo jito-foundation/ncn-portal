@@ -5,6 +5,8 @@ import { SelectedWalletAccountContext } from "@/components/context/SelectedWalle
 import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
 import Image from "next/image";
 import jitoRestakingV1 from "../../public/jitoRestakingV1_crop.webp";
+import { ConnectWalletMenu } from "@/components/ConnectWalletMenu";
+import { Header } from "@/components/Header";
 
 const HomePage = () => {
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
@@ -30,7 +32,8 @@ const HomePage = () => {
 
   return (
     <Suspense>
-      {/* {selectedWalletAccount ? (
+      <Header />
+      {selectedWalletAccount ? (
         <div className="w-screen flex justify-center h-screen">
           <div className="w-8/12 flex justify-center items-center">
             <div className="">
@@ -76,8 +79,7 @@ const HomePage = () => {
             />
           </div>
         </div>
-      )} */}
-      <h1>Hello</h1>
+      )}
     </Suspense>
   );
 };

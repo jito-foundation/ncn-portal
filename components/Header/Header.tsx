@@ -70,32 +70,7 @@ export const Header = () => {
         )}
         <Flex align="center" gap="3" className="ml-auto">
           <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
-          <Select.Root value={theme} onValueChange={setTheme}>
-            <Select.Trigger radius="full" />
-            <Select.Content>
-              <Select.Item value="light">
-                <FaRegSun />
-              </Select.Item>
-              <Select.Item value="dark">
-                <FaMoon />
-              </Select.Item>
-              <Select.Item value="system">
-                <FaAdjust />
-              </Select.Item>
-            </Select.Content>
-          </Select.Root>
         </Flex>
-        <Tooltip content="Navigation">
-          <IconButton
-            size="3"
-            variant="ghost"
-            color="gray"
-            className="md:hidden"
-            onClick={toggleNavBar}
-          >
-            <HamburgerMenuIcon width="16" height="16" />
-          </IconButton>
-        </Tooltip>
       </Flex>
     </header>
   );
