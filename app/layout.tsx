@@ -13,7 +13,6 @@ import { getPageMap } from "nextra/page-map";
 import "./theme-config.css";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Banner, Head } from "nextra/components";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export const metadata = {
   title: {

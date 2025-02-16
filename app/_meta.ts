@@ -12,7 +12,7 @@ const meta: MetaRecord = {
     title: "Documentation",
   },
   login: {
-    title: "Chatbot",
+    title: "AI Assistant",
     theme: {
       navbar: false,
     },
