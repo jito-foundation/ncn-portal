@@ -10,6 +10,7 @@ NCN Portal is a Claude web interface developed using Next.js and the [Claude Cha
 
 ## Prerequisites
 
+- [Volta](https://docs.volta.sh/guide/) installed (optional).
 - You need an Claude account.
 - Solna Wallet installed.
 
@@ -67,3 +68,4 @@ For OpenAI account:
 | Name                     | Description           | Default Value           |
 | ------------------------ | --------------------- | ----------------------- |
 | NEXT_PUBLIC_API_BASE_URL | Interact with backend | `http://localhost:3000` |
+
