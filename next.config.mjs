@@ -61,7 +61,7 @@ import nextra from 'nextra'
  
 const withNextra = nextra({
   // ... Other Nextra config options
-  contentDirBasePath: '/docs'
+  contentDirBasePath: '/docs',
 })
  
 // You can include other Next.js configuration options here, in addition to Nextra settings:
