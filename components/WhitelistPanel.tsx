@@ -24,6 +24,7 @@ import {
 } from "@/idl";
 import { useAuth } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type Props = Readonly<{
   account: UiWalletAccount;
@@ -112,46 +113,14 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const handleUnlockChatbot = async (e: any) => {
     e.preventDefault();
     setError(NO_ERROR);
-    // setIsSendingTransaction(true);
 
     try {
       const res = await request("unlockChatbot");
-      const json = await res.json();
+      await res.json();
 
-      // const { value: latestBlockhash } = await rpc
-      //   .getLatestBlockhash({ commitment: "confirmed" })
-      //   .send();
-      // const [whitelistAddress] = await getProgramDerivedAddress({
-      //   programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
-      //   seeds: [Buffer.from("whitelist")],
-      // });
-      // const message = pipe(
-      //   createTransactionMessage({ version: 0 }),
-      //   (m) => setTransactionMessageFeePayerSigner(transactionSendingSigner, m),
-      //   (m) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
-      //   (m) =>
-      //     appendTransactionMessageInstruction(
-      //       getCheckWhitelistedInstruction({
-      //         whitelist: whitelistAddress,
-      //         whitelisted: transactionSendingSigner,
-      //         proof: json.data,
-      //       }),
-      //       m,
-      //     ),
-      // );
-      // assertIsTransactionMessageWithSingleSendingSigner(message);
-      // const signature = await signAndSendTransactionMessageWithSigners(message);
-      // void mutate({
-      //   address: transactionSendingSigner.address,
-      //   chain: currentChain,
-      // });
-      console.log(json);
-      // login!();
-      // router.push("/chat");
-      // setLastSignature(signature);
+      toast.success("Your request has been sent! Please wait for approval.")
     } catch (e) {
-      // setLastSignature(undefined);
-      setError({ message: "Failed to send" });
+      toast.error("Failed to send request. Please try again later.")
     } finally {
       setIsSendingTransaction(false);
     }
@@ -187,7 +156,6 @@ export function WhitelistFeaturePanel({ account }: Props) {
           <Dialog.Trigger>
             <Button
               color={error ? undefined : "red"}
-              loading={isSendingTransaction}
               type="button"
               className="cursor-pointer"
               onClick={handleUnlockChatbot}
