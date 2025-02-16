@@ -12,7 +12,7 @@ import {
   getProgramDerivedAddress,
 } from "@solana/web3.js";
 import { type UiWalletAccount } from "@wallet-standard/react";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 
 import { ChainContext } from "./context/ChainContext";
@@ -36,6 +36,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
   const { rpc } = useContext(RpcContext);
   const [isSendingTransaction, setIsSendingTransaction] = useState(false);
 
+  const [accessStatus, setAccessStatus] = useState<number | null>(null);
   /* eslint-disable  @typescript-eslint/no-explicit-any */
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
@@ -63,6 +64,24 @@ export function WhitelistFeaturePanel({ account }: Props) {
       body: JSON.stringify(data),
     });
   };
+
+  useEffect(() => {
+    const fetchWhitelist = async () => {
+      try {
+        const res = await request("getWhitelist");
+        const json = await res.json();
+
+        setAccessStatus(json.data);
+      } catch (e) {
+        setLastSignature(undefined);
+        setError({ message: "You are not whitelisted" });
+      } finally {
+        setIsSendingTransaction(false);
+      }
+    };
+
+    fetchWhitelist();
+  }, []);
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -116,11 +135,16 @@ export function WhitelistFeaturePanel({ account }: Props) {
 
     try {
       const res = await request("unlockChatbot");
-      await res.json();
+      const json = await res.json();
 
-      toast.success("Your request has been sent! Please wait for approval.")
+      if (json.status) {
+        toast.success("Your request has been sent! Please wait for approval.");
+        setAccessStatus(1);
+      } else {
+        toast.error("Failed to send request. Please try again later.");
+      }
     } catch (e) {
-      toast.error("Failed to send request. Please try again later.")
+      toast.error("Failed to send request. Please try again later.");
     } finally {
       setIsSendingTransaction(false);
     }
@@ -134,36 +158,51 @@ export function WhitelistFeaturePanel({ account }: Props) {
       className=""
     >
       <div>
-        <Dialog.Root
-          open={!!lastSignature}
-          onOpenChange={(open) => {
-            if (!open) {
-              setLastSignature(undefined);
-            }
-          }}
-        >
-          <Dialog.Trigger>
-            <Button
-              color={error ? undefined : "red"}
-              loading={isSendingTransaction}
-              type="button"
-              className="cursor-pointer"
-              onClick={handleLogin}
-            >
-              Ask the Chatbot Now
-            </Button>
-          </Dialog.Trigger>
-          <Dialog.Trigger>
-            <Button
-              color={error ? undefined : "red"}
-              type="button"
-              className="cursor-pointer"
-              onClick={handleUnlockChatbot}
-            >
-              Unlock Chatbot
-            </Button>
-          </Dialog.Trigger>
-        </Dialog.Root>
+        {(() => {
+          switch (accessStatus) {
+            case 0:
+              return <h1>Not Whitelisted</h1>;
+            case 1:
+              return <h1>Pending</h1>;
+            case 2:
+              return (
+                <Dialog.Root
+                  open={!!lastSignature}
+                  onOpenChange={(open) => {
+                    if (!open) {
+                      setLastSignature(undefined);
+                    }
+                  }}
+                >
+                  <Dialog.Trigger>
+                    <Button
+                      color={error ? undefined : "red"}
+                      loading={isSendingTransaction}
+                      type="button"
+                      className="cursor-pointer"
+                      onClick={handleLogin}
+                    >
+                      Ask the Chatbot Now
+                    </Button>
+                  </Dialog.Trigger>
+                </Dialog.Root>
+              );
+            case 3:
+              return <h1>Banned</h1>;
+            default:
+              return (
+                <Button
+                  color={error ? undefined : "red"}
+                  type="button"
+                  className="cursor-pointer"
+                  onClick={handleUnlockChatbot}
+                >
+                  Unlock Chatbot
+                </Button>
+              );
+          }
+        })()}
+
         {error !== NO_ERROR ? (
           <ErrorDialog
             error={error}

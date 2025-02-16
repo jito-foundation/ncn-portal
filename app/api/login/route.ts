@@ -11,6 +11,11 @@ export async function POST(req: NextRequest) {
     const { apiUrl } = getApiConfig();
 
     switch (requestType) {
+      case "getWhitelist": {
+        const response = await getWhitelist(apiUrl, address);
+        return NextResponse.json(response);
+      }
+
       case "login": {
         const proof = await getProof(apiUrl, address);
         return NextResponse.json(proof);
@@ -32,6 +37,27 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+const getWhitelist = async (apiUrl: string, address: string) => {
+  const url = `${apiUrl}/rest/whitelist/${address}/access_status`;
+  const res = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+  });
+
+  if (res.status !== 200) {
+    const statusText = res.statusText;
+    const responseBody = await res.text();
+    throw new Error(
+      `NCN Portal has encountered an error with a status code of ${res.status} ${statusText}: ${responseBody}`,
+    );
+  }
+
+  const json = await res.json();
+  return json;
+};
 
 const getProof = async (apiUrl: string, address: string) => {
   const url = `${apiUrl}/rest/merkle_tree/get/${address}`;
