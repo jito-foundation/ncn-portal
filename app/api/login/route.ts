@@ -1,17 +1,20 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 import { NextRequest, NextResponse } from "next/server";
 import { getApiConfig } from "../apiConfig";
 import { UiWalletAccount } from "@wallet-standard/react";
 
 export async function POST(req: NextRequest) {
   try {
-    const { requestType, domain, address, account, signedMessage, signature } = (await req.json()) as {
-      requestType: string;
-      domain: string | undefined;
-      address: string;
-      account: UiWalletAccount | undefined;
-      signedMessage: Uint8Array<ArrayBufferLike> | undefined,
-      signature: Uint8Array<ArrayBufferLike> | undefined
-    };
+    const { requestType, domain, address, account, signedMessage, signature } =
+      (await req.json()) as {
+        requestType: string;
+        domain: string | undefined;
+        address: string;
+        account: UiWalletAccount | undefined;
+        signedMessage: Uint8Array<ArrayBufferLike> | undefined;
+        signature: Uint8Array<ArrayBufferLike> | undefined;
+      };
 
     const { apiUrl } = getApiConfig();
 
@@ -19,11 +22,6 @@ export async function POST(req: NextRequest) {
       case "getWhitelist": {
         const response = await getWhitelist(apiUrl, address);
         return NextResponse.json(response);
-      }
-
-      case "login": {
-        const proof = await getProof(apiUrl, address);
-        return NextResponse.json(proof);
       }
 
       case "unlockChatbot": {
@@ -37,7 +35,13 @@ export async function POST(req: NextRequest) {
       }
 
       case "validateAndVerify": {
-        const response = await validateAndVerify(apiUrl, domain!, account, signedMessage, signature);
+        const response = await validateAndVerify(
+          apiUrl,
+          domain!,
+          account,
+          signedMessage,
+          signature,
+        );
         return NextResponse.json(response);
       }
     }
@@ -54,27 +58,6 @@ export async function POST(req: NextRequest) {
 
 const getWhitelist = async (apiUrl: string, address: string) => {
   const url = `${apiUrl}/rest/whitelist/${address}/access_status`;
-  const res = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "GET",
-  });
-
-  if (res.status !== 200) {
-    const statusText = res.statusText;
-    const responseBody = await res.text();
-    throw new Error(
-      `NCN Portal has encountered an error with a status code of ${res.status} ${statusText}: ${responseBody}`,
-    );
-  }
-
-  const json = await res.json();
-  return json;
-};
-
-const getProof = async (apiUrl: string, address: string) => {
-  const url = `${apiUrl}/rest/merkle_tree/get/${address}`;
   const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
@@ -119,7 +102,11 @@ const unlockChatbot = async (apiUrl: string, address: string) => {
   return json;
 };
 
-const getSiwsMessage = async (apiUrl: string, address: string, domain: string) => {
+const getSiwsMessage = async (
+  apiUrl: string,
+  address: string,
+  domain: string,
+) => {
   const url = `${apiUrl}/rest/whitelist/${address}/siws_message`;
   const data = {
     address,
@@ -146,38 +133,38 @@ const getSiwsMessage = async (apiUrl: string, address: string, domain: string) =
 };
 
 const validateAndVerify = async (
-  apiUrl: string, 
+  apiUrl: string,
   domain: string,
   accountData: UiWalletAccount | undefined,
   signedMessageData: Uint8Array<ArrayBufferLike> | undefined,
-  signatureData: Uint8Array<ArrayBufferLike> | undefined
+  signatureData: Uint8Array<ArrayBufferLike> | undefined,
 ) => {
   const url = `${apiUrl}/rest/whitelist/${accountData?.address}/validate_and_verify?domain=${domain}`;
 
   const convertPublicKeyToArray = (publicKey: any) => {
     if (!publicKey) return [];
-    return Object.keys(publicKey).sort((a, b) => Number(a) - Number(b)).map((key) => publicKey[key])
-  }
+    return Object.keys(publicKey)
+      .sort((a, b) => Number(a) - Number(b))
+      .map((key) => publicKey[key]);
+  };
 
   const getByteArray = (input: any) => {
     if (!input) return [];
     if (input instanceof Uint8Array) return Array.from(input);
     if (input.data) return Array.from(input.data);
-    return []
-  }
+    return [];
+  };
 
   const account = {
     publicKey: convertPublicKeyToArray(accountData?.publicKey),
   };
-  const signedMessage =  getByteArray(signedMessageData);
+  const signedMessage = getByteArray(signedMessageData);
   const signature = getByteArray(signatureData);
   const data = {
     account,
     signedMessage,
-    signature
+    signature,
   };
-
-  console.log("Payload to Sent to Backend: ", JSON.stringify(data, null, 2));
 
   const res = await fetch(url, {
     headers: {
@@ -197,4 +184,4 @@ const validateAndVerify = async (
 
   const json = await res.json();
   return json;
-}
+};
