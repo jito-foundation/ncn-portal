@@ -11,7 +11,6 @@ import { Header } from "@/components/Header";
 import PersonaModal from "./PersonaModal";
 import PersonaPanel from "./PersonaPanel";
 
-
 const ChatProvider = () => {
   const provider = useChatHook();
 

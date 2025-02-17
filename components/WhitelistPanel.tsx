@@ -1,27 +1,9 @@
 import { Button, Dialog, Flex } from "@radix-ui/themes";
-import { useWalletAccountTransactionSendingSigner } from "@solana/react";
-import {
-  address,
-  appendTransactionMessageInstruction,
-  assertIsTransactionMessageWithSingleSendingSigner,
-  createTransactionMessage,
-  pipe,
-  setTransactionMessageFeePayerSigner,
-  setTransactionMessageLifetimeUsingBlockhash,
-  signAndSendTransactionMessageWithSigners,
-  getProgramDerivedAddress,
-} from "@solana/web3.js";
+import { useSignIn } from "@solana/react";
 import { type UiWalletAccount } from "@wallet-standard/react";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useSWRConfig } from "swr";
+import { useEffect, useRef, useState } from "react";
 
-import { ChainContext } from "./context/ChainContext";
-import { RpcContext } from "./context/RpcContext";
 import { ErrorDialog } from "./ErrorDialog";
-import {
-  getCheckWhitelistedInstruction,
-  NCN_PORTAL_PROGRAM_ADDRESS,
-} from "@/idl";
 import { useAuth } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -31,20 +13,14 @@ type Props = Readonly<{
 }>;
 
 export function WhitelistFeaturePanel({ account }: Props) {
-  const { mutate } = useSWRConfig();
+  const signIn = useSignIn(account);
   const { current: NO_ERROR } = useRef(Symbol());
-  const { rpc } = useContext(RpcContext);
   const [isSendingTransaction, setIsSendingTransaction] = useState(false);
 
   const [accessStatus, setAccessStatus] = useState<number | null>(null);
   /* eslint-disable  @typescript-eslint/no-explicit-any */
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
-  const { chain: currentChain } = useContext(ChainContext);
-  const transactionSendingSigner = useWalletAccountTransactionSendingSigner(
-    account,
-    currentChain,
-  );
   const { login } = useAuth();
   const router = useRouter();
 
@@ -54,6 +30,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
     const data = {
       requestType,
       address: account.address,
+      domain: window.location.host,
     };
 
     return await fetch(url, {
@@ -88,39 +65,38 @@ export function WhitelistFeaturePanel({ account }: Props) {
     setError(NO_ERROR);
     setIsSendingTransaction(true);
     try {
-      const res = await request("login");
-      const json = await res.json();
-
-      const { value: latestBlockhash } = await rpc
-        .getLatestBlockhash({ commitment: "confirmed" })
-        .send();
-      const [whitelistAddress] = await getProgramDerivedAddress({
-        programAddress: address(NCN_PORTAL_PROGRAM_ADDRESS),
-        seeds: [Buffer.from("whitelist")],
-      });
-      const message = pipe(
-        createTransactionMessage({ version: 0 }),
-        (m) => setTransactionMessageFeePayerSigner(transactionSendingSigner, m),
-        (m) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
-        (m) =>
-          appendTransactionMessageInstruction(
-            getCheckWhitelistedInstruction({
-              whitelist: whitelistAddress,
-              whitelisted: transactionSendingSigner,
-              proof: json.data,
-            }),
-            m,
-          ),
+      const resMessage = await request("getSiwsMessage");
+      const messageJson = await resMessage.json();
+      const { account, signedMessage, signature } = await signIn(
+        messageJson.data,
       );
-      assertIsTransactionMessageWithSingleSendingSigner(message);
-      const signature = await signAndSendTransactionMessageWithSigners(message);
-      void mutate({
-        address: transactionSendingSigner.address,
-        chain: currentChain,
+
+      const url = "/api/login";
+
+      const data = {
+        requestType: "validateAndVerify",
+        domain: window.location.host,
+        address: account.address,
+        account,
+        signedMessage,
+        signature,
+      };
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-      login!();
-      router.push("/chat");
-      setLastSignature(signature);
+
+      const json = await res.json();
+      if (json.data) {
+        login!();
+        router.push("/chat");
+      } else {
+        setError({ message: "You are not whitelisted" });
+      }
     } catch (e) {
       setLastSignature(undefined);
       setError({ message: "You are not whitelisted" });
