@@ -2810,6 +2810,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@solana/wallet-standard-features@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@solana/wallet-standard-features@npm:1.3.0"
+  dependencies:
+    "@wallet-standard/base": "npm:^1.1.0"
+    "@wallet-standard/features": "npm:^1.1.0"
+  checksum: 10c0/a71f797d81103697eb2878ce301a493a95a057dd2b3daa92faeb7b53f3c5e0655f41de6ea5260571b34b1c819a74a42c72213ada714edb4fbd27c6cf85d4036d
+  languageName: node
+  linkType: hard
+
 "@solana/web3.js@npm:^1.68.0":
   version: 1.98.0
   resolution: "@solana/web3.js@npm:1.98.0"
@@ -9166,6 +9176,7 @@ __metadata:
     "@radix-ui/themes": "npm:^3.1.6"
     "@solana-program/system": "npm:^0.6.2"
     "@solana/react": "npm:^2.0.0"
+    "@solana/wallet-standard-features": "npm:^1.3.0"
     "@solana/web3.js": "npm:^2.0.0"
     "@tabler/icons-react": "npm:^3.26.0"
     "@tailwindcss/postcss": "npm:^4.0.6"

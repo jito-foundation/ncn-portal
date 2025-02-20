@@ -2,6 +2,7 @@ import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { useSignIn } from "@solana/react";
 import { type UiWalletAccount } from "@wallet-standard/react";
 import { useEffect, useRef, useState } from "react";
+import { SolanaSignInInput } from "@solana/wallet-standard-features";
 
 import { ErrorDialog } from "./ErrorDialog";
 import { useAuth } from "./context/AuthContext";
@@ -30,7 +31,7 @@ export function WhitelistFeaturePanel({ account }: Props) {
     const data = {
       requestType,
       address: account.address,
-      domain: window.location.host,
+      url: window.location.href,
     };
 
     return await fetch(url, {
@@ -67,15 +68,15 @@ export function WhitelistFeaturePanel({ account }: Props) {
     try {
       const resMessage = await request("getSiwsMessage");
       const messageJson = await resMessage.json();
-      const { account, signedMessage, signature } = await signIn(
-        messageJson.data,
-      );
+      const solanaSignInInput: SolanaSignInInput = messageJson.data;
+      const { account, signedMessage, signature } =
+        await signIn(solanaSignInInput);
 
       const url = "/api/login";
 
       const data = {
         requestType: "validateAndVerify",
-        domain: window.location.host,
+        url: window.location.href,
         address: account.address,
         account,
         signedMessage,

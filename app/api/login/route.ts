@@ -6,10 +6,10 @@ import { UiWalletAccount } from "@wallet-standard/react";
 
 export async function POST(req: NextRequest) {
   try {
-    const { requestType, domain, address, account, signedMessage, signature } =
+    const { requestType, url, address, account, signedMessage, signature } =
       (await req.json()) as {
         requestType: string;
-        domain: string | undefined;
+        url: string | undefined;
         address: string;
         account: UiWalletAccount | undefined;
         signedMessage: Uint8Array<ArrayBufferLike> | undefined;
@@ -30,14 +30,14 @@ export async function POST(req: NextRequest) {
       }
 
       case "getSiwsMessage": {
-        const response = await getSiwsMessage(apiUrl, address, domain!);
+        const response = await getSiwsMessage(apiUrl, address, url!);
         return NextResponse.json(response);
       }
 
       case "validateAndVerify": {
         const response = await validateAndVerify(
           apiUrl,
-          domain!,
+          url!,
           account,
           signedMessage,
           signature,
@@ -102,17 +102,15 @@ const unlockChatbot = async (apiUrl: string, address: string) => {
   return json;
 };
 
-const getSiwsMessage = async (
-  apiUrl: string,
-  address: string,
-  domain: string,
-) => {
-  const url = `${apiUrl}/rest/whitelist/${address}/siws_message`;
+const getSiwsMessage = async (apiUrl: string, address: string, url: string) => {
+  const requestUrl = new URL(
+    `${apiUrl}/rest/whitelist/${address}/siws_message`,
+  );
+
   const data = {
-    address,
-    domain,
+    url,
   };
-  const res = await fetch(url, {
+  const res = await fetch(requestUrl, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -134,12 +132,15 @@ const getSiwsMessage = async (
 
 const validateAndVerify = async (
   apiUrl: string,
-  domain: string,
+  url: string,
   accountData: UiWalletAccount | undefined,
   signedMessageData: Uint8Array<ArrayBufferLike> | undefined,
   signatureData: Uint8Array<ArrayBufferLike> | undefined,
 ) => {
-  const url = `${apiUrl}/rest/whitelist/${accountData?.address}/validate_and_verify?domain=${domain}`;
+  const requestUrl = new URL(
+    `${apiUrl}/rest/whitelist/${accountData?.address}/validate_and_verify`,
+  );
+  requestUrl.searchParams.set("url", url);
 
   const convertPublicKeyToArray = (publicKey: any) => {
     if (!publicKey) return [];
@@ -166,7 +167,7 @@ const validateAndVerify = async (
     signature,
   };
 
-  const res = await fetch(url, {
+  const res = await fetch(requestUrl, {
     headers: {
       "Content-Type": "application/json",
     },
