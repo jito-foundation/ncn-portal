@@ -254,7 +254,7 @@ const Chat = (props: ChatProps, ref: any) => {
         )}
         <div ref={bottomOfChatRef}></div>
       </ScrollArea>
-      <div className="px-4 pb-3">
+      {/* <div className="px-4 pb-3">
         <Flex align="end" justify="between" gap="3" className="relative">
           <div className="rt-TextAreaRoot rt-r-size-1 rt-variant-surface flex-1 rounded-3xl chat-textarea">
             <ContentEditable
@@ -326,7 +326,7 @@ const Chat = (props: ChatProps, ref: any) => {
             </Tooltip>
           </Flex>
         </Flex>
-      </div>
+      </div> */}
     </Flex>
   );
 };
