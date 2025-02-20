@@ -102,12 +102,10 @@ const unlockChatbot = async (apiUrl: string, address: string) => {
   return json;
 };
 
-const getSiwsMessage = async (
-  apiUrl: string,
-  address: string,
-  url: string,
-) => {
-  const requestUrl = new URL(`${apiUrl}/rest/whitelist/${address}/siws_message`);
+const getSiwsMessage = async (apiUrl: string, address: string, url: string) => {
+  const requestUrl = new URL(
+    `${apiUrl}/rest/whitelist/${address}/siws_message`,
+  );
 
   const data = {
     url,
@@ -139,7 +137,9 @@ const validateAndVerify = async (
   signedMessageData: Uint8Array<ArrayBufferLike> | undefined,
   signatureData: Uint8Array<ArrayBufferLike> | undefined,
 ) => {
-  const requestUrl = new URL(`${apiUrl}/rest/whitelist/${accountData?.address}/validate_and_verify`);
+  const requestUrl = new URL(
+    `${apiUrl}/rest/whitelist/${accountData?.address}/validate_and_verify`,
+  );
   requestUrl.searchParams.set("url", url);
 
   const convertPublicKeyToArray = (publicKey: any) => {

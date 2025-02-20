@@ -69,9 +69,8 @@ export function WhitelistFeaturePanel({ account }: Props) {
       const resMessage = await request("getSiwsMessage");
       const messageJson = await resMessage.json();
       const solanaSignInInput: SolanaSignInInput = messageJson.data;
-      const { account, signedMessage, signature } = await signIn(
-        solanaSignInInput,
-      );
+      const { account, signedMessage, signature } =
+        await signIn(solanaSignInInput);
 
       const url = "/api/login";
 
