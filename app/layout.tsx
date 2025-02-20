@@ -13,6 +13,7 @@ import { getPageMap } from "nextra/page-map";
 import "./theme-config.css";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Banner, Head } from "nextra/components";
+import ChatbotModal from "@/components/ChatbotModal";
 
 export const metadata = {
   title: {
@@ -61,6 +62,7 @@ export default async function RootLayout({
                   >
                     {children}
                   </Layout>
+                  <ChatbotModal />
                   <Toaster />
                 </AuthProvider>
               </RpcContextProvider>
