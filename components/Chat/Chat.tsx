@@ -227,7 +227,7 @@ const Chat = (props: ChatProps, ref: any) => {
   });
 
   return (
-    <Flex direction="column" height="100%" className="relative  w-4/5" gap="3">
+    <Flex direction="column" height="100%" className="relative" gap="3">
       {/* <Flex
         justify="between"
         align="center"

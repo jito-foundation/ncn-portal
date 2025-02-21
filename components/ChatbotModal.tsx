@@ -24,9 +24,9 @@ const ChatProvider = () => {
 
     return (
         <ChatContext.Provider value={provider}>
-            <Flex style={{ height: "calc(100% - 56px)" }} className="relative">
+            <Flex style={{ height: "calc(100% - 56px)" }} className="relative w-full h-full flex flex-col items-center justify-center p-4 bg-gray-900 text-white rounded-lg shadow-md overflow-y-auto">
                 {/* <ChatSideBar /> */}
-                <div className="flex-1 relative justify-center flex">
+                <div className="flex-1 w-full max-w-3xl relative flex flex-col justify-center items-center gap-4">
                     <Chat ref={provider.chatRef} />
                     <PersonaPanel />
                 </div>
@@ -190,11 +190,13 @@ export default function ChatbotModal() {
                         <div className="flex-1 p-6 flex flex-col justify-center items-center">
                             {selectedWalletAccount && <>
 
-                                <div className="bg-blue-800 p-4 rounded-lg shadow-md w-full max-w-lg text-center cursor-pointer hover:bg-blue-700 transition\" onClick={() => console.log('WhitelistFeaturePanel clicked')}>
+
+
+                                {isAuthenticated ? <ChatProvider /> : (
+                                    <div className="bg-blue-800 p-4 rounded-lg shadow-md w-full max-w-lg text-center cursor-pointer hover:bg-blue-700 transition\" onClick={() => console.log('WhitelistFeaturePanel clicked')}>
                                         <WhitelistFeaturePanel account={selectedWalletAccount} />
                                     </div>
-
-                                {isAuthenticated && <ChatProvider />}
+                                )}
                                 {/* <div className="p-4 border-t border-gray-700 flex">
                             <input
                                 type="text"
