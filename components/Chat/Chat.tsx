@@ -228,18 +228,18 @@ const Chat = (props: ChatProps, ref: any) => {
 
   return (
     <Flex direction="column" height="100%" className="relative  w-4/5" gap="3">
-      <Flex
+      {/* <Flex
         justify="between"
         align="center"
         py="3"
         px="4"
         style={{ backgroundColor: "var(--gray-a2)" }}
       >
-        <Heading size="4">
+        <Heading size="4"> */}
           {/* {currentChatRef?.current?.persona?.name || "None"} */}
-          Chat
-        </Heading>
-      </Flex>
+          {/* Chat */}
+        {/* </Heading>
+      </Flex> */}
       <ScrollArea
         className="flex-1 px-4"
         type="auto"
@@ -254,7 +254,7 @@ const Chat = (props: ChatProps, ref: any) => {
         )}
         <div ref={bottomOfChatRef}></div>
       </ScrollArea>
-      {/* <div className="px-4 pb-3">
+      <div className="px-4 pb-3">
         <Flex align="end" justify="between" gap="3" className="relative">
           <div className="rt-TextAreaRoot rt-r-size-1 rt-variant-surface flex-1 rounded-3xl chat-textarea">
             <ContentEditable
@@ -326,7 +326,7 @@ const Chat = (props: ChatProps, ref: any) => {
             </Tooltip>
           </Flex>
         </Flex>
-      </div> */}
+      </div>
     </Flex>
   );
 };
