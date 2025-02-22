@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { ChatContext, Persona } from "@/components";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import {
   Box,
@@ -14,9 +14,9 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { debounce } from "lodash-es";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { LuMessageSquarePlus } from "react-icons/lu";
-import { ChatContext, Persona } from "@/components";
 
 export interface PersonaPanelProps {}
 

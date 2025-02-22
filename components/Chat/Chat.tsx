@@ -1,7 +1,13 @@
 "use client";
 
 /* eslint-disable  react-hooks/exhaustive-deps */
-
+import {
+  Flex,
+  Heading,
+  IconButton,
+  ScrollArea,
+  Tooltip,
+} from "@radix-ui/themes";
 import {
   forwardRef,
   useCallback,
@@ -11,13 +17,6 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  Flex,
-  Heading,
-  IconButton,
-  ScrollArea,
-  Tooltip,
-} from "@radix-ui/themes";
 import ContentEditable from "react-contenteditable";
 import toast from "react-hot-toast";
 import {
@@ -27,12 +26,11 @@ import {
 } from "react-icons/ai";
 import { FiSend } from "react-icons/fi";
 
-import ChatContext from "./chatContext";
-import type { Chat, ChatMessage } from "./interface";
-import Message from "./Message";
-
-import "./index.scss";
 import { SelectedWalletAccountContext } from "../context/SelectedWalletAccountContext";
+import Message from "./Message";
+import ChatContext from "./chatContext";
+import "./index.scss";
+import type { Chat, ChatMessage } from "./interface";
 
 const HTML_REGULAR =
   /<(?!img|table|\/table|thead|\/thead|tbody|\/tbody|tr|\/tr|td|\/td|th|\/th|br|\/br).*?>/gi;

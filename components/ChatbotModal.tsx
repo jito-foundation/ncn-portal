@@ -1,17 +1,18 @@
 "use client";
 
-import { Suspense, useContext } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { SelectedWalletAccountContext } from "./context/SelectedWalletAccountContext";
-import useChatHook from "./Chat/useChatHook";
-import ChatContext from "./Chat/chatContext";
-import { Flex } from "@radix-ui/themes";
-import PersonaPanel from "@/app/chat/PersonaPanel";
 import PersonaModal from "@/app/chat/PersonaModal";
+import PersonaPanel from "@/app/chat/PersonaPanel";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Flex } from "@radix-ui/themes";
+import { Suspense, useContext } from "react";
+
+import ChatSmall from "./Chat/ChatSmall";
+import ChatContext from "./Chat/chatContext";
+import useChatHook from "./Chat/useChatHook";
+import { ChatbotButton } from "./ChatbotButton";
 import { ConnectWalletMenu } from "./ConnectWalletMenu";
 import { useAuth } from "./context/AuthContext";
-import ChatSmall from "./Chat/ChatSmall";
-import { ChatbotButton } from "./ChatbotButton";
+import { SelectedWalletAccountContext } from "./context/SelectedWalletAccountContext";
 
 const ChatProvider = () => {
   const provider = useChatHook();

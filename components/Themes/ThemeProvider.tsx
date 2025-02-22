@@ -8,10 +8,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import { ThemeProviderProps, UseThemeProps } from "./interface";
+
 import { ThemeContext } from "./ThemeContext";
 import ThemeScript from "./ThemeScript";
-import { ColorSchemes, disableAnimation, getSystemTheme, MEDIA } from "./utils";
+import { ThemeProviderProps, UseThemeProps } from "./interface";
+import { ColorSchemes, MEDIA, disableAnimation, getSystemTheme } from "./utils";
 
 export const ThemeProvider = (props: ThemeProviderProps) => {
   const context = useContext(ThemeContext);

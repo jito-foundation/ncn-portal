@@ -1,12 +1,12 @@
 "use client";
 
-import { Suspense, useContext, useEffect } from "react";
-import { Flex } from "@radix-ui/themes";
 import { Chat, ChatContext, useChatHook } from "@/components";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
-import { useRouter } from "next/navigation";
 import { Header } from "@/components/Header";
+import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { Flex } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
+import { Suspense, useContext, useEffect } from "react";
 
 import PersonaModal from "./PersonaModal";
 import PersonaPanel from "./PersonaPanel";

@@ -1,8 +1,9 @@
 "use client";
+
 import {
-  getUiWalletAccountStorageKey,
   UiWallet,
   UiWalletAccount,
+  getUiWalletAccountStorageKey,
   uiWalletAccountBelongsToUiWallet,
   uiWalletAccountsAreSame,
   useWallets,

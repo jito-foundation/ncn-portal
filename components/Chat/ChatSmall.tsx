@@ -1,7 +1,8 @@
 "use client";
 
 /* eslint-disable  react-hooks/exhaustive-deps */
-
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { Flex, IconButton, ScrollArea, Tooltip } from "@radix-ui/themes";
 import {
   forwardRef,
   useCallback,
@@ -11,17 +12,14 @@ import {
   useRef,
   useState,
 } from "react";
-import { Flex, IconButton, ScrollArea, Tooltip } from "@radix-ui/themes";
 import ContentEditable from "react-contenteditable";
 import toast from "react-hot-toast";
 
-import ChatContext from "./chatContext";
-import type { Chat, ChatMessage } from "./interface";
-
-import "./index.scss";
-import { SelectedWalletAccountContext } from "../context/SelectedWalletAccountContext";
 import { ChatMessageBubble } from "../ChatMessageBubble";
-import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { SelectedWalletAccountContext } from "../context/SelectedWalletAccountContext";
+import ChatContext from "./chatContext";
+import "./index.scss";
+import type { Chat, ChatMessage } from "./interface";
 
 const HTML_REGULAR =
   /<(?!img|table|\/table|thead|\/thead|tbody|\/tbody|tr|\/tr|td|\/td|th|\/th|br|\/br).*?>/gi;

@@ -1,9 +1,9 @@
 import { Code, Flex, Text } from "@radix-ui/themes";
 import {
-  isWalletStandardError,
   WALLET_STANDARD_ERROR__FEATURES__WALLET_ACCOUNT_CHAIN_UNSUPPORTED,
   WALLET_STANDARD_ERROR__FEATURES__WALLET_ACCOUNT_FEATURE_UNIMPLEMENTED,
   WALLET_STANDARD_ERROR__FEATURES__WALLET_FEATURE_UNIMPLEMENTED,
+  isWalletStandardError,
 } from "@wallet-standard/core";
 import React from "react";
 

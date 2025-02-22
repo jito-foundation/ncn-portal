@@ -1,8 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-
-import { NextRequest, NextResponse } from "next/server";
-import { getApiConfig } from "../apiConfig";
 import { UiWalletAccount } from "@wallet-standard/react";
+import { NextRequest, NextResponse } from "next/server";
+
+import { getApiConfig } from "../apiConfig";
 
 export async function POST(req: NextRequest) {
   try {

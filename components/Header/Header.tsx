@@ -1,11 +1,12 @@
 "use client";
 
-import { useContext } from "react";
 import { Badge, DropdownMenu, Flex, Heading } from "@radix-ui/themes";
 import cs from "classnames";
 import NextLink from "next/link";
-import { ChainContext } from "../context/ChainContext";
+import { useContext } from "react";
+
 import { ConnectWalletMenu } from "../ConnectWalletMenu";
+import { ChainContext } from "../context/ChainContext";
 
 export const Header = () => {
   const {

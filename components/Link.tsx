@@ -1,6 +1,6 @@
-import { ComponentProps } from "react";
 import { Link as RadixLink } from "@radix-ui/themes";
 import NextLink from "next/link";
+import { ComponentProps } from "react";
 
 type LinkOwnProps = ComponentProps<typeof RadixLink>;
 

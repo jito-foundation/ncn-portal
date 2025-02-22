@@ -8,8 +8,8 @@ import {
 } from "@wallet-standard/react";
 import { useCallback, useContext } from "react";
 
-import { SelectedWalletAccountContext } from "./context/SelectedWalletAccountContext";
 import { WalletMenuItemContent } from "./WalletMenuItemContent";
+import { SelectedWalletAccountContext } from "./context/SelectedWalletAccountContext";
 
 type Props = Readonly<{
   onAccountSelect(account: UiWalletAccount | undefined): void;

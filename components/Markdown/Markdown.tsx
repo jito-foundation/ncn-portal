@@ -1,5 +1,8 @@
 "use client";
 
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { IconButton, Tooltip } from "@radix-ui/themes";
+import cs from "classnames";
 import {
   ClassAttributes,
   Fragment,
@@ -7,8 +10,6 @@ import {
   useCallback,
   useState,
 } from "react";
-import { IconButton, Tooltip } from "@radix-ui/themes";
-import cs from "classnames";
 import { RxClipboardCopy } from "react-icons/rx";
 import ReactMarkdown, { ExtraProps } from "react-markdown";
 import { Prism, SyntaxHighlighterProps } from "react-syntax-highlighter";
@@ -20,7 +21,6 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 import "./index.scss";
 

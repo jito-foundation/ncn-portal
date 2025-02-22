@@ -1,10 +1,10 @@
 "use client";
 
-import { Suspense, useContext } from "react";
-import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
-import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
-import Image from "next/image";
 import { Header } from "@/components/Header";
+import { WhitelistFeaturePanel } from "@/components/WhitelistPanel";
+import { SelectedWalletAccountContext } from "@/components/context/SelectedWalletAccountContext";
+import Image from "next/image";
+import { Suspense, useContext } from "react";
 
 import jitoRestakingV1 from "../../public/jitoRestakingV1_crop.webp";
 

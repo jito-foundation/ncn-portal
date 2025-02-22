@@ -1,9 +1,10 @@
 import {
-  createParser,
   ParsedEvent,
   ReconnectInterval,
+  createParser,
 } from "eventsource-parser";
 import { NextRequest, NextResponse } from "next/server";
+
 import { getApiConfig } from "../apiConfig";
 
 export const runtime = "edge";

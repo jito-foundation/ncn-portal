@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, MutableRefObject } from "react";
+import { MutableRefObject, createContext } from "react";
+
 import { Chat, ChatMessage, Persona } from "./interface";
 
 const ChatContext = createContext<{
