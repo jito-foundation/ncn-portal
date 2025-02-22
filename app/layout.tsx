@@ -1,5 +1,6 @@
 import "nextra-theme-docs/style.css";
 import "./globals.scss";
+import "./theme-config.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
@@ -10,9 +11,9 @@ import { RpcContextProvider } from "@/components/context/RpcContextProvider";
 import { AuthProvider } from "@/components/context/AuthContext";
 import { getPageMap } from "nextra/page-map";
 
-import "./theme-config.css";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import { Banner, Head } from "nextra/components";
+import ChatbotModal from "@/components/ChatbotModal";
 
 export const metadata = {
   title: {
@@ -61,6 +62,7 @@ export default async function RootLayout({
                   >
                     {children}
                   </Layout>
+                  <ChatbotModal />
                   <Toaster />
                 </AuthProvider>
               </RpcContextProvider>

@@ -83,7 +83,7 @@ const HighlightCode = (
 export const Markdown = ({ className, children }: MarkdownProps) => {
   return (
     <ReactMarkdown
-      className={cs("prose dark:prose-invert max-w-none", className)}
+      // className={cs("prose dark:prose-invert max-w-none", className)}
       remarkPlugins={[remarkParse, remarkMath, remarkRehype, remarkGfm]}
       rehypePlugins={[rehypeRaw, rehypeKatex, rehypeStringify]}
       components={{
