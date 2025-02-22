@@ -19,8 +19,8 @@ const ChatProvider = () => {
   return (
     <ChatContext.Provider value={provider}>
       <Flex
-        style={{ height: "calc(100% - 56px)" }}
-        className="relative w-full h-full flex flex-col items-center justify-center p-4 bg-gray-900 text-white rounded-lg shadow-md overflow-y-auto"
+        // style={{ height: "calc(100% - 56px)" }}
+        className="relative w-full h-full flex flex-col items-center justify-center p-4 bg-black text-white rounded-lg shadow-md overflow-y-auto"
       >
         {/* <ChatSideBar /> */}
         <div className="flex-1 w-full max-w-3xl relative flex flex-col justify-center items-center gap-4">
@@ -44,7 +44,7 @@ export default function ChatbotModal() {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Content className="fixed inset-0 m-auto bg-gray-900 text-white w-[1000px] max-w-full h-[80vh] rounded-lg shadow-xl flex flex-col">
+        <Dialog.Content className="fixed inset-0 m-auto bg-black text-white w-[1000px] max-w-full h-[80vh] rounded-lg shadow-xl flex flex-col">
           {/* Header */}
           <Suspense>
             <div className="flex justify-between items-center p-4 border-b border-gray-700">

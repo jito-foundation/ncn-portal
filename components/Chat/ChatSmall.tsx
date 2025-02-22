@@ -212,7 +212,7 @@ const ChatSmall = (props: ChatProps, ref: any) => {
   return (
     <Flex
       direction="column"
-      className="w-full max-w-3xl h-full bg-gray-900 rounded-lg shadow-lg overflow-hidden p-4"
+      className="w-full max-w-3xl h-full bg-black rounded-lg shadow-lg overflow-hidden p-4"
     >
       {/* Messages Container */}
       <ScrollArea
