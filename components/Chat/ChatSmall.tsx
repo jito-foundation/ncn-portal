@@ -11,21 +11,14 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  Flex,
-  IconButton,
-  ScrollArea,
-  Tooltip,
-} from "@radix-ui/themes";
+import { Flex, IconButton, ScrollArea, Tooltip } from "@radix-ui/themes";
 import ContentEditable from "react-contenteditable";
 import toast from "react-hot-toast";
-import {
-  AiOutlineLoading3Quarters,
-} from "react-icons/ai";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FiSend } from "react-icons/fi";
 
 import ChatContext from "./chatContext";
-import type { Chat, ChatMessage } from "./interface";;
+import type { Chat, ChatMessage } from "./interface";
 
 import "./index.scss";
 import { SelectedWalletAccountContext } from "../context/SelectedWalletAccountContext";
@@ -225,16 +218,26 @@ const ChatSmall = (props: ChatProps, ref: any) => {
   });
 
   return (
-    <Flex direction="column" className="w-full max-w-3xl h-full bg-gray-900 rounded-lg shadow-lg overflow-hidden p-4">
+    <Flex
+      direction="column"
+      className="w-full max-w-3xl h-full bg-gray-900 rounded-lg shadow-lg overflow-hidden p-4"
+    >
       {/* Messages Container */}
-      <ScrollArea className="flex-1 space-y-4 overflow-y-auto" style={{ maxHeight: "60vh" }}>
+      <ScrollArea
+        className="flex-1 space-y-4 overflow-y-auto"
+        style={{ maxHeight: "60vh" }}
+      >
         {conversation.current.map((item, index) => (
           <ChatMessageBubble key={index} message={item} />
         ))}
-        {currentMessage && <ChatMessageBubble message={{ content: currentMessage, role: "assistant" }} />}
+        {currentMessage && (
+          <ChatMessageBubble
+            message={{ content: currentMessage, role: "assistant" }}
+          />
+        )}
         <div ref={bottomOfChatRef}></div>
       </ScrollArea>
-      
+
       {/* Input Area */}
       <div className="p-4 border-t border-gray-700 bg-gray-800 mt-2 rounded-lg items-center relative">
         <div className="flex-1 items-center relative text-white px-4 py-3 focus:outline-none chat-textarea mx-2 ">
@@ -244,28 +247,30 @@ const ChatSmall = (props: ChatProps, ref: any) => {
             className="text-base w-full placeholder-gray-400 focus:outline-none"
             html={message}
             disabled={isLoading}
-            onChange={(e) => setMessage(e.target.value.replace(HTML_REGULAR, ""))}
+            onChange={(e) =>
+              setMessage(e.target.value.replace(HTML_REGULAR, ""))
+            }
             onKeyDown={(e) => {
               handleKeypress(e);
             }}
           />
         </div>
-        
+
         {/* Send Button */}
         <div className="flex justify-end">
-        <Tooltip content="Send Message">
-          <IconButton
-            radius="large"
-            disabled={isLoading}
-            size="3"
-            className="ml-2 rounded-full cursor-pointer bg-blue-500 hover:bg-blue-600 transition-all text-white p-3 shadow-lg"
-            onClick={sendMessage}
-            loading={isLoading}
-          >
-            {/* {isLoading ? <AiOutlineLoading3Quarters className="animate-spin size-4" /> : <FiSend className="size-4" />} */}
-            <PaperPlaneIcon width="18" height="18" />
-          </IconButton>
-        </Tooltip>
+          <Tooltip content="Send Message">
+            <IconButton
+              radius="large"
+              disabled={isLoading}
+              size="3"
+              className="ml-2 rounded-full cursor-pointer bg-blue-500 hover:bg-blue-600 transition-all text-white p-3 shadow-lg"
+              onClick={sendMessage}
+              loading={isLoading}
+            >
+              {/* {isLoading ? <AiOutlineLoading3Quarters className="animate-spin size-4" /> : <FiSend className="size-4" />} */}
+              <PaperPlaneIcon width="18" height="18" />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
     </Flex>
