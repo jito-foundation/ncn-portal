@@ -2,7 +2,7 @@
 
 ## Features
 
-NCN Portal is a Claude web interface developed using Next.js and the [Claude Chat API](https://platform.openai.com/docs/api-reference/chat). It's compatible with both ClaudeAI.
+NCN Portal is a Claude web interface developed using Next.js and the Claude Chat API.
 
 - Deploy a custom Claude web interface that supports markdown, prompt storage, and multi-person chats.
 - Create a private, web-based Claude for use among friends without sharing your API key.
