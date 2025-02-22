@@ -9,11 +9,11 @@ import {
 import { useContext, useRef, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { SelectedWalletAccountContext } from "./context/SelectedWalletAccountContext";
 import { ConnectWalletMenuItem } from "./ConnectWalletMenuItem";
 import { ErrorDialog } from "./ErrorDialog";
 import { UnconnectableWalletMenuItem } from "./UnconnectableWalletMenuItem";
 import { WalletAccountIcon } from "./WalletAccountIcon";
+import { SelectedWalletAccountContext } from "./context/SelectedWalletAccountContext";
 
 type Props = Readonly<{
   children: React.ReactNode;

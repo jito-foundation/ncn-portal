@@ -1,19 +1,18 @@
+import ChatbotModal from "@/components/ChatbotModal";
+import { AuthProvider } from "@/components/context/AuthContext";
+import { ChainContextProvider } from "@/components/context/ChainContextProvider";
+import { RpcContextProvider } from "@/components/context/RpcContextProvider";
+import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
+import ThemesProvider from "@/providers/ThemesProvider";
+import { Analytics } from "@vercel/analytics/react";
+import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import "nextra-theme-docs/style.css";
+import { Banner, Head } from "nextra/components";
+import { getPageMap } from "nextra/page-map";
+import { Toaster } from "react-hot-toast";
+
 import "./globals.scss";
 import "./theme-config.css";
-
-import { Analytics } from "@vercel/analytics/react";
-import { Toaster } from "react-hot-toast";
-import ThemesProvider from "@/providers/ThemesProvider";
-import { ChainContextProvider } from "@/components/context/ChainContextProvider";
-import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
-import { RpcContextProvider } from "@/components/context/RpcContextProvider";
-import { AuthProvider } from "@/components/context/AuthContext";
-import { getPageMap } from "nextra/page-map";
-
-import { Footer, Layout, Navbar } from "nextra-theme-docs";
-import { Banner, Head } from "nextra/components";
-import ChatbotModal from "@/components/ChatbotModal";
 
 export const metadata = {
   title: {

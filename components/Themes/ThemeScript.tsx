@@ -1,4 +1,5 @@
 import { memo } from "react";
+
 import { ThemeProviderProps } from "./interface";
 import { ColorSchemes, MEDIA } from "./utils";
 

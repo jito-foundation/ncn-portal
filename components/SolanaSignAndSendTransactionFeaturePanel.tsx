@@ -9,6 +9,7 @@ import {
   Text,
   TextField,
 } from "@radix-ui/themes";
+import { getTransferSolInstruction } from "@solana-program/system";
 import { useWalletAccountTransactionSendingSigner } from "@solana/react";
 import {
   address,
@@ -22,20 +23,19 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
   signAndSendTransactionMessageWithSigners,
 } from "@solana/web3.js";
-import { getTransferSolInstruction } from "@solana-program/system";
 import {
-  getUiWalletAccountStorageKey,
   type UiWalletAccount,
+  getUiWalletAccountStorageKey,
   useWallets,
 } from "@wallet-standard/react";
 import type { SyntheticEvent } from "react";
 import { useContext, useId, useMemo, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 
-import { ChainContext } from "./context/ChainContext";
-import { RpcContext } from "./context/RpcContext";
 import { ErrorDialog } from "./ErrorDialog";
 import { WalletMenuItemContent } from "./WalletMenuItemContent";
+import { ChainContext } from "./context/ChainContext";
+import { RpcContext } from "./context/RpcContext";
 
 type Props = Readonly<{
   account: UiWalletAccount;

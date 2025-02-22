@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { Markdown } from "@/components";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { Avatar, Flex, IconButton, Tooltip } from "@radix-ui/themes";
+import { useCallback, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { HiUser } from "react-icons/hi";
 import { RiRobot2Line } from "react-icons/ri";
-import { Markdown } from "@/components";
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+
 import { ChatMessage } from "./interface";
 
 export interface MessageProps {

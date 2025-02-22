@@ -1,12 +1,12 @@
 "use client";
 
 /* eslint-disable  react-hooks/exhaustive-deps */
-
-import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { v4 as uuid } from "uuid";
+
 import { ChatGPInstance } from "./Chat";
 import { Chat, ChatMessage, Persona } from "./interface";
 

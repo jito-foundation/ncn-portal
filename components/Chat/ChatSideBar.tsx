@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useContext } from "react";
 import { Box, Flex, IconButton, ScrollArea, Text } from "@radix-ui/themes";
 import cs from "classnames";
+import React, { useContext } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiMessageDetail } from "react-icons/bi";
 import { FiPlus } from "react-icons/fi";
-import ChatContext from "./chatContext";
 
+import ChatContext from "./chatContext";
 import "./index.scss";
 
 export const ChatSideBar = () => {

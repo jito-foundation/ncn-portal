@@ -1,12 +1,12 @@
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { useSignIn } from "@solana/react";
+import { SolanaSignInInput } from "@solana/wallet-standard-features";
 import { type UiWalletAccount } from "@wallet-standard/react";
 import { useEffect, useRef, useState } from "react";
-import { SolanaSignInInput } from "@solana/wallet-standard-features";
+import toast from "react-hot-toast";
 
 import { ErrorDialog } from "./ErrorDialog";
 import { useAuth } from "./context/AuthContext";
-import toast from "react-hot-toast";
 
 type Props = Readonly<{
   account: UiWalletAccount;

@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
-import { Button, Dialog, Flex, TextArea, TextField } from "@radix-ui/themes";
-import { useForm } from "react-hook-form";
 import { ChatContext, Persona } from "@/components";
+import { Button, Dialog, Flex, TextArea, TextField } from "@radix-ui/themes";
+import React, { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 const PersonaModal = () => {
   const {
