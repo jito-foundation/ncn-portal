@@ -80,7 +80,7 @@ const HighlightCode = (
   );
 };
 
-export const Markdown = ({ className, children }: MarkdownProps) => {
+export const Markdown = ({ children }: MarkdownProps) => {
   return (
     <ReactMarkdown
       // className={cs("prose dark:prose-invert max-w-none", className)}

@@ -6,7 +6,6 @@ import { SolanaSignInInput } from "@solana/wallet-standard-features";
 
 import { ErrorDialog } from "./ErrorDialog";
 import { useAuth } from "./context/AuthContext";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 type Props = Readonly<{
@@ -23,7 +22,6 @@ export const ChatbotButton = ({ account }: Props) => {
   const [error, setError] = useState<symbol | any>(NO_ERROR);
   const [lastSignature, setLastSignature] = useState<Uint8Array | undefined>();
   const { login } = useAuth();
-  const router = useRouter();
 
   const request = async (requestType: string) => {
     const url = "/api/login";

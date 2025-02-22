@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useContext, useRef, useState } from "react";
+import { Suspense, useContext } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { SelectedWalletAccountContext } from "./context/SelectedWalletAccountContext";
 import useChatHook from "./Chat/useChatHook";
@@ -9,14 +9,9 @@ import { Flex } from "@radix-ui/themes";
 import PersonaPanel from "@/app/chat/PersonaPanel";
 import PersonaModal from "@/app/chat/PersonaModal";
 import { ConnectWalletMenu } from "./ConnectWalletMenu";
-import { ChatMessage } from "./Chat/interface";
 import { useAuth } from "./context/AuthContext";
 import ChatSmall from "./Chat/ChatSmall";
 import { ChatbotButton } from "./ChatbotButton";
-// import { X } from "lucide-react";
-
-const HTML_REGULAR =
-  /<(?!img|table|\/table|thead|\/thead|tbody|\/tbody|tr|\/tr|td|\/td|th|\/th|br|\/br).*?>/gi;
 
 const ChatProvider = () => {
   const provider = useChatHook();
@@ -39,22 +34,8 @@ const ChatProvider = () => {
 };
 
 export default function ChatbotModal() {
-  const { login, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
-  const [messages, setMessages] = useState([
-    { sender: "bot", text: "Hello! How can I assist you?" },
-  ]);
-  const [input, setInput] = useState("");
-  // const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
-  const { currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
-    useContext(ChatContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const conversationRef = useRef<ChatMessage[]>();
-  const [message, setMessage] = useState("");
-  const [currentMessage, setCurrentMessage] = useState<string>("");
-  const textAreaRef = useRef<HTMLElement>(null);
-  const conversation = useRef<ChatMessage[]>([]);
-  const bottomOfChatRef = useRef<HTMLDivElement>(null);
 
   return (
     <Dialog.Root>
@@ -75,9 +56,6 @@ export default function ChatbotModal() {
                   <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
                 </div>
               </Flex>
-              {/* <Dialog.Close> */}
-              {/* <X className="w-6 h-6 cursor-pointer" /> */}
-              {/* </Dialog.Close> */}
             </div>
 
             <div className="flex-1 p-6 flex flex-col justify-center items-center">
@@ -95,22 +73,6 @@ export default function ChatbotModal() {
                       <ChatbotButton account={selectedWalletAccount} />
                     </div>
                   )}
-                  {/* <div className="p-4 border-t border-gray-700 flex">
-                            <input
-                                type="text"
-                                value={message}
-                                // onChange={(e) => setInput(e.target.value)}
-                                onChange={(e) => {
-                                    setMessage(e.target.value.replace(HTML_REGULAR, ""));
-                                  }}
-                                placeholder="Ask me anything about Jito Restaking..."
-                                className="flex-1 p-3 bg-gray-800 text-white rounded-lg"
-                                // onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-                            />
-                            <button onClick={sendMessage} className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                                Send
-                            </button>
-                        </div> */}
                 </>
               )}
             </div>

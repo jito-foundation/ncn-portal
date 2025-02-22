@@ -14,8 +14,6 @@ import {
 import { Flex, IconButton, ScrollArea, Tooltip } from "@radix-ui/themes";
 import ContentEditable from "react-contenteditable";
 import toast from "react-hot-toast";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { FiSend } from "react-icons/fi";
 
 import ChatContext from "./chatContext";
 import type { Chat, ChatMessage } from "./interface";
@@ -63,8 +61,7 @@ const postChatOrQuestion = async (
 
 const ChatSmall = (props: ChatProps, ref: any) => {
   const [selectedWalletAccount] = useContext(SelectedWalletAccountContext);
-  const { currentChatRef, saveMessages, onToggleSidebar, forceUpdate } =
-    useContext(ChatContext);
+  const { currentChatRef, saveMessages, forceUpdate } = useContext(ChatContext);
   const [isLoading, setIsLoading] = useState(false);
   const conversationRef = useRef<ChatMessage[]>();
   const [message, setMessage] = useState("");
@@ -170,11 +167,6 @@ const ChatSmall = (props: ChatProps, ref: any) => {
     [sendMessage],
   );
 
-  const clearMessages = () => {
-    conversation.current = [];
-    forceUpdate?.();
-  };
-
   useEffect(() => {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = "50px";
@@ -267,7 +259,6 @@ const ChatSmall = (props: ChatProps, ref: any) => {
               onClick={sendMessage}
               loading={isLoading}
             >
-              {/* {isLoading ? <AiOutlineLoading3Quarters className="animate-spin size-4" /> : <FiSend className="size-4" />} */}
               <PaperPlaneIcon width="18" height="18" />
             </IconButton>
           </Tooltip>
