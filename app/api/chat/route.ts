@@ -5,7 +5,7 @@ import {
 } from "eventsource-parser";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getApiConfig } from "../apiConfig";
+import { getApiConfig, getChatEndpoit } from "../apiConfig";
 
 export const runtime = "edge";
 
@@ -67,7 +67,9 @@ const getClaudeStream = async (
     ncnPortalMessages.push(ncnPortalMessage);
   });
 
-  const url = `${apiUrl}/sse/prompt/${address}`;
+  const endpoint = getChatEndpoit(address);
+  const url = new URL(`${apiUrl}${endpoint}`);
+
   const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",

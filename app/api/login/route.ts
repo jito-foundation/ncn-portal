@@ -2,7 +2,7 @@
 import { UiWalletAccount } from "@wallet-standard/react";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getApiConfig } from "../apiConfig";
+import { getAccessStatusEndpoint, getApiConfig, getSiwsMessageEndpoint, requestAccessEndpoint, validateAndVerifyEndpoint } from "../apiConfig";
 
 export async function POST(req: NextRequest) {
   try {
@@ -57,7 +57,9 @@ export async function POST(req: NextRequest) {
 }
 
 const getWhitelist = async (apiUrl: string, address: string) => {
-  const url = `${apiUrl}/rest/whitelist/${address}/access_status`;
+  const endpoint = getAccessStatusEndpoint(address);
+  const url = new URL(`${apiUrl}${endpoint}`);
+
   const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
@@ -78,10 +80,12 @@ const getWhitelist = async (apiUrl: string, address: string) => {
 };
 
 const unlockChatbot = async (apiUrl: string, address: string) => {
-  const url = `${apiUrl}/rest/whitelist/request_access`;
+  const endpoint = requestAccessEndpoint();
+  const url = new URL(`${apiUrl}${endpoint}`);
   const data = {
     pubkey: address,
   };
+
   const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
@@ -103,9 +107,8 @@ const unlockChatbot = async (apiUrl: string, address: string) => {
 };
 
 const getSiwsMessage = async (apiUrl: string, address: string, url: string) => {
-  const requestUrl = new URL(
-    `${apiUrl}/rest/whitelist/${address}/siws_message`,
-  );
+  const endpoint = getSiwsMessageEndpoint(address);
+  const requestUrl = new URL(`${apiUrl}${endpoint}`);
 
   const data = {
     url,
@@ -137,9 +140,8 @@ const validateAndVerify = async (
   signedMessageData: Uint8Array<ArrayBufferLike> | undefined,
   signatureData: Uint8Array<ArrayBufferLike> | undefined,
 ) => {
-  const requestUrl = new URL(
-    `${apiUrl}/rest/whitelist/${accountData?.address}/validate_and_verify`,
-  );
+  const endpoint = validateAndVerifyEndpoint(accountData!.address!);
+  const requestUrl = new URL(`${apiUrl}${endpoint}`);
   requestUrl.searchParams.set("url", url);
 
   const convertPublicKeyToArray = (publicKey: any) => {
