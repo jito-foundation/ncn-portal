@@ -12,20 +12,20 @@ export const getApiConfig = () => {
 
 export const getSiwsMessageEndpoint = (address: string): string => {
   return `/whitelist/${address}/siws_message`;
-}
+};
 
 export const validateAndVerifyEndpoint = (address: string): string => {
   return `/whitelist/${address}/validate_and_verify`;
-}
+};
 
 export const requestAccessEndpoint = (): string => {
   return `/whitelist/request_access`;
-}
+};
 
 export const getAccessStatusEndpoint = (address: string): string => {
-  return `/whitelist/${address}/access_status`
-}
+  return `/whitelist/${address}/access_status`;
+};
 
 export const getChatEndpoit = (address: string): string => {
-  return `/chat/${address}`
-}
+  return `/chat/${address}`;
+};

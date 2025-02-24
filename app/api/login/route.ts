@@ -2,7 +2,13 @@
 import { UiWalletAccount } from "@wallet-standard/react";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getAccessStatusEndpoint, getApiConfig, getSiwsMessageEndpoint, requestAccessEndpoint, validateAndVerifyEndpoint } from "../apiConfig";
+import {
+  getAccessStatusEndpoint,
+  getApiConfig,
+  getSiwsMessageEndpoint,
+  requestAccessEndpoint,
+  validateAndVerifyEndpoint,
+} from "../apiConfig";
 
 export async function POST(req: NextRequest) {
   try {
