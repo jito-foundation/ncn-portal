@@ -10,6 +10,11 @@ const meta: MetaRecord = {
   },
   docs: {
     title: "Documentation",
+    type: "page",
+  },
+  blog: {
+    title: "Blog",
+    type: "page",
   },
   login: {
     title: "AI Assistant",
