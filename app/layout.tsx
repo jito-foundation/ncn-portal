@@ -5,12 +5,14 @@ import { RpcContextProvider } from "@/components/context/RpcContextProvider";
 import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
 import ThemesProvider from "@/providers/ThemesProvider";
 import { Analytics } from "@vercel/analytics/react";
+import Image from "next/image";
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
 import "nextra-theme-docs/style.css";
 import { Banner, Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
 import { Toaster } from "react-hot-toast";
 
+import jitoLogo from "../public/jito_logo_white.webp";
 import "./globals.scss";
 import "./theme-config.css";
 
@@ -32,7 +34,12 @@ const banner = (
 );
 const navbar = (
   <Navbar
-    logo={<b>NCN Portal</b>}
+    logo={
+      <>
+        <Image src={jitoLogo} alt="jito ncn portal" width={70} height={70} />
+        <span style={{ marginLeft: ".4em", fontWeight: 800 }}>NCN Portal</span>
+      </>
+    }
     projectLink="https://github.com/jito-foundation/restaking"
   />
 );
