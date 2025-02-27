@@ -43,55 +43,54 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             </code>
           );
         },
-        // Enhance heading styles
         h1: ({ node, ...props }) => (
-          <h1 className="text-3xl font-bold text-white mt-10 mb-4" {...props} />
+          <h1 className="text-4xl font-bold text-white mt-10 mb-6" {...props} />
         ),
         h2: ({ node, ...props }) => (
           <h2
-            className="text-2xl font-bold text-white mt-8 mb-4 pb-2 border-b border-gray-700"
+            className="text-3xl font-bold text-white mt-8 mb-4 pb-2 border-b border-gray-700"
             {...props}
           />
         ),
         h3: ({ node, ...props }) => (
-          <h3 className="text-xl font-bold text-white mt-6 mb-3" {...props} />
+          <h3 className="text-2xl font-bold text-white mt-6 mb-3" {...props} />
         ),
         h4: ({ node, ...props }) => (
-          <h4 className="text-lg font-bold text-white mt-6 mb-2" {...props} />
+          <h4 className="text-xl font-bold text-white mt-6 mb-2" {...props} />
         ),
 
-        // Style links
-        a: ({ node, ...props }) => (
-          <a
-            className="text-blue-400 hover:text-blue-300 transition-colors duration-200"
+        // Larger paragraph text
+        p: ({ node, ...props }) => (
+          <p
+            className="text-xl text-gray-300 my-4 leading-relaxed"
             {...props}
           />
         ),
 
-        // Lists
+        // Larger lists
         ul: ({ node, ...props }) => (
-          <ul className="list-disc pl-6 my-6 space-y-2" {...props} />
+          <ul className="list-disc pl-6 my-6 space-y-3 text-xl" {...props} />
         ),
         ol: ({ node, ...props }) => (
-          <ol className="list-decimal pl-6 my-6 space-y-2" {...props} />
+          <ol className="list-decimal pl-6 my-6 space-y-3 text-xl" {...props} />
         ),
         li: ({ node, ...props }) => <li className="text-gray-300" {...props} />,
 
-        // Paragraphs and quotes
-        p: ({ node, ...props }) => (
-          <p className="text-gray-300 my-4 leading-relaxed" {...props} />
-        ),
+        // Blockquotes with larger text
         blockquote: ({ node, ...props }) => (
           <blockquote
-            className="pl-4 border-l-4 border-blue-500 italic my-6 text-gray-400"
+            className="pl-4 border-l-4 border-blue-500 italic my-6 text-xl text-gray-400"
             {...props}
           />
         ),
 
-        // Make tables look better
+        // Tables with larger text
         table: ({ node, ...props }) => (
           <div className="overflow-x-auto my-8">
-            <table className="min-w-full divide-y divide-gray-700" {...props} />
+            <table
+              className="min-w-full divide-y divide-gray-700 text-lg"
+              {...props}
+            />
           </div>
         ),
         thead: ({ node, ...props }) => (
@@ -99,13 +98,13 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
         ),
         th: ({ node, ...props }) => (
           <th
-            className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+            className="px-4 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
             {...props}
           />
         ),
         td: ({ node, ...props }) => (
           <td
-            className="px-4 py-3 text-sm text-gray-300 border-t border-gray-800"
+            className="px-4 py-3 text-base text-gray-300 border-t border-gray-800"
             {...props}
           />
         ),
@@ -119,6 +118,14 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             className="mx-auto rounded-lg max-w-full my-8"
             {...props}
             alt={props.alt || "Image"}
+          />
+        ),
+
+        // Links with better hover effects
+        a: ({ node, ...props }) => (
+          <a
+            className="text-blue-400 hover:text-blue-300 underline-offset-2 hover:underline transition-colors duration-200"
+            {...props}
           />
         ),
       }}
