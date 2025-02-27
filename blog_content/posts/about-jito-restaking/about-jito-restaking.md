@@ -212,48 +212,47 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 
 2. Before delegation, the system carefully checks if there are enough available tokens by:
 
-  - Looking at how many tokens are in the vault
-  - Subtracting tokens already being used elsewhere
-  - Setting aside tokens that users might want to withdraw soon
+- Looking at how many tokens are in the vault
+- Subtracting tokens already being used elsewhere
+- Setting aside tokens that users might want to withdraw soon
 
 3. If there are enough available tokens, the delegation goes ahead.
 
 4. This is similar to how a bank might use customer deposits to make loans, while ensuring they keep enough cash on hand for customer withdrawals.
 
-#### Withdrawal Process:  Getting Your Tokens Back
+#### Withdrawal Process: Getting Your Tokens Back
 
 1. Starting Withdrawal:
 
-  - When you want your tokens back, you begin by submitting your VRTs.
-  - The system creates a withdrawal ticket for you, like taking a number at a service counter.
-  - Your VRTs are temporarily held by this ticket.
+- When you want your tokens back, you begin by submitting your VRTs.
+- The system creates a withdrawal ticket for you, like taking a number at a service counter.
+- Your VRTs are temporarily held by this ticket.
 
 2. Waiting Period:
 
-  - All withdrawals go through a cooling-off period of one epoch (a set time period).
-  - This gives the system time to prepare your tokens for withdrawal, similar to some banks requiring notice for large withdrawals.
+- All withdrawals go through a cooling-off period of one epoch (a set time period).
+- This gives the system time to prepare your tokens for withdrawal, similar to some banks requiring notice for large withdrawals.
 
 3. Completing the Withdrawal
 
-  - After the waiting period, your withdrawal can be completed.
-  - Your VRTs are exchanged back for the original tokens, minus a small withdrawal fee.
-  - The tokens are transferred to your account, and the withdrawal ticket is closed.
+- After the waiting period, your withdrawal can be completed.
+- Your VRTs are exchanged back for the original tokens, minus a small withdrawal fee.
+- The tokens are transferred to your account, and the withdrawal ticket is closed.
 
 #### Regular System Updates: Keeping Everything in Balance
 
 1. The system performs regular updates at the end of each epoch (time period).
 
-2. During these updates: 
+2. During these updates:
 
-  - The system takes inventory of all tokens and where they're delegated
-  - It processes pending withdrawals
-  - It ensures there are enough tokens set aside for future withdrawals
-  - It makes sure the records accurately reflect all tokens in the system
+- The system takes inventory of all tokens and where they're delegated
+- It processes pending withdrawals
+- It ensures there are enough tokens set aside for future withdrawals
+- It makes sure the records accurately reflect all tokens in the system
 
 3. This regular maintenance ensures the vault stays healthy and can meet all its obligations, similar to how banks reconcile their accounts at the end of each day.
 
 This balanced approach ensures that while tokens are being put to work securing various networks, there are always enough reserves to honor withdrawal requests, maintaining trust in the system.
-
 
 ## Conclusion and Additional Resources
 
