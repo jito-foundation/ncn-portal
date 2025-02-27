@@ -125,7 +125,9 @@ For assets to be considered "staked" to an NCN, these explicit conditions must b
 6. The **NCN** must opt in to the **Vault**
 7. The **Vault** is delegated to that **Operator**
 
-This triple opt-in system ensures that all participants explicitly agree to the terms of their involvement, creating a transparent and consensual staking environment with clear accountability.
+![Staked venn diagram](staked_venn_diagram.png)
+
+This Multi-party opt-in system ensures that all participants explicitly agree to the terms of their involvement, creating a transparent and consensual staking environment with clear accountability.
 
 5. Slashing Mechanism
 
@@ -172,14 +174,14 @@ There are several things one can do after registering a NCN:
 - Add and Remove support for slashers
 - Withdraw funds sent to the NCN from rewards, airdrops, and other sources.
 
-#### Operators
+#### 2. Operators
 
 Operators are entities responsible for running the NCN software. After registering through the restaking program, operators can:
 
 - Add or remove support for Vaults
 - Add or remove support for NCNs
 
-#### Vaults
+#### 3. Vaults
 
 Vaults securely hold staked assets and delegate them to operators. The vault program manages:
 
@@ -190,7 +192,7 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 
 ### Token Flow and State Management
 
-- Deposit Process: Getting Your Tokens into the System
+#### Deposit Process: Getting Your Tokens into the System
 
 1. A user deposits tokens into the vault, similar to making a deposit at a bank.
 
@@ -204,7 +206,7 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 
 6. Think of this like depositing cash in a bank and receiving a bank statement showing your balance - the cash is in the bank, but you have proof of ownership.
 
-- Delegation Process: Putting Your Tokens to Work
+#### Delegation Process: Putting Your Tokens to Work
 
 1. The vault administrator decides which operators to support by delegating tokens to them.
 
@@ -218,7 +220,7 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 
 4. This is similar to how a bank might use customer deposits to make loans, while ensuring they keep enough cash on hand for customer withdrawals.
 
-- Withdrawal Process:  Getting Your Tokens Back
+#### Withdrawal Process:  Getting Your Tokens Back
 
 1. Starting Withdrawal:
 
@@ -237,7 +239,7 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
   - Your VRTs are exchanged back for the original tokens, minus a small withdrawal fee.
   - The tokens are transferred to your account, and the withdrawal ticket is closed.
 
-- Regular System Updates: Keeping Everything in Balance
+#### Regular System Updates: Keeping Everything in Balance
 
 1. The system performs regular updates at the end of each epoch (time period).
 
