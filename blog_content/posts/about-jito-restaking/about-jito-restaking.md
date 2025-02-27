@@ -112,14 +112,18 @@ This means participants can maintain exposure to staking rewards while potential
 
 Vaults, operators and Node Consensus Networks can choose who they work with based on risk tolerance. Vaults decide which operators and NCNs to delegate to, while operators and NCNs choose which vaults and assets they want to support.
 
-4. Triple Opt-in Security Model
+4. Multi-party Opt-in System
 
 One of the most distinctive features of Jito Restaking is its flexible opt-in architecture.
-For assets to be considered "staked" to an NCN, three explicit conditions must be met:
+For assets to be considered "staked" to an NCN, these explicit conditions must be met:
 
-1. The NCN must opt in to the operator
-2. The operator must opt in to the NCN
-3. The vault must opt in to both the operator and the NCN
+1. The **NCN** must opt in to the **Operator**
+2. The **Operator** must opt in to the **NCN**
+3. The **Operator** must opt in to the **Vault**
+4. The **Vault** must opt in to the **Operator**
+5. The **Vault** must opt in to the **NCN**
+6. The **NCN** must opt in to the **Vault**
+7. The **Vault** is delegated to that **Operator**
 
 This triple opt-in system ensures that all participants explicitly agree to the terms of their involvement, creating a transparent and consensual staking environment with clear accountability.
 
@@ -172,7 +176,7 @@ There are several things one can do after registering a NCN:
 
 Operators are entities responsible for running the NCN software. After registering through the restaking program, operators can:
 
-- Add or remove support for vaults
+- Add or remove support for Vaults
 - Add or remove support for NCNs
 
 #### Vaults
@@ -186,20 +190,68 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 
 ### Token Flow and State Management
 
-- Deposit Process
+- Deposit Process: Getting Your Tokens into the System
 
-- Delegation Process
+1. A user deposits tokens into the vault, similar to making a deposit at a bank.
 
-- Withdrawal Process
+2. The system checks if there's enough room in the vault for these new tokens.
 
-- Epoch-based State Updates
+3. The user receives Vault Receipt Tokens (VRTs) in return, which represent their share of the vault's assets.
 
+4. A small fee is taken from these VRTs as a service charge.
 
-### Security Implementation
+5. The original tokens are now safely stored in the vault, while the user holds VRTs that can be used elsewhere or redeemed later.
 
-- Triple Opt-in Enforcement
+6. Think of this like depositing cash in a bank and receiving a bank statement showing your balance - the cash is in the bank, but you have proof of ownership.
 
-- Administrative Controls and Safeguards
+- Delegation Process: Putting Your Tokens to Work
+
+1. The vault administrator decides which operators to support by delegating tokens to them.
+
+2. Before delegation, the system carefully checks if there are enough available tokens by:
+
+  - Looking at how many tokens are in the vault
+  - Subtracting tokens already being used elsewhere
+  - Setting aside tokens that users might want to withdraw soon
+
+3. If there are enough available tokens, the delegation goes ahead.
+
+4. This is similar to how a bank might use customer deposits to make loans, while ensuring they keep enough cash on hand for customer withdrawals.
+
+- Withdrawal Process:  Getting Your Tokens Back
+
+1. Starting Withdrawal:
+
+  - When you want your tokens back, you begin by submitting your VRTs.
+  - The system creates a withdrawal ticket for you, like taking a number at a service counter.
+  - Your VRTs are temporarily held by this ticket.
+
+2. Waiting Period:
+
+  - All withdrawals go through a cooling-off period of one epoch (a set time period).
+  - This gives the system time to prepare your tokens for withdrawal, similar to some banks requiring notice for large withdrawals.
+
+3. Completing the Withdrawal
+
+  - After the waiting period, your withdrawal can be completed.
+  - Your VRTs are exchanged back for the original tokens, minus a small withdrawal fee.
+  - The tokens are transferred to your account, and the withdrawal ticket is closed.
+
+- Regular System Updates: Keeping Everything in Balance
+
+1. The system performs regular updates at the end of each epoch (time period).
+
+2. During these updates: 
+
+  - The system takes inventory of all tokens and where they're delegated
+  - It processes pending withdrawals
+  - It ensures there are enough tokens set aside for future withdrawals
+  - It makes sure the records accurately reflect all tokens in the system
+
+3. This regular maintenance ensures the vault stays healthy and can meet all its obligations, similar to how banks reconcile their accounts at the end of each day.
+
+This balanced approach ensures that while tokens are being put to work securing various networks, there are always enough reserves to honor withdrawal requests, maintaining trust in the system.
+
 
 ## Conclusion and Additional Resources
 
