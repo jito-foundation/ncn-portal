@@ -41,7 +41,7 @@ export default async function BlogPostPage({ params }: any) {
   }
 
   return (
-    <div className="px-6 py-12">
+    <div className="px-6 py-12 bg-black">
       <BlogPost post={post} />
     </div>
   );

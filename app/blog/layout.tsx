@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import React from "react";
 
+import "./blog.css";
+
 export const metadata: Metadata = {
   title: {
     default: "NCN Blog",
@@ -15,7 +17,7 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="">
+    <section className="bg-black">
       <div className="blog-container">{children}</div>
     </section>
   );
