@@ -1,22 +1,22 @@
 ---
-title: About Jito Restaking
+title: Understanding Jito Restaking
 description: About Jito Restaking
 date: 2025-02-26
 author: Jito Contributor
 tags:
-  - tutorials
   - guide
 ---
 
 ## Introduction
 
-### Overview
+### Why Restaking Matters
 
-Jito (Re)staking is a multi-asset staking protocol for Node Consensus Networks (NCNs). The protocol tokenizes staked assets as Vault Receipt Tokens (VRTs) for enhanced liquidity and composability. Node consensus networks can use Jito (Re)staking to easily customize staking parameters, slashing conditions, and economic incentives to tailor their security and tokenomics.
+In the rapidly evolving world of blockchain technology, securing networks has traditionally required participants to lock up significant capital through staking. 
+However, this approach creates an inherent tradeoff between network security and capital efficiency. 
+Jito's innovative Restaking protocol addresses this challenge by enabling already-staked assets to participate in multiple networks simultaneously, maximizing both security and utility.
 
-The unique benefits offered by this restaking module position it as the go-to protocol for bootstrapping new networks by utilizing shared security.
-
-This blog will walk you through the basics of getting started with Jito Restaking and NCN developement in your projects.
+Jito Restaking represents a significant advancement for the Solana ecosystem, providing a framework where tokens can be tokenized, delegated across different consensus networks, and managed with granular controls for security and performance. 
+This article breaks down the architecture, components, and potential of this groundbreaking system.
 
 ### About Restaking
 
@@ -24,13 +24,13 @@ Developers seeking to launch a new chain or application had to bootstrap their o
 
 At its core, restaking applies the principles of staking to additional applications, middleware, and chains. Today the concept primarily involves users staking their Liquid Staking Tokens (LSTs) to earn higher rewards by securing more services, hence the term “restaking”.
 
-## Why Jito Restaking
+## Why Jito Developed Restaking
 
 ### Addressing Centralization in MEV Distribution
 
 Jito has been working on MEV solutions on Solana. However, this system faced a centralization challenge that the move to restaking helps address.
 
-#### Current Process with MEV Distribution
+#### The Previous Process with MEV Distribution
 
 - Each validator has a unique tip distribution account, owned by the Jito Tip Distribution Program, where SOL is collected for a given epoch.
 At the end of the epoch, an off-chain process takes place which produces a merkle tree and merkle root for each validator's tip distribution account.
@@ -96,37 +96,94 @@ Tap into Solana's existing security through the restaking mechanism rather than 
 
 By addressing these centralization concerns through restaking, Jito is not only evolving its own infrastructure but providing a path forward for the entire ecosystem. The restaking mechanism transforms what was once a centralized point of control into a distributed security layer that can support the emerging needs of Solana's ecosystem while serving as a model for other protocols to follow.
 
-## Unique Features of Jito Restaking
+## Key Features and Advantages
 
-1. VRT Launch Pad (A Marketplace for Launching VRTs)
+Jito Restaking offers several innovative features.
 
-Anyone can launch Vault Receipt Tokens with any Solana SPL token through the Vault program. This marketplace also enables the development and launch of various security applications for infrastructure providers and restaking applications through the Restaking Program.
+1. Universal Framework with Multi-Asset Support
 
-2. Modular Restaking
+Unlike single-token staking systems, Jito Restaking provides a standardized approach for restaking various SPL tokens to node consensus networks. 
+This flexibility allows different types of assets to participate in securing networks.
+
+2. Asset Tokenization for Enhanced Liquidity
+
+Staked assets are tokenized into Vault Receipt Tokens (VRTs), giving users liquid representations of their staked assets. 
+This means participants can maintain exposure to staking rewards while potentially using their VRTs in other DeFi applications.
+
+3. Modular Restaking
 
 Vaults, operators and Node Consensus Networks can choose who they work with based on risk tolerance. Vaults decide which operators and NCNs to delegate to, while operators and NCNs choose which vaults and assets they want to support.
 
 
+4. Triple Opt-in Security Model
+
+One of the most distinctive features of Jito Restaking is its flexible opt-in architecture. 
+For assets to be considered "staked" to an NCN, three explicit conditions must be met:
+
+  1. The NCN must opt in to the operator
+  2. The operator must opt in to the NCN
+  3. The vault must opt in to both the operator and the NCN
+
+This triple opt-in system ensures that all participants explicitly agree to the terms of their involvement, creating a transparent and consensual staking environment with clear accountability.
+
+5. Slashing Mechanism
+
+Implements penalties for misbehavior, ensuring the security and integrity of the network.
+
 
 ## How Jito Restaking Works
 
-### NCN
+### Two Programs
 
+Jito Restaking consists of two main programs: 
 
-### Operator
+1. **Restaking Program** 
 
+The Restaking Program acts as a node consensus network and operator registry. The program leverages a flexbile system of admins so NCNs can customize the operators and vaults supported and operators can custimoize the NCNs they stake to and vaults they can receive delegations from.
 
-### Vault
+2. **Vault Program**
 
-## Technical Deep Dive
+The Vault Program manages the minting and burning of Vault Receipt Tokens (VRTs). VRTs are SPL tokens that represent a pro-rata stake of asssets in the vault. VRTs provide enhanced liquidity, composability, and interoperability with other Solana programs. The program also leverages a flexible system of admins so vaults can customize the capacity, operators that can receive delegations from the vault, the NCNs supported by the vault, and the fee structure for staking and unstaking.
 
+### The Three Pillars of Jito Restaking
 
-## Getting Started with Jito Restaking
+### 1. Node Consensus Networks (NCNs)
 
+Node Consensus Networks are services that provide infrastructure to the broader network. These can include:
 
-## Future Developments and Ecosystem Impact
+- Blockchains
+- Bridges
+- Oracles
+- Keepers
+- Layer 2 solutions
+
+Learn more about NCNs [here](https://www.jito.network/blog/understanding-node-consensus-networks/)
+
+### Operators
+
+Operators are entities responsible for running the NCN software. After registering through the restaking program, operators can:
+
+- Add or remove support for vaults
+- Add or remove support for NCNs
+
+### Vaults
+
+Vaults securely hold staked assets and delegate them to operators. The vault program manages:
+
+- Token deposits and withdraws
+- Minting and burning of VRTs
+- Delegation of assets to operators
+- Administrative functions releated to the vault operation
 
 ## Conclusion and Additional Resources
+
+Jito Restaking represents a significant innovation in the staking ecosystem, particularly for Solana and SVM chains. 
+By introducing a flexible, opt-in based architecture and tokenizing staked assets, it enhances liquidity while maintaining the security benefits of traditional staking.
+
+The system's sophisticated design balances the interests of multiple stakeholders—NCNs, operators, and stakers—creating a robust framework for secure and efficient consensus participation. 
+As the Solana ecosystem continues to grow, Jito Restaking provides a scalable foundation for supporting diverse network security requirements without fragmenting liquidity.
+
+For developers, node operators, and token holders interested in participating in the Solana ecosystem, understanding Jito Restaking provides insight into an emerging paradigm that could shape the future of blockchain infrastructure and tokenomics.
 
 ## References
 
