@@ -25,3 +25,4 @@ jobs:
         with:
           # This part is also where you can pass other options, for example:
           prettier_options: --check '**/*.{ts,tsx,js,json,html,css,scss,md}'
+          dry: true
