@@ -36,7 +36,7 @@
     "jotai": "^2.10.4",
     "lodash-es": "^4.17.21",
     "next": "^15.1.2",
-    "nextra": "^4.2.11",
+    "nextra": "^4.2.13",
     "nextra-theme-docs": "^4.2.11",
     "react": "^19.0.0",
     "react-contenteditable": "^3.3.7",
