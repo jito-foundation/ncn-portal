@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import React from "react";
 
-import "./blog.css";
+// import "./blog.css";
 
 export const metadata: Metadata = {
   title: {
