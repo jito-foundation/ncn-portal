@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Check .prettierignore content
+        run: cat .prettierignore
+
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
