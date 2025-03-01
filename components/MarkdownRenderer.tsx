@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { Prism, SyntaxHighlighterProps } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import remarkGfm from "remark-gfm";
+
 import ImageModal from "./ImageModal";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -16,7 +17,10 @@ interface MarkdownRendererProps {
 }
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
-  const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
+  const [modalImage, setModalImage] = useState<{
+    src: string;
+    alt: string;
+  } | null>(null);
 
   const openModal = (src: string, alt: string) => {
     setModalImage({ src, alt });
@@ -62,7 +66,10 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             );
           },
           h1: ({ node, ...props }) => (
-            <h1 className="text-4xl font-bold text-white mt-10 mb-6" {...props} />
+            <h1
+              className="text-4xl font-bold text-white mt-10 mb-6"
+              {...props}
+            />
           ),
           h2: ({ node, ...props }) => (
             <h2
@@ -71,7 +78,10 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             />
           ),
           h3: ({ node, ...props }) => (
-            <h3 className="text-2xl font-bold text-white mt-6 mb-3" {...props} />
+            <h3
+              className="text-2xl font-bold text-white mt-6 mb-3"
+              {...props}
+            />
           ),
           h4: ({ node, ...props }) => (
             <h4 className="text-xl font-bold text-white mt-6 mb-2" {...props} />
@@ -90,9 +100,14 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             <ul className="list-disc pl-6 my-6 space-y-3 text-xl" {...props} />
           ),
           ol: ({ node, ...props }) => (
-            <ol className="list-decimal pl-6 my-6 space-y-3 text-xl" {...props} />
+            <ol
+              className="list-decimal pl-6 my-6 space-y-3 text-xl"
+              {...props}
+            />
           ),
-          li: ({ node, ...props }) => <li className="text-gray-300" {...props} />,
+          li: ({ node, ...props }) => (
+            <li className="text-gray-300" {...props} />
+          ),
 
           // Blockquotes with larger text
           blockquote: ({ node, ...props }) => (
