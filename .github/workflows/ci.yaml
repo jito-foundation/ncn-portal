@@ -23,9 +23,5 @@ jobs:
       - name: Check .prettierignore content
         run: cat .prettierignore
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
-        with:
-          # This part is also where you can pass other options, for example:
-          prettier_options: --check "**/*.{ts,tsx,js,json,html,css,scss,md}" --ignore-path .prettierignore
-          dry: true
+      - name: Check formatting
+        run: yarn format:check
