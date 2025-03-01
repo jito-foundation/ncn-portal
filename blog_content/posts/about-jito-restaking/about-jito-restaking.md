@@ -163,13 +163,21 @@ The Vault Program manages the minting and burning of Vault Receipt Tokens (VRTs)
 
 #### 1. Node Consensus Networks (NCNs)
 
-Node Consensus Networks are services that provide infrastructure to the broader network. These can include:
+Node Consensus Networks (NCNs) provide essential infrastructure services to the broader network ecosystem.
+These services operate off-chain but are verified on-chain, creating a flexible framework for specialized functionality.
+The design scope includes any service that can be cryptographically verified through on-chain evidence.
 
-- Blockchains
-- Bridges
-- Oracles
-- Keepers
-- Layer 2 solutions
+Example include:
+
+- Blockchains and Layer 2 solutions
+- Bridges and interoperability protocols
+- Oracles and data verification services
+- Keepers and automation services
+- Rollup services and co-processors
+- Zero-knowledge proof generation
+- Specialized cryptography services
+
+This architecture allows developers to create custom verification mechanism tailored to their specific service requirements, with the only constraint being that verification evidence must be accessible on-chain.
 
 Learn more about NCNs [here](https://www.jito.network/blog/understanding-node-consensus-networks/)
 
@@ -250,6 +258,8 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 - After the waiting period, your withdrawal can be completed.
 - Your VRTs are exchanged back for the original tokens, minus a small withdrawal fee.
 - The tokens are transferred to your account, and the withdrawal ticket is closed.
+
+![Withdrawal Process](withdrawal_process.png)
 
 #### Regular System Updates: Keeping Everything in Balance
 
