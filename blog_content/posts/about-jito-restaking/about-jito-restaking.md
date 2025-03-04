@@ -32,13 +32,17 @@ Jito has been working on MEV solutions on Solana. However, this system faced a c
 
 #### The Previous Process with MEV Distribution
 
-- Each validator has a unique tip distribution account, owned by the Jito Tip Distribution Program, where SOL is collected for a given epoch.
+- Each validator has a unique tip distribution account, owned by the [Jito Tip Distribution Program], where SOL is collected for a given epoch.
   At the end of the epoch, an off-chain process takes place which produces a merkle tree and merkle root for each validator's tip distribution account.
 
 - Validators can run this process themselves or delegate it to another party.
   The merkle tree is intended to distribute any SOL in the account to the validator based on their MEV commission rate. Remaining funds are sent to stakers' stake accounts pro-rata.
 
 - After the merkle root has been uploaded, merkle proofs are uploaded on-chain and the program will transfer SOL from the tip distribution account to the validator's vote account and stake accounts.
+
+![Uploading MEV Airdrop Merkle Root & Claiming](uploading_mev_merkle_root.png)
+
+[Jito Tip Distribution Program]: https://jito-foundation.gitbook.io/mev/mev-payment-and-distribution/tip-distribution-program
 
 #### The Centralization Problem
 
@@ -143,25 +147,37 @@ Implements penalties for misbehavior, ensuring the security and integrity of the
 
 Jito Restaking consists of two main programs:
 
-1. **Restaking Program**
+1. [**Restaking Program**](https://github.com/jito-foundation/restaking/blob/master/restaking_program/Cargo.toml)
 
 The Restaking Program acts as a node consensus network and operator registry. The program leverages a flexbile system of admins so NCNs can customize the operators and vaults supported and operators can custimoize the NCNs they stake to and vaults they can receive delegations from.
 
-2. **Vault Program**
+![Restaking Accounts](restaking_accounts.png)
+
+2. [**Vault Program**](https://github.com/jito-foundation/restaking/blob/master/vault_program/Cargo.toml)
 
 The Vault Program manages the minting and burning of Vault Receipt Tokens (VRTs). VRTs are SPL tokens that represent a pro-rata stake of asssets in the vault. VRTs provide enhanced liquidity, composability, and interoperability with other Solana programs. The program also leverages a flexible system of admins so vaults can customize the capacity, operators that can receive delegations from the vault, the NCNs supported by the vault, and the fee structure for staking and unstaking.
+
+![Vault Accounts](vault_accounts.png)
 
 ### The Three Pillars of Jito Restaking
 
 #### 1. Node Consensus Networks (NCNs)
 
-Node Consensus Networks are services that provide infrastructure to the broader network. These can include:
+Node Consensus Networks (NCNs) provide essential infrastructure services to the broader network ecosystem.
+These services operate off-chain but are verified on-chain, creating a flexible framework for specialized functionality.
+The design scope includes any service that can be cryptographically verified through on-chain evidence.
 
-- Blockchains
-- Bridges
-- Oracles
-- Keepers
-- Layer 2 solutions
+Example include:
+
+- Blockchains and Layer 2 solutions
+- Bridges and interoperability protocols
+- Oracles and data verification services
+- Keepers and automation services
+- Rollup services and co-processors
+- Zero-knowledge proof generation
+- Specialized cryptography services
+
+This architecture allows developers to create custom verification mechanism tailored to their specific service requirements, with the only constraint being that verification evidence must be accessible on-chain.
 
 Learn more about NCNs [here](https://www.jito.network/blog/understanding-node-consensus-networks/)
 
@@ -206,6 +222,8 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 
 6. Think of this like depositing cash in a bank and receiving a bank statement showing your balance - the cash is in the bank, but you have proof of ownership.
 
+![Deposit Process](deposit_process.png)
+
 #### Delegation Process: Putting Your Tokens to Work
 
 1. The vault administrator decides which operators to support by delegating tokens to them.
@@ -219,6 +237,8 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 3. If there are enough available tokens, the delegation goes ahead.
 
 4. This is similar to how a bank might use customer deposits to make loans, while ensuring they keep enough cash on hand for customer withdrawals.
+
+![Delegation Process](delegation_process.png)
 
 #### Withdrawal Process: Getting Your Tokens Back
 
@@ -238,6 +258,8 @@ Vaults securely hold staked assets and delegate them to operators. The vault pro
 - After the waiting period, your withdrawal can be completed.
 - Your VRTs are exchanged back for the original tokens, minus a small withdrawal fee.
 - The tokens are transferred to your account, and the withdrawal ticket is closed.
+
+![Withdrawal Process](withdrawal_process.png)
 
 #### Regular System Updates: Keeping Everything in Balance
 
