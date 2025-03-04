@@ -3,7 +3,6 @@ import matter from "gray-matter";
 import path from "path";
 import { cache } from "react";
 
-// Define the blog post type
 export interface BlogPost {
   slug: string;
   content: string;
