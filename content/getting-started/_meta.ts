@@ -1,8 +1,11 @@
 import type { MetaRecord } from "nextra";
 
 const meta: MetaRecord = {
-  installation: {
+  "installation": {
     title: "Installation",
+  },
+  "hello-world-ncn": {
+    title: "Hello World NCN",
   },
   "rust-client": {
     title: "Rust Client",
