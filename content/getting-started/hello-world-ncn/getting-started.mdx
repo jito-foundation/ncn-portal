@@ -1,0 +1,71 @@
+# Getting started
+
+## Hello World NCN
+
+This tutorial will guide you through building a Hello World NCN (Node Consensus Network) on Jito Restaking. 
+This introductory example will help you understand the fundamental concepts of NCN development and how it interacts with the Jito Restaking ecosystem.
+
+## Overview
+
+The Hello World NCN is a simple implementation that demonstrates the core mechanics of how NCNs operate within the Jito Restaking framework. 
+This example serves as an educational foundation that illustrates both the infrastructure setup and operational flow of a basic NCN.
+
+
+### By Jito Restaking:
+
+1. Register all components
+
+    - Registering NCN in the Jito Restaking Protocol
+    - Registering Operators who will perform work
+    - Registering Vault that delegate assets to operators, establishing the economic security model
+
+2. Opt-in all components
+
+    - Activating the registered components to participate in the network
+    - Establishing the connection between different entities in the ecosystem
+
+3. Delegate the asset from Vault to Operator
+
+    - Creating the economic relationship between `Vaults` and `Operators`
+    - Establishing the stake that secures the network and incentivizes honest behavior
+
+### NCN Program:
+
+The NCN program demonstrates the core workflow:
+
+    - **Admin creating messages** that need to be processe by Operators
+
+        - Defining the work that requires consensus
+        - Initiating the consensus process through message broadcasting
+
+    - **Operators responding to messages** and submitting signed responses
+
+        - Performing the requested validation or computation work
+        - Cryptographically signing their responses to ensure accountability
+    
+    - **Program verifying the operator's work** through on-chain validation
+
+        - Ensuring the correctness of operator submissions
+        = Providing transparent verification that can be audited by all participants
+
+## Let's Build
+
+Follow these steps to create your own Hello World NCN:
+
+- Clone the [repo](https://github.com/aoikurokawa/hello-world-ncn)
+- Set up your development environment using the prerequisites below
+- Explore the codebase to understand the implementation details
+- Deploy and test your NCN using the provided scripts and documentation
+
+
+### Prerequisites
+
+Before getting started, ensure you have the following tools installed:
+
+- [Rust] - The programming language used for NCN development
+- [Solana CLI] - Command-line tools for interacting with the Solana blockchain
+- [Jito Restaking CLI] - Tools specific toe the Jito Restaking Protocol
+
+[Rust]: https://www.rust-lang.org/tools/install
+[Solana CLI]: https://solana.com/docs/intro/installation
+[Jito Restaking CLI]: https://github.com/jito-foundation/restaking/blob/master/cli/getting_started.md
