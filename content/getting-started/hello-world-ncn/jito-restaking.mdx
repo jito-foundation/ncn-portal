@@ -1,0 +1,385 @@
+# Jito Restaking
+
+This guide provides a comprehensive walkthrough of setting up a Node Consensus Network (NCN) with Jito Restaking, with detailed explanations for each step.
+
+## Register All Components
+
+Before Hello World NCN can function, you need to register three main component types: the NCN itself, Operators who perform working, and Vaults that provide economic security through asset delegation.
+
+### NCN Registration
+
+The NCN (Node Consensus Network) is the core application that defines the consensus rules and coordinates the work operators.
+
+#### Create NCN Admin keypair
+
+```bash
+solana-keygen grind --starts-with ncn:1
+mkdir -p credentials/ncn
+mv ncnnteNRPccbg5mpwuJbzmBvVexHcoDWmZnLKybr8XA.json ./credentials/ncn/
+```
+
+This step creates a new keypair for the NCN admin with a vannity address that starts with "ncn:1" for easier identification. 
+The keypair is then stored in a dedicated credentials directory.
+
+> [!NOTE]
+>
+> You'll need SOL tokens to pay for transaction fees. Use the [Solana Faucet] to get some tokens for testing.
+> 
+> [Solana Faucet]: https://faucet.solana.com/
+
+
+#### Initialize NCN
+
+```bash
+./jito-restaking-cli restaking ncn initialize \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/ncn/ncnnteNRPccbg5mpwuJbzmBvVexHcoDWmZnLKybr8XA.json
+```
+
+This command initializes Hello World NCN on the Solana blockchain using the Jito Restaking CLI. 
+It creates the necessary on-chain state to represent Hello World NCN in the Jito Restaking ecosystem.
+
+After successful initialization, you'll receive Hello World NCN's address: 
+
+Ex: zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM
+
+
+### Operators Registration
+
+Operators are the entities that perform working and participate in the consensus process within Hello World NCN.
+
+#### Create Operators Admin Keypair
+
+```bash
+solana-keygen grind --starts-with ope:1
+mkdir -p credentials/operator
+mv opeKDrPSPhLYFFRpsPTLU6o86f4AFcFvNMRvbdifhvq.json ./credentials/ope/
+```
+
+Similar to the NCN keypair, this creates a vanity address starting with "opt:1" for Hello World operator admin, making it easier to identify in transaction and logs.
+
+> [!NOTE]
+> 
+> Remember to fund this address with SOL using the [Solana Faucet]
+>
+> [Solana Faucet]: https://faucet.solana.com/
+
+#### Initialize Operator
+
+```bash
+./jito-restaking-cli restaking operator initialize 1000 \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/operator/opeKDrPSPhLYFFRpsPTLU6o86f4AFcFvNMRvbdifhvq.json
+```
+
+This command initializes an Operator account with a capacity of 1000 OPERATOR FEE BPS. 
+The capacity represents the maximum amount of stake this operator can accept from vaults. 
+After initialization, three operator accounts are created:
+
+Ex:
+- Operator 1: 6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj
+- Operator 2: DqwU1gHAN55PJWX25Kvopkny2ENddCjWdqX68VEWPLQg
+- Operator 3: 9sMvk2pvMnPusPZWuEim5dp6JPvfM5KKmLjgRV4uw61z
+
+### Vault Registration
+
+Vaults hold and delegate assets to operators, providing economic security to the network.
+
+#### Create SPL token
+
+```bash
+spl-token  create-token
+```
+
+This creates a new SPL token that will be used by Hello World vault. In a production environment, this might be an exsting token with real economic value.
+
+Ex SPL-Token created: 5Xk7TaAWWxCTiW1TsM4JVJkxqzFwbTAG1SBMWPfwMwT
+
+
+#### Create Vault Admin Keypair
+
+```bash
+solana-keygen grind --starts-with vau:1
+mkdir -p credentials/vault
+mv vauBPs8vKk3tdqYkTji15xvLvDrkdowFvS4F3RapmBN.json ./credentials/vault/
+```
+
+This creates a vanity address starting with "vau:1" for Hello World vault admin, making it easier to identify in transactions and logs.
+
+> [!NOTE]
+> 
+> Remember to fund this address with SOL using the [Solana Faucet]
+>
+> [Solana Faucet]: https://faucet.solana.com/
+
+#### Initialize Vault
+
+```bash
+./jito-restaking-cli \
+    --keypair ./credentials/vault/vauBPs8vKk3tdqYkTji15xvLvDrkdowFvS4F3RapmBN.json \
+    --rpc-url 'https://api.devnet.solana.com' 
+    vault vault initialize '5Xk7TaAWWxCTiW1TsM4JVJkxqzFwbTAG1SBMWPfwMwT' 1000 1000 1000 9
+```
+
+This command initializes a vault with the following parameters:
+
+- It uses SPL token (5Xk7TaAWWxCTiW1TsM4JVJkxqzFwbTAG1SBMWPfwMwT) as the supported token
+- Sets **DEPOSIT_FEE_BPS** of 1000
+- Sets **WITHDRAWAL_FEE_BPS** of 1000
+- Sets **REWARD_FEE_BPS** 1000
+- Sets **DECIMALS** 9
+
+After initialization, the following addresses are created:
+
+Ex:
+
+VRT Token: 7Xe8hbtYDh1H4NeLDoG23gvcyeGnJCbmwobvbCwbsjtp
+
+Vault: 4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA
+
+
+## Opt-in Phase
+
+After registering components, they need to opt into relationships with each other. 
+This creates the necessary connections between NCN, Operators, and Vaults.
+
+### NCN Opt-ins
+
+#### NCN to Operator Connections
+
+First, we need to initialize the state that connects the NCN with each Operator.
+
+##### Initialize NCN Operator State
+
+###### Operator 1
+
+```bash
+./jito-restaking-cli \
+    restaking ncn initialize-ncn-operator-state \
+    'zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM' \
+    '6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/ncn/ncnnteNRPccbg5mpwuJbzmBvVexHcoDWmZnLKybr8XA.json
+```
+
+This command creates the initial state connecting your NCN with Operator 1. 
+The NCN admin account is used to sign this transaction, establishing a relationship between the NCN and the operator.
+
+Similar commands are run for Operators 2 and 3, creating connections between your NCN and all three operators.
+
+##### Warm Up NCN Operator State
+
+After initialization, the connections need to be "warmed up" or activated.
+
+###### Operator 1
+
+```bash
+./jito-restaking-cli \
+    restaking ncn ncn-warmup-operator \
+    'zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM' \
+    '6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/ncn/ncnnteNRPccbg5mpwuJbzmBvVexHcoDWmZnLKybr8XA.json
+```
+
+This command activates the connection between the NCN and Operator 1, allowing the operator to participate in the NCN's consensus process. 
+The NCN admin signs this transaction.
+
+Similar commands are run for Operators 2 and 3, activating all three connections.
+
+#### NCN to Vault Connection
+
+The NCN also needs to establish a connection with the Vault that will be delegating assets to the Operators.
+
+##### Initialize NCN Vault Ticket
+
+```bash
+./jito-restaking-cli \
+    restaking ncn initialize-ncn-vault-ticket \
+    'zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM' \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/ncn/ncnnteNRPccbg5mpwuJbzmBvVexHcoDWmZnLKybr8XA.json
+```
+
+This command initializes the connection between your NCN and the Vault, creating the necessary on-chain state for the relationship.
+The NCN admin signs this transaction.
+
+##### Warm Up
+
+```bash
+./jito-restaking-cli \
+    restaking ncn warmup-ncn-vault-ticket \
+    'zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM' \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/ncn/ncnnteNRPccbg5mpwuJbzmBvVexHcoDWmZnLKybr8XA.json
+```
+
+This command activates the connection between the NCN and the Vault, allowing the Vault to delegate assets to Operators participating in this NCN. 
+The NCN admin signs this transaction.
+
+### Operator Opt-ins
+
+Operators also needs to establish connections with both the NCN and the Vault.
+
+#### Operator to NCN Connections
+
+##### Warm Up
+
+###### Operator 1
+
+```bash
+./jito-restaking-cli \
+    restaking operator operator-warmup-ncn \
+    '6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj' \
+    'zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/operator/opeKDrPSPhLYFFRpsPTLU6o86f4AFcFvNMRvbdifhvq.json
+```
+
+This command activates the connection from the Operator's side, confirming that Operator 1 is willing to participate in your NCN's consensus process. 
+The operator admin signs this transaction.
+
+Similar commands are run for Operators 2 and 3, confirming all three operators' participation.
+
+#### Operator to Vault Connections
+
+Operators also need to establish connections with the Vault to receive delegated assets.
+
+##### Initialize Operator Vault Ticket
+
+###### Operator 1
+
+```bash
+./jito-restaking-cli \
+    restaking operator initialize-operator-vault-ticket \
+    '6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj' \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/operator/opeKDrPSPhLYFFRpsPTLU6o86f4AFcFvNMRvbdifhvq.json
+```
+
+This command initializes the connection between Operator 1 and the Vault, creating the necessary on-chain state for the relationship. 
+The operator admin signs this transaction.
+Similar commands are run for Operators 2 and 3, initializing connections between all three operators and the Vault.
+
+##### Warm Up Operator Vault Ticket
+
+###### Operator 1
+
+```bash
+./jito-restaking-cli \
+    restaking operator warmup-operator-vault-ticket \
+    '6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj' \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/operator/opeKDrPSPhLYFFRpsPTLU6o86f4AFcFvNMRvbdifhvq.json
+```
+
+This command activates the connection between Operator 1 and the Vault, allowing the operator to receive delegated assets from the Vault. 
+The operator admin signs this transaction.
+Similar commands are run for Operators 2 and 3, activating connections between all three operators and the Vault.
+
+### Vault Opt-ins
+
+Finally, the Vault needs to establish connections with both the NCN and the Operators.
+
+##### Vault to NCN Connection
+
+###### Initialize Vault NCN Ticket
+
+```bash
+./jito-restaking-cli \
+    vault vault initialize-vault-ncn-ticket \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    'zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/vault/vauBPs8vKk3tdqYkTji15xvLvDrkdowFvS4F3RapmBN.json
+```
+
+This command initializes the connection between the Vault and the NCN, creating the necessary on-chain state for the relationship. 
+The vault admin signs this transaction.
+
+###### Warm Up Vault NCN Ticket
+
+```bash
+./jito-restaking-cli \
+    vault vault warmup-vault-ncn-ticket \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    'zSy3NQbg13YaKVNu2zh6cZ15VtQyMeQWXc1dzzxx6LM' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/vault/vauBPs8vKk3tdqYkTji15xvLvDrkdowFvS4F3RapmBN.json
+```
+
+This command activates the connection between the Vault and the NCN, allowing the Vault to delegate assets to Operators participating in this NCN. 
+The vault admin signs this transaction.
+
+##### Vault to Operator Connections
+
+Before delegating assets, the Vault needs to prepare the token infrastructure.
+
+###### Create Associated Token Account (ATA)
+
+```bash
+spl-token create-account 5Xk7TaAWWxCTiW1TsM4JVJkxqzFwbTAG1SBMWPfwMwT
+```
+
+This creates an associated token account for your SPL token, which will be used to hold tokens before they are delegated.
+
+###### Mint Supported Token
+
+```bash
+spl-token mint 5Xk7TaAWWxCTiW1TsM4JVJkxqzFwbTAG1SBMWPfwMwT 3000
+```
+
+This mints 3000 tokens to your associated token account. In a production environment, you would already have these tokens from another source.
+
+###### Mint VRT
+
+```bash
+./jito-restaking-cli vault vault mint-vrt 4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA 3000 0
+```
+
+This command mints Vault Restaking Tokens (VRTs), which represent the tokens being delegated to the Vault.
+
+
+###### Initialize Operator Delegation
+
+####### Operator 1
+
+```bash
+./jito-restaking-cli \
+    vault vault initialize-operator-delegation \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    '6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj' \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/vault/vauBPs8vKk3tdqYkTji15xvLvDrkdowFvS4F3RapmBN.json
+```
+
+This command initializes the delegation from the Vault to Operator 1, creating the necessary on-chain state for the delegation. 
+The vault admin signs this transaction.
+
+Similar commands are run for Operators 2 and 3, initializing delegations to all three operators.
+
+###### Delegate To Operator
+
+####### Operator 1
+
+```bash
+./jito-restaking-cli \
+    vault vault delegate-to-operator \
+    '4wmTjgjB4SDgh4mxUtmpYhoGqFi9ECNZmdmuEH7K99JA' \
+    '6BeXz72E9yn8JgkfzjiPdsnaE8PppbdpKTGDi7H7bsZj' \
+    100 \
+    --rpc-url 'https://api.devnet.solana.com' \
+    --keypair ./credentials/vault/vauBPs8vKk3tdqYkTji15xvLvDrkdowFvS4F3RapmBN.json
+```
+
+This command actually delegates 100 tokens from the Vault to Operator 1. 
+This delegation provides economic security to the network and allows the operator to participate in the consensus process. 
+The vault admin signs this transaction.
+
+Similar commands are run for Operators 2 and 3, delegating 100 tokens to each operator.
+
+
