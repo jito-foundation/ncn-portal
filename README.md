@@ -45,3 +45,13 @@ Required environment variables:
 | Name                     | Description           | Default Value           |
 | ------------------------ | --------------------- | ----------------------- |
 | NEXT_PUBLIC_API_BASE_URL | Interact with backend | `http://localhost:8080` |
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+- Fork the project
+- Create your feature branch (git checkout -b username/feature_name)
+- Commit your changes (git commit -m 'Add some feature')
+- Push to the branch (git push origin username/feature_name)
+- Open a Pull Request
