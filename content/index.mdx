@@ -1,36 +1,44 @@
 # Introduction
 
-## Jito Restaking
-
-[Jito (Re)staking] is a multi-asset staking protocol for node consensus networks. The protocol tokenizes staked assets as vault receipt tokens (VRT) for enhanced liquidity and composability. Node consensus networks can use Jito Restaking to easily customize staking parameters, and economic incentives to tailor their security and tokenomics.
-
-[Jito (Re)staking]: https://github.com/jito-foundation/restaking
-
-## Addresses
-
-| Network | Program   | Address                                      | Version |
-|---------|-----------|----------------------------------------------|---------|
-| Mainnet | Restaking | RestkWeAVL8fRGgzhfeoqFhsqKRchg6aa1XrcH96z4Q  | 0.0.3   |
-| Mainnet | Vault     | Vau1t6sLNxnzB7ZDsef8TLbPLfyZMYXH8WTNqUdm9g8  | 0.0.3   |
-| Testnet | Restaking | RestkWeAVL8fRGgzhfeoqFhsqKRchg6aa1XrcH96z4Q  | 0.0.3   |
-| Testnet | Vault     | Vau1t6sLNxnzB7ZDsef8TLbPLfyZMYXH8WTNqUdm9g8  | 0.0.3   |
-| Devnet  | Restaking | RestkWeAVL8fRGgzhfeoqFhsqKRchg6aa1XrcH96z4Q  | 0.0.3   |
-| Devnet  | Vault     | Vau1t6sLNxnzB7ZDsef8TLbPLfyZMYXH8WTNqUdm9g8  | 0.0.3   |
-
-
 ## NCN Overview
 
 ## What is a Node Consensus Network (NCN)?
 
-A Node Consensus Network (NCN) on Jito Restaking is simply a distributed network that validates and confirms information.
+A Node Consensus Network (NCN) on Jito Restaking enables developers to build decentralized services on Solana with customized verification mechanisms for off-chain activities. 
+Each NCN consists of two main components: on-chain programs that handle verification and an off-chain network of Operators who perform the actual work.
 
-- Node: A piece of software running the required protocols as specified by the node consensus network.
-- Node Consensus Network (NCN): A set of nodes running software for the same network, working together to achieve consensus and provide services.
-- Operator: An entity that manages one or more nodes in the node consensus network.
+These Operators execute specific tasks and submit proof of their work to the on-chain programs. 
+The tasks themselves can originate from multiple sources: directly through on-chain contracts, through off-chain communication channels with Operators, or via specialized task aggregation systems.
+
+NCN developers have complete flexibility in designing both the off-chain execution process and the on-chain verification mechanisms to suit their specific requirements:
+
+- When Operators successfully complete their assigned tasks, the NCN can automatically distribute rewards to incentivize continued participation.
+- If Operators act maliciously or submit incorrect information, the NCN can automatically slash their delegated stake and remove them from the network, maintaining system integrity.
+
+## Core Components
+
+When building an NCN, you'll work with these fundamental components:
+
+- **Node**: A piece of software running the required protocols as specified by the node consensus network.
+- **Operator**: An entity that manages one or more nodes in the network.
+- **Service Requests**: Information that needs to be validated (e.g., DePIN device responses, asset price data, Solana Epoch snapshots).
+- **Operator Responses**: The output of operators' off-chain work, typically compressed or hashed for on-chain storage.
+- **Consensus Mechanism**: Your designed system for operators to agree on the correct result.
+
+## Customizable Elements
+
+As an NCN developer, you have flexibility in how you implement:
+
+- **Time Span**: You can define your own cycle timing independent of Solana epochs or other external timeframes.
+- **Response Collection**: Design your own data structures for gathering and processing operator responses.
+- **Verification Logic**: Create custom rules for what constitutes valid consensus.
+- **Reward and Slashing Mechanisms**: Determine how operators are incentivized and penalized.
 
 ## What Can You Create as an NCN?
 
-NCN design encompasses a wide range of possibilities, covering any off-chain service that can be validated on-chain. This flexibility empowers NCN developers to craft custom validation mechanisms tailored to the specific needs of their services. The sole requirement is that some form of proof for the off-chain service's execution must be submitted on-chain to facilitate its validation.
+NCN design encompasses a wide range of possibilities, covering any off-chain service that can be validated on-chain. 
+This flexibility empowers NCN developers to craft custom validation mechanisms tailored to the specific needs of their services. 
+The sole requirement is that some form of proof for the off-chain service's execution must be submitted on-chain to facilitate its validation.
 
 Examples of NCNs include:
 
@@ -45,7 +53,8 @@ Examples of NCNs include:
 
 ## Get in Touch
 
-Projects interested in building on the Jito (Re)staking platform are encouraged to contact us through [this form]. This includes NCN, VRTs and node operators.
+Projects interested in building on the Jito (Re)staking platform are encouraged to contact us through [this form]. 
+This includes NCN, VRTs and node operators.
 
 [this form]: https://forms.gle/cfbshwfvwqB5RMGdA
 

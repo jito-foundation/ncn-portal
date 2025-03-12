@@ -32,22 +32,49 @@ This example serves as an educational foundation that illustrates both the infra
 
 ### NCN Program:
 
-The NCN program demonstrates the core workflow:
+The NCN program demonstrates the core workflow of a consensus network:
 
-    - **Admin creating messages** that need to be processe by Operators
+    - **Admin creating messages that need to be processe by Operators**
 
-        - Defining the work that requires consensus
-        - Initiating the consensus process through message broadcasting
+        - In our Hello World NCN example, these are simple text messages
+        - These messages define the work that requires consensus and initiate the process
 
-    - **Operators responding to messages** and submitting signed responses
+        > [!TIP]
+        >
+        > In real NCNs, admin messages represent input data like:
+        > - Reports from DePIN (Decentralized Physical Infrastructure Network) devices
+        > - Asset price information for oracle services
+        > - Solana Epoch snapshots for Jito Tip Router operations
+        
 
-        - Performing the requested validation or computation work
-        - Cryptographically signing their responses to ensure accountability
+    - **Operators performing computation and responding to messages**
+
+        - In our example, operators calculate a SHA-256 hash of the message
+
+        > [!TIP]
+        >
+        > In real NCNs, operator might:
+        > - Verify data from multiple sources
+        > - Calculate aggregate values (median prices, averages, etc.)
+        > - Generate proofs or attestations about off-chain data
+
+    - **Operators responding to messages and submitting signed responses**
+
+        - Our example stores the computed hash directly on-chain
+        > [!TIP]
+        >
+        > In production NCNs, responses are typically:
+        > - Compressed or represented as merkle roots due to Solana data limits
+        > - Full response data is stored off-chain by operators
+        > - Only verification data or hashes are stored on-chain
     
-    - **Program verifying the operator's work** through on-chain validation
+    - **Program verifying consensus among operator responses**
 
-        - Ensuring the correctness of operator submissions
-        = Providing transparent verification that can be audited by all participants
+        - Our example checkes if a minimum number operators provided matching results
+        - This ensures honest behavior is enforced by economic stake
+        - The verification process is transparent and can be audited by all participants
+
+The Hello World implementation demonstrates these concepts with simple message processing, but the same principles apply to complex real-world applications like oracle networks, DePIN services, and cross-chain bridges.
 
 ## Let's Build
 
@@ -56,7 +83,7 @@ Follow these steps to create your own Hello World NCN:
 - Clone the [repo](https://github.com/aoikurokawa/hello-world-ncn)
 - Set up your development environment using the prerequisites below
 - Explore the codebase to understand the implementation details
-- Deploy and test your NCN using the provided scripts and documentation
+- Deploy and test Hello World NCN using the provided scripts and documentation
 
 
 ### Prerequisites
