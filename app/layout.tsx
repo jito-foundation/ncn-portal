@@ -1,81 +1,17 @@
-import ChatbotModal from "@/components/ChatbotModal";
-import { AuthProvider } from "@/components/context/AuthContext";
-import { ChainContextProvider } from "@/components/context/ChainContextProvider";
-import { RpcContextProvider } from "@/components/context/RpcContextProvider";
-import { SelectedWalletAccountContextProvider } from "@/components/context/SelectedWalletAccountContextProvider";
-import ThemesProvider from "@/providers/ThemesProvider";
-import { Analytics } from "@vercel/analytics/react";
-import Image from "next/image";
-import { Footer, Layout, Navbar } from "nextra-theme-docs";
-import "nextra-theme-docs/style.css";
-import { Banner, Head } from "nextra/components";
-import { getPageMap } from "nextra/page-map";
-import { Toaster } from "react-hot-toast";
+import './global.css';
+import { RootProvider } from 'fumadocs-ui/provider';
+import { Inter } from 'next/font/google';
+import type { ReactNode } from 'react';
 
-import jitoLogo from "../public/jito_logo_white.webp";
-import "./globals.scss";
-import "./theme-config.css";
+const inter = Inter({
+  subsets: ['latin'],
+});
 
-export const metadata = {
-  title: {
-    default: "NCN Portal",
-    template: `%s - Claude Lite`,
-  },
-  description: "AI assistant powered by Claude",
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
-};
-
-const banner = (
-  <Banner storageKey="some-key">Jito Restaking is released 🎉</Banner>
-);
-const navbar = (
-  <Navbar
-    logo={
-      <>
-        <Image src={jitoLogo} alt="jito ncn portal" width={70} height={70} />
-        <span style={{ marginLeft: ".4em", fontWeight: 800 }}>NCN Portal</span>
-      </>
-    }
-    projectLink="https://github.com/jito-foundation/restaking"
-  />
-);
-const footer = <Footer>MIT {new Date().getFullYear()} © Jito.</Footer>;
-
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body>
-        <ThemesProvider>
-          <ChainContextProvider>
-            <SelectedWalletAccountContextProvider>
-              <RpcContextProvider>
-                <AuthProvider>
-                  <Head></Head>
-                  <Layout
-                    banner={banner}
-                    navbar={navbar}
-                    pageMap={await getPageMap()}
-                    docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
-                    footer={footer}
-                  >
-                    {children}
-                  </Layout>
-                  <ChatbotModal />
-                  <Toaster />
-                </AuthProvider>
-              </RpcContextProvider>
-            </SelectedWalletAccountContextProvider>
-          </ChainContextProvider>
-        </ThemesProvider>
-        <Analytics />
+    <html lang="en" className={inter.className} suppressHydrationWarning>
+      <body className="flex flex-col min-h-screen">
+        <RootProvider>{children}</RootProvider>
       </body>
     </html>
   );
