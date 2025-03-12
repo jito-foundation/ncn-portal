@@ -19,15 +19,15 @@ export const baseOptions: BaseLayoutProps = {
         >
           <circle cx={12} cy={12} r={12} fill="currentColor" />
         </svg>
-        My App
+        Jito NCN Portal
       </>
     ),
   },
   links: [
-    {
-      text: 'Documentation',
-      url: '/docs',
-      active: 'nested-url',
-    },
+    // {
+    //   text: 'Documentation',
+    //   url: '/docs',
+    //   active: 'nested-url',
+    // },
   ],
 };

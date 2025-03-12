@@ -1,0 +1,17 @@
+{
+    "title": "docs",
+    "description": "The description of root folder",
+    "pages": [
+      "---Getting Started---",
+      "installation",
+      "hello-world-ncn",
+  
+      "---Building NCN---",
+      "core-concepts",
+      "building-ncn",
+  
+      "---SPL Tokens---",
+  
+      "---References---"
+    ]
+}
