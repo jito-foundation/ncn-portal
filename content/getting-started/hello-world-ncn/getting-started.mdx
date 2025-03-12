@@ -58,15 +58,23 @@ The NCN program demonstrates the core workflow of a consensus network:
         > - Calculate aggregate values (median prices, averages, etc.)
         > - Generate proofs or attestations about off-chain data
 
-    - **Operators responding to messages** and submitting signed responses
+    - **Operators responding to messages and submitting signed responses**
 
-        - Performing the requested validation or computation work
-        - Cryptographically signing their responses to ensure accountability
+        - Our example stores the computed hash directly on-chain
+        > [!TIP]
+        >
+        > In production NCNs, responses are typically:
+        > - Compressed or represented as merkle roots due to Solana data limits
+        > - Full response data is stored off-chain by operators
+        > - Only verification data or hashes are stored on-chain
     
-    - **Program verifying the operator's work** through on-chain validation
+    - **Program verifying consensus among operator responses**
 
-        - Ensuring the correctness of operator submissions
-        - Providing transparent verification that can be audited by all participants
+        - Our example checkes if a minimum number operators provided matching results
+        - This ensures honest behavior is enforced by economic stake
+        - The verification process is transparent and can be audited by all participants
+
+The Hello World implementation demonstrates these concepts with simple message processing, but the same principles apply to complex real-world applications like oracle networks, DePIN services, and cross-chain bridges.
 
 ## Let's Build
 

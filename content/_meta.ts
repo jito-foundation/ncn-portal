@@ -5,11 +5,11 @@ const meta: MetaRecord = {
     title: "Introduction",
     href: "/docs",
   },
-  "core-concepts": {
-    title: "Core Concepts",
-  },
   "getting-started": {
     title: "Getting Started",
+  },
+  "core-concepts": {
+    title: "Core Concepts",
   },
   "interacting-with-jito-restaking": {
     title: "Interacting with Jito Restaking",
