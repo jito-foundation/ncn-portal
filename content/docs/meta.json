@@ -6,11 +6,10 @@
       "installation",
       "hello-world-ncn",
   
-      "---Building NCN---",
-      "core-concepts",
-      "building-ncn",
-  
-      "---SPL Tokens---",
+      "---Core Concepts---",
+      "basics",
+      "ncn-design",
+      "clients",
   
       "---References---"
     ]
