@@ -8,5 +8,6 @@
       "reward-payments",
       "permissionless-cranker",
       "node-operator-client"
-    ]
+    ],
+    "defaultOpen": true
   }
