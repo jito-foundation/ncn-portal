@@ -3,5 +3,6 @@
     "pages": [
       "rust",
       "typescript"
-    ]
+    ],
+    "defaultOpen": true
   }

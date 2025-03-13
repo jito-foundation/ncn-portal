@@ -4,5 +4,6 @@
       "overview",
       "jito-restaking",
       "ncn-on-chain"
-    ]
+    ],
+    "defaultOpen": true
   }
