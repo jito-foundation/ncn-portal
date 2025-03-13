@@ -1,0 +1,16 @@
+{
+    "title": "docs",
+    "description": "The description of root folder",
+    "pages": [
+      "---Getting Started---",
+      "installation",
+      "hello-world-ncn",
+  
+      "---Core Concepts---",
+      "basics",
+      "ncn-design",
+      "clients",
+  
+      "---References---"
+    ]
+}
