@@ -33,17 +33,18 @@ The NCN account structure is designed to handle various administrative and opera
 | vault_count         | u64    | Number of vaults registered with the NCN.            |
 | slasher_count       | u64    | Number of slashers registered with the NCN.          |
 
-> [!TIP]
-> 
-> NCN's PDA
->
-> ```rust
-> use jito_restaking_core::ncn::Ncn;
-> 
-> let program_id = jito_restaking_program::id();
-> let base_pubkey = pubkey!("base pubkey here");
-> let ncn_pubkey = Ncn::find_program_address(&program_id, &base_pubkey).0;
-> ```
+
+    <Callout>
+        NCN's PDA
+        
+         ```rust
+         use jito_restaking_core::ncn::Ncn;
+         
+         let program_id = jito_restaking_program::id();
+         let base_pubkey = pubkey!("base pubkey here");
+         let ncn_pubkey = Ncn::find_program_address(&program_id, &base_pubkey).0;
+         ```
+    </Callout>
 
 
 ## References

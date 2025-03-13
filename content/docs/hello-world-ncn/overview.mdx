@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: Your first document
+description: Learn how to develop first NCN Program
 ---
 
 This tutorial will guide you through building a Hello World NCN (Node Consensus Network) on Jito Restaking. 
@@ -40,34 +40,37 @@ The NCN program demonstrates the core workflow of a consensus network:
         - In our Hello World NCN example, these are simple text messages
         - These messages define the work that requires consensus and initiate the process
 
-        > [!TIP]
-        >
-        > In real NCNs, admin messages represent input data like:
-        > - Reports from DePIN (Decentralized Physical Infrastructure Network) devices
-        > - Asset price information for oracle services
-        > - Solana Epoch snapshots for Jito Tip Router operations
-        
+        <Callout>
+            In real NCNs, admin messages represent input data like:
+            
+            - Reports from DePIN (Decentralized Physical Infrastructure Network) devices
+            - Asset price information for oracle services
+            - Solana Epoch snapshots for Jito Tip Router operations
+        </Callout>
 
     - **Operators performing computation and responding to messages**
 
         - In our example, operators calculate a SHA-256 hash of the message
 
-        > [!TIP]
-        >
-        > In real NCNs, operator might:
-        > - Verify data from multiple sources
-        > - Calculate aggregate values (median prices, averages, etc.)
-        > - Generate proofs or attestations about off-chain data
+        <Callout>
+            In real NCNs, operator might:
+            
+            - Verify data from multiple sources
+            - Calculate aggregate values (median prices, averages, etc.)
+            - Generate proofs or attestations about off-chain data
+        </Callout>
 
     - **Operators responding to messages and submitting signed responses**
 
         - Our example stores the computed hash directly on-chain
-        > [!TIP]
-        >
-        > In production NCNs, responses are typically:
-        > - Compressed or represented as merkle roots due to Solana data limits
-        > - Full response data is stored off-chain by operators
-        > - Only verification data or hashes are stored on-chain
+
+        <Callout>
+            In production NCNs, responses are typically:
+            
+            - Compressed or represented as merkle roots due to Solana data limits
+            - Full response data is stored off-chain by operators
+            - Only verification data or hashes are stored on-chain
+        </Callout>
     
     - **Program verifying consensus among operator responses**
 

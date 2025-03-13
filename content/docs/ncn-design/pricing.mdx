@@ -1,6 +1,6 @@
 ---
 title: Pricing
-description: Your first document
+description: Learn NCN Design
 ---
 
 ## Tracked Mints
@@ -53,9 +53,8 @@ Permissionless Cranker can initialize `WeightTable` each epoch through [`initial
 | slot_set            | u64         | The slot that weight entry is set.                         |
 | slot_updated        | u64         | The slot that weight entry is updated.                     |
 
-> [!TIP]
->
-> Weight is flexible, if NCNs want to give one asset more "weight" over others, they can increase its value relative to the others.
-
+    <Callout>
+        Weight is flexible, if NCNs want to give one asset more "weight" over others, they can increase its value relative to the others.
+    </Callout>
 
 [`initialize_weight_table`]: https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_weight_table.rs

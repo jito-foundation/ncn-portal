@@ -79,17 +79,17 @@ description: Your first document
 | program_fee_bps                   | u16             | The program fee in basis points.                                                       |
 | is_paused                         | bool            | Pause flag.                                                                            |
 
-> [!TIP]
-> 
-> Vault's PDA
->
-> ```rust
-> use jito_restaking_core::operator::Operator;
-> 
-> let program_id = jito_restaking_program::id();
-> let base_pubkey = pubkey!("base pubkey here");
-> let vault_pubkey = Vault::find_program_address(&program_id, &base_pubkey).0;
-> ```
+    <Callout>
+        Vault's PDA
+        
+             ```rust
+             use jito_restaking_core::operator::Operator;
+             
+             let program_id = jito_restaking_program::id();
+             let base_pubkey = pubkey!("base pubkey here");
+             let vault_pubkey = Vault::find_program_address(&program_id, &base_pubkey).0;
+             ```
+    </Callout>
 
 ## References
 - [Vault Accounts](https://docs.restaking.jito.network/vault/00_vault_accounts/)
