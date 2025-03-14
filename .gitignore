@@ -40,3 +40,8 @@ next-env.d.ts
 
 # Search Engine
 _pagefind/
+
+# generated content
+.contentlayer
+.content-collections
+.source
