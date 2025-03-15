@@ -2,6 +2,7 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import Image from 'next/image';
 
 import jitoLogo from "../public/icons/jito_logo_white.webp";
+import githubIcon from "../public/icons/github.svg";
 
 /**
  * Shared layout configurations
@@ -23,10 +24,11 @@ export const baseOptions: BaseLayoutProps = {
     url: "/docs"
   },
   links: [
-    // {
-    //   text: 'Documentation',
-    //   url: '/docs',
-    //   active: 'nested-url',
-    // },
+    {
+      icon: <Image src={githubIcon} alt="Logo" width={24} height={24} />,
+      text: 'Github',
+      url: 'https://github.com/jito-foundation',
+      active: 'none',
+    },
   ],
 };
