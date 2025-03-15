@@ -263,21 +263,74 @@ Optimal results are achieved when executed shortly after epoch rollover.
 
 For both methods, ensure that the bank hash loaded by the client matches the characters in the snapshot name, and verify integrity through cross-reference with other operators.
 
-## Mainnet Launch preparation
+## Service Operation Procedures
 
-### SystemD Service Configuration Update
+### Pre-Launch Configuration
 
-1. Update OPERATOR_ADDRESS to the account created during Registration
-2. Update KEYPAIR_PATH to reference the keypair designated as `voter` on the Operator account
-    - Verify keypair public key with
-    ```bash
-    jito-restaking-cli restaking operator get <OPERATOR_ADDRESS>
-    ```
-3. Update NCN_ADDRESS=`jtoF4epChkmd75V2kxXSmywatczAomDqKu6VfWUQocT`
-4. Update TIP_ROUTER_PROGRAM_ID=`RouterBmuRBkPUbgEDMtdvTZ75GBdSREZR5uGUxxxpb`
+#### Service File Configuration
 
-### Service Preparation
+- Set `OPERATOR_ADDRESS` to your registered operator account
+- Update `KEYPAIR_PATH` to reference the keypair designated as `voter` on your Operator account
+- Verify keypair configuration with:
 
-The service must be operational for a minimum of 10 minutes before epoch 735 commencement for setup and incremental snapshot backup.
+```bash
+jito-restaking-cli restaking operator get <OPERATOR_ADDRESS>
+```
 
-#### If excessive disk usage has been observed in the /accounts directory and node stoppage is feasible:
+- Confirm program IDs are correctly set:
+
+```
+NCN_ADDRESS=jtoF4epChkmd75V2kxXSmywatczAomDqKu6VfWUQocT
+TIP_ROUTER_PROGRAM_ID=RouterBmuRBkPUbgEDMtdvTZ75GBdSREZR5uGUxxxpb
+```
+
+#### Software Preparation
+
+- Rebuild the client:
+
+```bash
+cargo build -p tip-router-operator-cli
+```
+
+### Service Initialization
+
+The service requires a minimum of 10 minutes operational time before epoch commencement to complete setup procedures and incremental snapshot backup processes.
+
+#### Storage Management (If Required)
+
+- If excessive disk usage occurs in the `/accounts` directory:
+
+```bash
+sudo systemctl stop solana
+sudo rm -rf /solana/accounts/*
+sudo systemctl start solana
+```
+
+#### Service Activation
+
+- For established implementations with verified operation:
+
+```bash
+# Edit service file
+sudo nano /etc/systemd/system/tip-router-operator.service
+# Set START_NEXT_EPOCH=true
+
+# Start service
+sudo systemctl daemon-reload
+sudo systemctl start tip-router-operator
+```
+
+- For new or still-testing implementations:
+
+```bash
+# Acquire snapshot (see Section 6)
+# Edit service file - set START_NEXT_EPOCH=false
+sudo nano /etc/systemd/system/tip-router-operator.service
+
+# Start service
+sudo systemctl daemon-reload
+sudo systemctl start tip-router-operator
+
+# Verify operation
+sudo journalctl -u tip-router-operator -f
+```
