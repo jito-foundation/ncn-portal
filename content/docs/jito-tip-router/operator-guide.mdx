@@ -22,9 +22,6 @@ The client performs the following operations:
 - Creates a merkle tree representing the tree and submits a memo transaction
 - Continuously repeats this process for subsequent epochs
 
-Additional functionality will be incorporated prior to the January 28th launch date. 
-Proper implementation of the current version ensures compatibility with future releases.
-
 ### Prerequisites
 
 Upon successful implmentation, verify node registration with the NCN and vaults by consulting the Tip Router Vault and Operator Registration documentation.
@@ -33,16 +30,16 @@ Upon successful implmentation, verify node registration with the NCN and vaults 
 
 ### Node Specifications
 
-| Component | Requirement |
-| --------- | ------------------------------------------------------------------------ |
-| Environment | Mainnet Solana Validator service (voting or RPC API exposure not required) |
-| Compatibility | Verified operationwith Solana v2.1+ |
-| CPU Utilization | Less than 50% on host machine |
-| Storage | Standard validator storage plus approximately 500GB for snapshots (~100GB per snapshot) |
-| Network | Standard validator connectivity |
-| Operating System | Ubuntu 20.04+ or Debian 12+ (other distributions supported with installation command modifications)  |
-| Wallet | Solana keypair with sufficient SOL for memo transaction fees |
-| Monitoring | Telegraf implementation with Jito metrics server integration |
+| Component        | Requirement                                                                                         |
+| ---------------- | --------------------------------------------------------------------------------------------------- |
+| Environment      | Mainnet Solana Validator service (voting or RPC API exposure not required)                          |
+| Compatibility    | Verified operationwith Solana v2.1+                                                                 |
+| CPU Utilization  | Less than 50% on host machine                                                                       |
+| Storage          | Standard validator storage plus approximately 500GB for snapshots (~100GB per snapshot)             |
+| Network          | Standard validator connectivity                                                                     |
+| Operating System | Ubuntu 20.04+ or Debian 12+ (other distributions supported with installation command modifications) |
+| Wallet           | Solana keypair with sufficient SOL for memo transaction fees                                        |
+| Monitoring       | Telegraf implementation with Jito metrics server integration                                        |
 
 <Callout>
     Storage Note:
