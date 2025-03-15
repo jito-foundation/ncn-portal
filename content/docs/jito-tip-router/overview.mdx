@@ -52,7 +52,7 @@ Inside of Stake Meta:
 - After each vote, consensus of node operators will be checked. After ⅔ of stake agrees on a merkle root for a given validator, a cross program invocation will take place to upload the merkle root to the validator’s tip distribution account.
 - Operators can change their vote until consensus is reached, then they can not change their vote. Once consensus is reached, any operators who have not voted have a fixed window of slots to submit their vote in order to be eligible for rewards.
 
-![](./images/upload.png)
+![Upload](./images/upload.png)
 
 [Jito Tip Distribution Program]: https://github.com/jito-foundation/jito-programs/blob/master/mev-programs/programs/tip-distribution/src/lib.rs
 [to upload merkle roots]: https://github.com/jito-foundation/jito-tip-router/blob/022fee74773170b76d1f8aad8c8edc71fd387e05/program/src/set_merkle_root.rs#L61-L80
@@ -67,7 +67,7 @@ Following the [NCN design section], Jito Tip Router consists of:
 - Core Logic
 - Reward Payment
 
-![](./images/overview.png)
+![Overview](./images/overview.png)
 
 
 [NCN design section]: /building-ncn/ncn-design.html#onchain-ncn-program
@@ -88,7 +88,7 @@ NCN admin update *weight* of supported token on Tip Router NCN.
 
 - [Update WeightTable account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/admin_update_weight_table.rs)
 
-![](./images/pricing.png)
+![Pricing](./images/pricing.png)
 
 ### Snapshots (Operator + Vault)
 
@@ -121,7 +121,7 @@ Each operator calculate the merkle tree to produce merkle root then cast vote wi
 
 - [Cast Vote](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/cast_vote.rs)
 
-![](./images/core_logic.png)
+![Core Logic](./images/core_logic.png)
 
 ### Reward Payment
 
