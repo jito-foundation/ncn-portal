@@ -1,132 +1,309 @@
 ---
-title: Vault and Operator Registration
-description: Learn How Jito Tip Router Works
+title: Vault and Operator Registration Procedures
+description: Comprehensive instructions for registering Vaults and Operators with Jito Tip Router
 ---
 
-## Overview
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Callout } from 'fumadocs-ui/components/callout';
+ 
+This outlines the comprehensive procedures for registering Vaults and Operators with the Jito Tip Router NCN.
 
-### Current Process
+## Prerequisites
 
-- Each validator has a unique tip distribution account, owned by the [Jito Tip Distribution Program], where SOL is collected for a given epoch.
-- At the end of the epoch, an off-chain process takes place which produces a merkle tree and merkle root for each validator’s tip distribution account. 
-    - Validators can run this process themselves or delegate it to another party.
-    - The merkle tree is intended to distribute any SOL in the account to the validator based on their MEV commission rate. Remaining funds are sent to stakers’ stake accounts pro-rata.
-- After the merkle root has been uploaded, merkle proofs are uploaded on-chain and the program will transfer SOL from the tip distribution account to the validator’s vote account and stake accounts. 
+Prior to commencing the registration process, ensure the required Command Line Interfaces (CLIs) are properly installed on your system.
 
-### Problem
+### CLI Installation Process
 
-- Merkle root upload authority is permissioned with opt-in from each Jito-Solana validator. This mechanism creates a single point of potential failure with adverse impacts on network stakeholders and lacks transparency on the calculation.
+#### Tip Router CLI Installation
 
-### Solution
+<Steps>
 
-The TipRouter NCN will leverage Jito (Re)staking to empower a set of node operators to come to consensus on the correct merkle root for tip distribution.
+    <Step>
+        ##### Repository Acquisition
 
-The mechanism of the TipRouter NCN is detailed below:
+        ```bash
+        git clone https://github.com/jito-foundation/jito-tip-router.git
+        ```
+    </Step>
 
-- Validators can delegate the merkle root upload authority to a program derived address owned by the NCN, giving it permission [to upload merkle roots].
-- After the epoch rollover, node operators will compute a 'meta merkle root' — a merkle root derived from a new merkle tree containing all validator merkle trees — and upload it on-chain. This change reduces the number of votes required, as operators now vote on the meta merkle root instead of casting individual votes for each validator.
+    <Step>
+        ##### Build and Installation
 
-![Cast Vote](./images/cast_vote.png)
+        ```bash
+        cargo build --release
+        cargo install --path ./cli --bin jito-tip-router-cli --locked
+        ```
+    </Step>
 
-<Callout>
+    <Step>
+        ##### Installation Verification
 
-Inside of Stake Meta:
+        ```bash
+        jito-tip-router-cli -- help
+        ```
+    </Step>
+</Steps>
 
-- validator_vote_account: The account representing the validator's voting authority.
-- validator_node_pubkey: The public key of the validator node.
-- maybe_tip_distribution_meta: Metadata related to tip distribution, if applicable.
-    - merkle_root_upload_authority: The authority responsible for uploading the merkle root.
-    - tip_distribution_pubkey: The public key owned by the Jito Tip Distribution Program.
-    - total_tips: The total amount of tips in the [`TipDistributionAccount`]
-    - validator_fee_bps: The validator's cut of tips from [`TipDistributionAccount`], calculated from the on-chain commission fee bps.
-- delegations: Delegations to this validator.
-    - stake_account_pubkey: The public key of the stake account.
-    - staker_pubkey: The public key of the staker.
-    - withdrawer_pubkey: The public key authorized to withdraw from the stake account.
-    - lamports_delegated: Lamports delegated by the stake account
-- total_delegated: The total amount of delegations to the validator.
-- commission: The validator's delegation commission rate as a percentage between 0-100.
+#### Restaking CLI Installation
 
+<Steps>
+    <Step>
+        ##### Repository Acquisition and Directory Navigation
+
+        ```bash
+        cd ..
+        git clone https://github.com/jito-foundation/restaking.git
+        cd restaking
+        ```
+    </Step>
+
+    <Step>
+        ##### Repository Update and Installation
+
+        ```bash
+        git checkout master && git pull
+        cargo build --release
+        cargo install --path ./cli --bin jito-restaking-cli
+        ```
+    </Step>
+
+    <Step>
+        ##### Installation Verification
+
+        ```bash
+        jito-restaking-cli --help
+        ```
+    </Step>
+</Steps>
+
+
+## Operator Registration Procedures
+
+<Callout type="warn">
+    The keypair (default Solana config) utilized for CLI operations will be designated as the administrator for the operator account and will be required for all subsequent instructions.
 </Callout>
 
-- After each vote, consensus of node operators will be checked. After ⅔ of stake agrees on a merkle root for a given validator, a cross program invocation will take place to upload the merkle root to the validator’s tip distribution account.
-- Operators can change their vote until consensus is reached, then they can not change their vote. Once consensus is reached, any operators who have not voted have a fixed window of slots to submit their vote in order to be eligible for rewards.
+### Operator Account Initialization
 
-![Upload](./images/upload.png)
+This procedure establishes an Operator account within the Jito Restaking program, which serves as the primary account for registration with Network Compute Nodes (NCNs) and Vaults.
 
-[Jito Tip Distribution Program]: https://github.com/jito-foundation/jito-programs/blob/master/mev-programs/programs/tip-distribution/src/lib.rs
-[to upload merkle roots]: https://github.com/jito-foundation/jito-tip-router/blob/022fee74773170b76d1f8aad8c8edc71fd387e05/program/src/set_merkle_root.rs#L61-L80
-[`TipDistributionAccount`]: https://github.com/jito-foundation/jito-programs/blob/6bf84c19db9208a16e226074c666c965f5429d88/mev-programs/programs/tip-distribution/src/state.rs#L29-L54
+#### Parameters:
 
-## NCN Program
+<Accordions>
+    <Accordion title="OPERATOR_FEE_BPS">
+        Fee ( in basis points ) taken from TipRouter rewards each epoch for operating the NCN - the rest of the rewards go to the vaults
+    </Accordion>
+</Accordions>
 
-Following the [NCN design section], Jito Tip Router consists of:
+#### Command:
 
-- Pricing
-- Snapshot
-- Core Logic
-- Reward Payment
+```bash
+jito-restaking-cli restaking operator initialize <OPERATOR_FEE_BPS>
+```
 
-![Overview](./images/overview.png)
+#### Post-Execution
+
+Record the Operator account address generated by this command for subsequent use.
+
+<Callout type="warn">
+    Important: 
+    
+    Submit the operator account address to Jito immediately for registration in the Tip Router NCN.
+</Callout>
 
 
-[NCN design section]: /building-ncn/ncn-design.html#onchain-ncn-program
+### Voter Administrator Configuration
 
-### Pricing
+This procedure designates a new keypair as the voter administrator, which will be used in the Tip Router Operator client to sign transactions for the Tip Router NCN.
 
-**Permissionless Cranker**:
+#### Parameters:
 
-Prepare several accounts like `TrackedMints` and `WeightTable`.
+<Accordions>
+    <Accordion title="OPERATOR">
+        The previously generated operator account address
+    </Accordion>
+    <Accordion title="NEW_ADMIN">
+        The public key of the designated administrator
+    </Accordion>
+    <Accordion title="--set-voter-admin">
+        Flag to designate the wallet as a voter administrator
+    </Accordion>
+</Accordions>
 
-- [Initialize TrackedMints account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_tracked_mints.rs)
-- [Register Mint](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/register_mint.rs)
-- [Initialize WeightTable account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_weight_table.rs)
+#### Command:
 
-**NCN Admin**:
+```bash
+jito-restaking-cli \
+    restaking operator operator-set-secondary-admin \
+    <OPERATOR> \
+    <NEW_ADMIN> \
+    --set-voter-admin
+```
 
-NCN admin update *weight* of supported token on Tip Router NCN.
+<Callout type="info">
+    Additional sub-administrator roles for the Operator account may be configured according to [Restaking documentation](../basics/operator). 
+    These roles can be assigned to any Solana address, including keypairs, multisignatures, or program-owned addresses. 
+    However, the voter administrator should specifically be a keypair due to the frequency of transaction signing.
+</Callout>
 
-- [Update WeightTable account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/admin_update_weight_table.rs)
+### Operator Fee Configuration
 
-![Pricing](./images/pricing.png)
+<Callout type="info">
+    Note: 
+    
+    Fee modifications are only effective when implemented before the snapshot.
+    Modifications made after the snapshot will not take effect until the subsequent epoch's snapshot.
+</Callout>
 
-### Snapshots (Operator + Vault)
+#### Parameters:
 
-Take snapshots of Operator and Vault per epoch.
+<Accordions>
+    <Accordion title="OPERATOR">
+        The operator account address
+    </Accordion>
+    <Accordion title="OPERATOR_FEE_BPS">
+        The operator fee expressed in basis points
+    </Accordion>
+</Accordions>
 
-**Permissionless Cranker**:
+#### Command:
 
-Aggregate all information of operators and vaults associated with NCN
+```bash
+jito-restaking-cli \
+    restaking operator operator-set-fees \
+    <OPERATOR> \
+    <OPERATOR_FEE_BPS>
+```
 
-- [Initialize EpochSnapshot account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_epoch_snapshot.rs)
-- [Initiazize OperatorSnapshot account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_operator_snapshot.rs)
+### Operator Vault Ticket Initialization and Activation
 
-![](./images/snapshot.png)
+This procedure must be performed for each vault from which you intend to receive stake, as referenced in the Official Accounts section.
 
-### Core Logic (Consensus)
+#### Parameters:
 
-**Permissionless Cranker**:
+<Accordions>
+    <Accordion title="OPERATOR">
+        The operator account address
+    </Accordion>
+    <Accordion title="VAULT">
+        The target vault address for ticket creation
+    </Accordion>
+</Accordions>
 
-Prepare Ballot Box, all votes would be collected here.
+#### Initial Command:
 
-- [Initialize Ballot Box](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_ballot_box.rs)
+```bash
+jito-restaking-cli restaking operator initialize-operator-vault-ticket <OPERATOR> <VAULT>
+```
 
-After consensus reached with more than 2/3, cranker can upload the merkle tree of each validator.
+#### Activation Command:
 
-- [Set Merkle Root](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/set_merkle_root.rs)
+```bash
+jito-restaking-cli restaking operator warmup-operator-vault-ticket <OPERATOR> <VAULT>
+```
 
-**Operator**:
+### NCN Operator State Activation
 
-Each operator calculate the merkle tree to produce merkle root then cast vote with produced merkle root.
+<Callout type="warn">
+    Important: 
+    
+    Execute this command only after receiving explicit authorization from Jito.
+</Callout>
 
-- [Cast Vote](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/cast_vote.rs)
+#### Parameters
 
-![Core Logic](./images/core_logic.png)
+<Accordions>
+    <Accordion title="OPERATOR">
+        The operator account address
+    </Accordion>
+    <Accordion title="NCN">
+        The Tip Router NCN account address as specified in the reference section
+    </Accordion>
+</Accordions>
 
-### Reward Payment
+#### Command:
 
-IN PROGRESS
+```bash
+jito-restaking-cli restaking operator operator-warmup-ncn <OPERATOR> <NCN>
+```
 
-## References
-- [JIP-8: Adopt TipRouter NCN (Protocol Development)](https://forum.jito.network/t/jip-8-adopt-tiprouter-ncn-protocol-development/413)
-- [Jito Tip Router Repo](https://github.com/jito-foundation/jito-tip-router/tree/master)
+## Vault Registration Procedures
+
+<Callout>
+    The keypair (default Solana config) utilized for CLI operations must have Vault administrator privileges for all instructions.
+</Callout>
+
+### Vault NCN Ticket Initialization and Activation
+
+#### Parameters:
+
+<Accordions>
+    <Accordion title="VAULT">
+        The vault account address
+    </Accordion>
+    <Accordion title="NCN">
+        The Tip Router NCN account address as specified in the reference section
+    </Accordion>
+</Accordions>
+
+#### Initialization Command:
+
+```bash
+jito-restaking-cli vault vault initialize-vault-ncn-ticket <VAULT> <NCN>
+```
+
+#### Activation Command:
+
+```bash
+jito-restaking-cli vault vault warmup-vault-ncn-ticket <VAULT> <NCN>
+```
+
+### Operator Delegation Initialization
+
+<Callout type="warn">
+    Important: 
+    
+    Operators must have created their operator_vault_ticket prior to executing the following commands. 
+    Command failure likely indicates that this prerequisite has not been met.
+</Callout>
+
+#### Parameters:
+
+<Accordions>
+    <Accordion title="VAULT">
+        The vault account address
+    </Accordion>
+    <Accordion title="OPERATOR">
+        The operator address designated to run the Tip Router NCN, as specified in the reference section
+    </Accordion>
+</Accordions>
+
+#### Command:
+
+```bash
+jito-restaking-cli vault vault initialize-operator-delegation <VAULT> <OPERATOR>
+```
+
+### Operator Delegation Execution
+
+#### Parameters
+
+<Accordions>
+    <Accordion title="VAULT">
+        The vault account address
+    </Accordion>
+    <Accordion title="OPERATOR">
+        The operator address designated to run the Tip Router NCN, as specified in the reference section
+    </Accordion>
+    <Accordion title="AMOUNT">
+        The delegation amount in the smallest denomination of the Vault's Supported Token (JitoSOL, JTO, etc.)
+    </Accordion>
+</Accordions>
+
+#### Command
+
+```bash
+jito-restaking-cli vault vault delegate-to-operator <VAULT> <OPERATOR> <AMOUNT>
+```
+
