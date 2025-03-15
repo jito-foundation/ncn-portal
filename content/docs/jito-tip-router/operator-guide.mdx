@@ -1,0 +1,336 @@
+---
+title: Operator Implementation Guide
+description: 
+    A comprehensive technical guide for implementing and operating the Jito Tip Router Operator Client. 
+    This document details installation procedures, system requirements, configuration parameters, monitoring setup, and launch preparation for node operators participating in the Jito Tip Router (NCN).
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+## Introduction
+
+This document provides comprehensive instructions for implementing and operating the Jito Tip Router Operator Client. 
+The current implementation enables operators to validate their node configurations and ensure compatibility with the Tip Router (NCN).
+
+### Current Functionality
+
+The client performs the following operations:
+
+- Creates snapshot of the final slot from the previous epoch
+- Generates a validator tree with associated stake accounts from that slot
+- Creates a merkle tree representing the tree and submits a memo transaction
+- Continuously repeats this process for subsequent epochs
+
+Additional functionality will be incorporated prior to the January 28th launch date. 
+Proper implementation of the current version ensures compatibility with future releases.
+
+### Prerequisites
+
+Upon successful implmentation, verify node registration with the NCN and vaults by consulting the Tip Router Vault and Operator Registration documentation.
+
+## System Requirements
+
+### Node Specifications
+
+| Component | Requirement |
+| --------- | ------------------------------------------------------------------------ |
+| Environment | Mainnet Solana Validator service (voting or RPC API exposure not required) |
+| Compatibility | Verified operationwith Solana v2.1+ |
+| CPU Utilization | Less than 50% on host machine |
+| Storage | Standard validator storage plus approximately 500GB for snapshots (~100GB per snapshot) |
+| Network | Standard validator connectivity |
+| Operating System | Ubuntu 20.04+ or Debian 12+ (other distributions supported with installation command modifications)  |
+| Wallet | Solana keypair with sufficient SOL for memo transaction fees |
+| Monitoring | Telegraf implementation with Jito metrics server integration |
+
+<Callout>
+    Storage Note:
+
+    If additional storage requirements are prohibitive, the full-snapshot-interval-slots parameter may be increased to reduce total snapshot storage, 
+    provided that: (maximum_snapshots_to_retain * snapshot_interval_slots) > 432000
+</Callout>
+
+## Installation Procedure
+
+### SysteD Implementation
+
+<Steps>
+
+    <Step>
+        ##### Repository Acquisition
+
+        ```bash
+        git clone https://github.com/jito-foundation/jito-tip-router.git
+        ```
+    </Step>
+
+    <Step>
+        ##### Dependency Installation
+
+        ```bash
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        sudo apt-get install -y build-essential llvm-dev libclang-dev clang protobuf-compiler
+        ```
+    </Step>
+
+    <Step>
+        ##### Binary Compilation
+
+        ```bash
+        cargo b -p tip-router-operator-cli
+        ```
+    </Step>
+
+    <Step>
+        ##### Service Configuration
+
+        Create the service file at /etc/systemd/system/tip-router-operator.service (reference configuration provided in Section 3.3)
+    </Step>
+
+    <Step>
+        ##### Service Activation
+
+        ```bash
+        sudo systemctl enable tip-router-operator
+        sudo systemctl daemon-reload
+        sudo systemctl start tip-router-operator
+        ```
+    </Step>
+
+        <Step>
+        ##### Monitoring Implementation
+
+        ```bash
+        journalctl -u tip-router-operator -f
+        ```
+    </Step>
+</Steps>
+
+### Critical Configuration Parameters
+
+#### Validator Settings
+
+```bash
+--limit-ledger-size 500000000 (approximately 1 epoch of shreds)
+--full-snapshot-interval-slots 100000
+--maximum-full-snapshots-to-retain 5 (sufficient for last full epoch)
+--incremental-snapshot-archive-path /solana/snapshots (or preferred FULL_SNAPSHOTS_PATH)
+--incremental-snapshot-interval-slots 200 (default: 100, acceptable range up to 300)
+--maximum-incremental-snapshots-to-retain 4 (default)
+```
+
+#### Required Directory Structure
+
+- `/solana/ledger`
+- `/solana/snapshots`
+- `/solana/accounts`
+
+#### System Configuration
+
+- `LimitNOFILE=2000000` (required for both Docker and SystemD implementations)
+
+### SystemD Service Configuration
+
+<Callout>
+    The following template requires customization of designated parameters and verification off binary path.
+</Callout>
+
+```
+[Unit]
+Description=Tip Router Service
+After=network.target
+
+[Service]
+Type=simple
+User=core
+LimitNOFILE=2000000
+Environment=RUST_LOG=info
+Environment=KEYPAIR_PATH=<Path to your voter keypair>
+Environment=LEDGER_PATH=<Your ledger path>
+Environment=ACCOUNT_PATHS=<Your accounts path>
+Environment=FULL_SNAPSHOTS_PATH=<Your snapshots path>
+Environment=SNAPSHOT_OUTPUT_DIR=<Your snapshot output path>
+Environment=OPERATOR_ADDRESS=<Your operator account pubkey>
+Environment=RPC_URL=<Working RPC URL>
+Environment=NCN_ADDRESS=jtoF4epChkmd75V2kxXSmywatczAomDqKu6VfWUQocT
+Environment=TIP_DISTRIBUTION_PROGRAM_ID=4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7
+Environment=TIP_PAYMENT_PROGRAM_ID=T1pyyaTNZsKv2WcRAB8oVnk93mLJw2XzjtVYqCsaHqt
+Environment=ENABLE_SNAPSHOTS=false
+Environment=TIP_ROUTER_PROGRAM_ID=RouterBmuRBkPUbgEDMtdvTZ75GBdSREZR5uGUxxxpb
+Environment=NUM_MONITORED_EPOCHS=3
+Environment=START_NEXT_EPOCH=false
+Environment=SAVE_PATH=<Tip router generated files output path>
+Environment=BACKUP_SNAPSHOTS_DIR=<Your snapshot backup path>
+Environment=SOLANA_METRICS_CONFIG="host=http://tip-router.metrics.jito.wtf:8086,db=tip-router,u=jito,p=tipRouterPW"
+Environment=SET_MERKLE_ROOTS=false
+Environment=CLAIM_TIPS=false
+
+ExecStart=/home/core/jito-tip-router/target/debug/tip-router-operator-cli run
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### Configuration Notes:
+
+- `RPC_URL`: Any RPC endpoint may be utilized, including local RPC. External RPC is recommended for reliability, as local RPC may experience processing delays resulting in transaction submission and account request failures.
+- `OPERATOR_ADDRESS`: May temporarily utilize the same address as KEYPAIR_PATH. Upon launch, this must be updated to the registered operator address.
+- `TIP_ROUTER_PROGRAM_ID`: Designates the mainnet Tip Router program.
+- `BACKUP_SNAPSHOTS_DIR`: Must differ from FULL_SNAPSHOTS_PATH.
+
+## Metrics Configuration
+
+### Client Metrics
+
+Client metrics are automatically submitted to the Jito Labs hosted InfluxDB metrics server when the SOLANA_METRICS_CONFIG is properly configured. 
+Verification of operator address listing can be performed through the Grafana Tip Router Operator Client dashboard.
+
+#### Telegraf Implementation
+
+To facilitate troubleshooting assistance, Telegraf installation and configuration for metric submission to the Jito InfluxDB server is required.
+
+##### Installation
+
+Follow the instructions provided at https://docs.influxdata.com/telegraf/v1/install/
+
+##### Configuration
+
+Replace the contents of `/etc/telegraf/telegraf.conf` with the template provided at `jito-tip-router/telegraf/telegraf.conf`, with the following modifications:
+
+- Replace host name with your Operator public key (line 112)
+- Replace token with the provided API token (line 155): U7HzS_uV-bnOVQ-xwUub5wKPErm0l8XITxovj6iAItByiegkl3YEv7JORwu3Gzo1DkX7kE702tqBTKUbR3kM8A==
+
+<Callout>
+    Do not publicly disclose the API token.
+</Callout>
+
+##### Service Activation
+
+```bash
+systemctl start telegraf
+```
+
+## External Snapshot Acquisition
+
+While independent snapshot production for target slots is recommended for maximum decentralization, 
+the following methods may be utilized to acquire snapshots from external sources if internal production is unsuccessful despite troubleshooting efforts.
+
+### Jito Snapshot Acquisition
+
+1. Navigate to https://console.cloud.google.com/storage/browser/jito-mainnet (requires Google account authentication)
+2. Locate the previous mainnet epoch number (e.g., 730)
+3. Select "amsterdam-mainnet-warehouse-1"
+4. Select the file "snapshot-XXXXXX-xxxxxxxxxxxxxx.tar.zst"
+5. Copy the public URL
+6. Execute the following command in your FULL_SNAPSHOTS_PATH (replacing URL with the copied URL):
+
+```bash
+wget -c \
+    --retry-connrefused \
+    --tries=0 \
+    --timeout=5 \
+    "https://storage.googleapis.com/jito-mainnet/741/ny-mainnet-warehouse-1/snapshot-320543999-8FZnpteds7aBCC7CMEmu4s2ePdisb8H8dxbZDUP9DvtR.tar.zst"
+```
+
+<Callout>
+    Snapshot relocation to a separate directory and FULL_SNAPSHOT_PATH update may be necessary to prevent purging during operation, particularly with strict snapshot retention settings.
+</Callout>
+
+### Solana-Snapshot-Finder Utilization
+
+1. Ensure Docker installation
+2. Determine the final slot of the previous (reference: https://explorer.solana.com/epoch/730)
+3. Execute:
+
+```bash
+docker run -it \
+    --rm -v /solana/snapshots/:/solana/snapshot \
+    --user $(id -u):$(id -g) c29r3/solana-snapshot-finder:latest \
+    --snapshot_path /solana/snapshot \
+    --version 2.0.24 --slot 315791999 \
+    --max_snapshot_age 432000
+```
+
+4. Update the target slot as required
+
+#### Additional Information:
+
+- Original repository and guide: https://github.com/c29r3/solana-snapshot-finder
+- Reliability Note: This method is less reliable and may require adjustment of version, max_snapshot_age, and other parameters. 
+Optimal results are achieved when executed shortly after epoch rollover.
+
+For both methods, ensure that the bank hash loaded by the client matches the characters in the snapshot name, and verify integrity through cross-reference with other operators.
+
+## Service Operation Procedures
+
+### Pre-Launch Configuration
+
+#### Service File Configuration
+
+- Set `OPERATOR_ADDRESS` to your registered operator account
+- Update `KEYPAIR_PATH` to reference the keypair designated as `voter` on your Operator account
+- Verify keypair configuration with:
+
+```bash
+jito-restaking-cli restaking operator get <OPERATOR_ADDRESS>
+```
+
+- Confirm program IDs are correctly set:
+
+```
+NCN_ADDRESS=jtoF4epChkmd75V2kxXSmywatczAomDqKu6VfWUQocT
+TIP_ROUTER_PROGRAM_ID=RouterBmuRBkPUbgEDMtdvTZ75GBdSREZR5uGUxxxpb
+```
+
+#### Software Preparation
+
+- Rebuild the client:
+
+```bash
+cargo build -p tip-router-operator-cli
+```
+
+### Service Initialization
+
+The service requires a minimum of 10 minutes operational time before epoch commencement to complete setup procedures and incremental snapshot backup processes.
+
+#### Storage Management (If Required)
+
+- If excessive disk usage occurs in the `/accounts` directory:
+
+```bash
+sudo systemctl stop solana
+sudo rm -rf /solana/accounts/*
+sudo systemctl start solana
+```
+
+#### Service Activation
+
+- For established implementations with verified operation:
+
+```bash
+# Edit service file
+sudo nano /etc/systemd/system/tip-router-operator.service
+# Set START_NEXT_EPOCH=true
+
+# Start service
+sudo systemctl daemon-reload
+sudo systemctl start tip-router-operator
+```
+
+- For new or still-testing implementations:
+
+```bash
+# Acquire snapshot (see Section 6)
+# Edit service file - set START_NEXT_EPOCH=false
+sudo nano /etc/systemd/system/tip-router-operator.service
+
+# Start service
+sudo systemctl daemon-reload
+sudo systemctl start tip-router-operator
+
+# Verify operation
+sudo journalctl -u tip-router-operator -f
+```

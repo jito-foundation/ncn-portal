@@ -2,7 +2,10 @@
     "title": "Jito Tip Router",
     "description": "The description of jito tip router folder",
     "pages": [
-      "overview"
+      "overview",
+      "vault-and-operator-registration",
+      "operator-guide",
+      "official-accounts"
     ],
     "defaultOpen": true
 }
