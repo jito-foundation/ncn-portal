@@ -9,10 +9,14 @@ It is one of typical NCN design (On-Chain NCN Program), so every NCN does not ha
 
     NCN consisits of several components:
         
-    - <a href="./on-chain-ncn/pricing" target="_blank">Pricing</a> - Define Supported Token and Weight of Supported Token
-    - <a href="./on-chain-ncn/snapshot" target="_blank">Snapshot</a> - Taking snapshot of Vault, Operator, Operator Stake Weight
-    - <a href="./on-chain-ncn/core-logic" target="_blank">Core Logic</a> - Define Consensus Mechanism
-    - <a href="./on-chain-ncn/reward-payments" target="_blank">Reward Payments</a> - Define Reward Payments
+    - <a href="./on-chain-ncn/pricing" target="_blank">Pricing</a>
+        - Defines supported tokens and their respective weights in the network, determining how different assets are valued within the NCN ecosystem.
+    - <a href="./on-chain-ncn/snapshot" target="_blank">Snapshot</a>
+        - Captures the current state of Vaults, Operators, and Operator Stake Weights at specific intervals to establish consensus baselines.
+    - <a href="./on-chain-ncn/core-logic" target="_blank">Core Logic</a>
+        - Implements the fundamental consensus mechanisms that govern how nodes participate and validate output within the network.
+    - <a href="./on-chain-ncn/reward-payments" target="_blank">Reward Payments</a>
+        - Manages how rewards are calculated and distributed to participating operators, vaults and stakers based on their contributions to the network.
 
 
 ## Node Operator Client
@@ -22,9 +26,9 @@ It will run some arbitrary computation, and post some data on chain to a custom 
 
 Sample Node Operator Client:
 
+- <a href="https://github.com/jito-foundation/jito-tip-router/blob/master/tip-router-operator-cli/Cargo.toml" target="_blank">Tip Router Operator Client</a>
 - <a href="https://github.com/jito-foundation/jito-solana/blob/master/tip-distributor/src/bin/merkle-root-uploader.rs" target="_blank">Solana Merkle Root Uploader</a>
 - <a href="https://github.com/jito-foundation/stakenet/blob/master/keepers/stakenet-keeper/src/main.rs" target="_blank">Stakenet Keeper</a>
-- <a href="https://github.com/jito-foundation/jito-tip-router/blob/master/tip-router-operator-cli/Cargo.toml" target="_blank">Tip Router Operator Client</a>
 
 
 ## Permissionless Cranker
