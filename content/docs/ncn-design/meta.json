@@ -2,12 +2,9 @@
     "title": "NCN Design",
     "pages": [
       "overview",
-      "pricing",
-      "snapshot",
-      "core-logic",
-      "reward-payments",
-      "permissionless-cranker",
-      "node-operator-client"
+      "on-chain-ncn",
+      "node-operator-client",
+      "permissionless-cranker"
     ],
     "defaultOpen": true
   }
