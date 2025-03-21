@@ -5,7 +5,7 @@ description: Learn How Jito Tip Router Works
 
 ## Overview
 
-### Process
+### Previous Process
 
 - Each validator has a unique tip distribution account, owned by the [Jito Tip Distribution Program], where SOL is collected for a given epoch.
 - At the end of the epoch, an off-chain process takes place which produces a merkle tree and merkle root for each validator’s tip distribution account. 
@@ -19,7 +19,7 @@ description: Learn How Jito Tip Router Works
 
 ### Solution
 
-The TipRouter NCN will leverage Jito (Re)staking to empower a set of node operators to come to consensus on the correct merkle root for tip distribution.
+The TipRouter NCN leverages Jito (Re)staking to empower a set of node operators to achieve consensus on the correct merkle root for MEV tip distribution.
 
 The mechanism of the TipRouter NCN is detailed below:
 
@@ -69,7 +69,6 @@ Following the [NCN design section], Jito Tip Router consists of:
 
 ![Overview](./images/overview.png)
 
-
 [NCN design section]: /building-ncn/ncn-design.html#onchain-ncn-program
 
 ### Pricing
@@ -101,7 +100,7 @@ Aggregate all information of operators and vaults associated with NCN
 - [Initialize EpochSnapshot account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_epoch_snapshot.rs)
 - [Initiazize OperatorSnapshot account](https://github.com/jito-foundation/jito-tip-router/blob/master/program/src/initialize_operator_snapshot.rs)
 
-![](./images/snapshot.png)
+![Snapshot](./images/snapshot.png)
 
 ### Core Logic (Consensus)
 
