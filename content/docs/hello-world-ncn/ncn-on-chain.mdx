@@ -308,18 +308,6 @@ if !ncn_vault_ticket
 
 This ensures that only properly registered and active participants can contribute to consensus.
 
-#### Message Validation
-
-Operators must submit messages that match the required format:
-
-```rust
-if !message.starts_with(&message_acc.keyword()) {
-    return Err(ProgramError::InvalidAccountData);
-}
-```
-
-This simple validation ensures that operators are responding to the correct challenge.
-
 ## Extending the Example
 
 1. Custom Validation Logic: Implement more complex validation rules for messages
